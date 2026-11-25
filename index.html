@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,131 +7,136 @@
 <title>Everything Calendar</title>
 
 <style>
+:root {
+    --blue: #315de8;
+    --navy: #14264b;
+    --background: #f4f6fa;
+    --border: #e1e6ef;
+    --muted: #69788e;
+    --green: #18835b;
+    --red: #dc3545;
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    background: #f4f6fa;
-    color: #17243b;
+    background: var(--background);
+    color: var(--navy);
     font: 15px system-ui, sans-serif;
 }
 
-button, input, select {
+button, input, select, textarea {
     font: inherit;
 }
 
 button {
-    cursor: pointer;
     border: 0;
     border-radius: 9px;
-    padding: 10px 15px;
-    background: #e8edf6;
-    color: #233b61;
-    font-weight: 650;
-    transition: 0.2s;
+    padding: 11px 16px;
+    background: #e9edf6;
+    color: var(--navy);
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
 }
 
 button:hover {
-    transform: translateY(-2px);
-    filter: brightness(0.96);
+    filter: brightness(.95);
+    transform: translateY(-1px);
 }
 
-button.primary {
-    background: #315de8;
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.primary {
+    background: var(--blue);
     color: white;
+}
+
+.danger {
+    background: #ffebed;
+    color: var(--red);
 }
 
 header {
-    background: white;
     padding: 20px 5%;
+    background: white;
+    border-bottom: 1px solid var(--border);
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #e2e7ef;
+    justify-content: space-between;
 }
 
-header b {
+.logo {
     font-size: 23px;
+    font-weight: 800;
     letter-spacing: -1px;
 }
 
-header span {
-    color: #315de8;
+.logo span {
+    color: var(--blue);
 }
 
 main {
-    max-width: 1250px;
+    max-width: 1350px;
     margin: auto;
-    padding: 28px 22px;
+    padding: 24px;
 }
 
 .hero {
-    background: #14264b;
     color: white;
-    border-radius: 20px;
-    padding: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
+    padding: 35px;
+    border-radius: 22px;
+    background: linear-gradient(120deg, #14264b, #315de8);
 }
 
 .hero h1 {
-    font-size: 40px;
+    font-size: clamp(28px, 5vw, 48px);
     letter-spacing: -2px;
-    margin: 8px 0;
+    margin: 10px 0;
 }
 
 .hero p {
-    color: #ccd8f4;
-    max-width: 570px;
-}
-
-.tag {
-    font-size: 11px;
-    letter-spacing: 2px;
-    font-weight: bold;
-    color: #a8beff;
-}
-
-.hero .mark {
-    font-size: 78px;
-    color: #7796ff;
+    color: #d9e2ff;
 }
 
 nav {
     display: flex;
-    gap: 8px;
-    margin: 24px 0;
     flex-wrap: wrap;
+    gap: 8px;
+    margin: 22px 0;
 }
 
 nav button.active {
-    background: #315de8;
+    background: var(--blue);
     color: white;
 }
 
 .layout {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1.7fr 1fr;
     gap: 18px;
 }
 
 .panel {
+    min-width: 0;
     background: white;
-    border: 1px solid #e0e6ef;
-    border-radius: 16px;
     padding: 22px;
-    margin-bottom: 16px;
-    animation: appear 0.3s ease;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    margin-bottom: 15px;
+    animation: enter .3s ease;
 }
 
-@keyframes appear {
+@keyframes enter {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -139,179 +145,209 @@ nav button.active {
 }
 
 h2 {
-    margin: 0 0 15px;
-    font-size: 22px;
-    letter-spacing: -0.5px;
+    margin-top: 0;
+    letter-spacing: -.6px;
 }
 
 h3 {
-    margin: 14px 0 8px;
-}
-
-p, small {
-    line-height: 1.5;
+    margin-bottom: 8px;
 }
 
 small, .muted {
-    color: #65748a;
+    color: var(--muted);
 }
 
-.bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-}
-
-.calendar {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    margin-top: 18px;
-    border: 1px solid #e5e9f0;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.weekday {
-    padding: 10px 4px;
-    text-align: center;
-    background: #f3f5f9;
-    font-size: 12px;
-    color: #69768b;
-}
-
-.day {
-    min-height: 92px;
-    border-top: 1px solid #e5e9f0;
-    border-right: 1px solid #e5e9f0;
-    padding: 6px;
-    overflow-wrap: anywhere;
-}
-
-.day:nth-child(7n) {
-    border-right: 0;
-}
-
-.day b {
-    font-size: 12px;
-}
-
-.event {
-    font-size: 11px;
-    background: #e7edff;
-    color: #2448b1;
-    border-radius: 5px;
-    padding: 4px;
-    margin-top: 4px;
-}
-
-.today {
-    background: #f3f6ff;
-}
-
-.field {
+label.field {
     display: block;
-    margin: 13px 0 5px;
     font-weight: 600;
+    margin: 14px 0 6px;
 }
 
-input:not([type=checkbox]), select, textarea {
+input:not([type=checkbox]):not([type=range]),
+select, textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccd5e3;
-    border-radius: 8px;
+    border: 1px solid #cdd6e3;
+    padding: 11px;
+    border-radius: 9px;
     background: white;
-    font: inherit;
-    color: inherit;
+    color: var(--navy);
 }
 
 textarea {
-    resize: vertical;
     min-height: 90px;
+    resize: vertical;
+}
+
+input[type=range] {
+    width: 100%;
+    accent-color: var(--blue);
 }
 
 .row {
     display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .row > * {
-    flex: 1;
     min-width: 0;
 }
 
-.result {
-    padding: 12px;
-    background: #edf2ff;
-    border-radius: 9px;
-    margin: 12px 0;
-    line-height: 1.5;
-    animation: appear 0.3s ease;
+.fields > * {
+    flex: 1;
+}
+
+.between {
+    justify-content: space-between;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .item {
+    border-bottom: 1px solid var(--border);
     padding: 12px 0;
-    border-bottom: 1px solid #e9edf3;
 }
 
-.item:last-child {
-    border: 0;
+.result {
+    padding: 15px;
+    background: #edf2ff;
+    border-radius: 10px;
+    margin: 12px 0;
+    line-height: 1.6;
 }
 
 .pill {
     display: inline-block;
-    background: #e7f3ec;
-    color: #21664c;
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 20px;
-}
-
-.hidden {
-    display: none;
-}
-
-.check {
-    display: block;
-    margin: 12px 0;
-}
-
-.cost {
-    font-size: 32px;
-    font-weight: 700;
-}
-
-.note {
+    padding: 5px 9px;
+    border-radius: 30px;
+    background: #e6f7ed;
+    color: var(--green);
     font-size: 12px;
-    color: #65748a;
+    font-weight: 600;
+}
+
+.warning {
+    background: #fff0e2;
+    color: #94511e;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 18px;
+}
+
+.weekday {
+    text-align: center;
+    background: #f0f3f9;
+    padding: 10px 2px;
+    font-size: 12px;
+}
+
+.day {
+    min-height: 100px;
+    border-top: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    padding: 6px;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+.day:hover {
+    background: #f3f6ff;
+}
+
+.today {
+    background: #edf2ff;
+}
+
+.event {
+    margin-top: 5px;
+    padding: 5px;
+    background: #dfe7ff;
+    color: #2648b3;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.amount {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.progress {
+    height: 10px;
+    background: #e6ebf4;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.progress div {
+    height: 100%;
+    background: var(--blue);
+    transition: width .4s;
+}
+
+.meal {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+dialog {
+    border: 0;
+    border-radius: 18px;
+    width: min(500px, 94vw);
+    padding: 25px;
+    color: var(--navy);
+    box-shadow: 0 20px 80px #0003;
+}
+
+dialog::backdrop {
+    background: #14264b88;
+    backdrop-filter: blur(4px);
+}
+
+.availability-day {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 10px 0;
 }
 
 footer {
     text-align: center;
-    color: #65748a;
-    padding: 20px;
+    padding: 25px;
+    color: var(--muted);
 }
 
-@media (max-width: 800px) {
+@media(max-width: 800px) {
     .layout {
         grid-template-columns: 1fr;
     }
 
-    .hero h1 {
-        font-size: 30px;
-    }
-
-    .hero .mark {
-        display: none;
-    }
-
-    .day {
-        min-height: 70px;
-        padding: 3px;
+    main {
+        padding: 12px;
     }
 
     .panel {
-        padding: 14px;
+        padding: 15px;
+    }
+
+    .hero {
+        padding: 25px;
+    }
+
+    .day {
+        min-height: 75px;
+        padding: 3px;
     }
 
     .event {
@@ -324,34 +360,33 @@ footer {
 <body>
 
 <header>
-    <b><span>◈</span> Everything Calendar</b>
-    <small>Your life, in sync.</small>
+    <div class="logo">
+        <span>◈</span> Everything Calendar
+    </div>
+    <small>Personal workspace</small>
 </header>
 
 <main>
 
-<section class="hero">
-    <div>
-        <div class="tag">YOUR LIFE, IN SYNC.</div>
+<section class="hero" id="hero">
+    <small style="color:#c5d4ff;letter-spacing:2px">
+        YOUR LIFE, IN SYNC
+    </small>
 
-        <h1>Less planning. More living.</h1>
+    <h1>Less planning. More living.</h1>
 
-        <p>
-            One intelligent calendar for your conversations,
-            your friends, and your everyday life.
-        </p>
+    <p>
+        Your events, friends, meals and everyday life,
+        intelligently organized in one place.
+    </p>
 
-        <button class="primary" onclick="show('planner')">
-            Find a time together →
-        </button>
-    </div>
-
-    <div class="mark">▦</div>
+    <button onclick="show('planner')">
+        Plan something together →
+    </button>
 </section>
 
-<nav>
-    <button id="tab-calendar" class="active"
-        onclick="show('calendar')">
+<nav id="navigation">
+    <button id="tab-calendar" onclick="show('calendar')">
         My calendar
     </button>
 
@@ -364,7 +399,7 @@ footer {
     </button>
 
     <button id="tab-connections" onclick="show('connections')">
-        Connections
+        Settings
     </button>
 </nav>
 
@@ -373,33 +408,39 @@ footer {
 <section id="calendar" class="layout">
 
     <div class="panel">
-        <div class="bar">
+        <div class="row between">
             <h2 id="month"></h2>
 
             <div>
-                <button onclick="move(-1)">‹</button>
-                <button onclick="move(1)">›</button>
+                <button onclick="moveMonth(-1)">‹</button>
+                <button onclick="goToday()">Today</button>
+                <button onclick="moveMonth(1)">›</button>
             </div>
         </div>
 
-        <div id="grid" class="calendar"></div>
+        <button class="primary" onclick="openEvent()">
+            + New event
+        </button>
+
+        <div id="calendarGrid" class="calendar"></div>
     </div>
 
     <div>
         <div class="panel">
             <h2>Smart inbox</h2>
 
-            <small>
-                Automatically identify events from your messages.
-            </small>
+            <p class="muted">
+                Paste a message to detect an event.
+            </p>
 
-            <textarea id="message">Hey! Party at my house at 6:00pm December 31st</textarea>
+            <textarea id="message"
+                placeholder="Party at my house December 31st at 6pm"></textarea>
 
-            <button class="primary" onclick="extract()">
-                Find event
+            <button class="primary" onclick="detectEvent()">
+                Detect event
             </button>
 
-            <div id="suggestion"></div>
+            <div id="detected"></div>
         </div>
 
         <div class="panel">
@@ -407,7 +448,6 @@ footer {
             <div id="upcoming"></div>
         </div>
     </div>
-
 </section>
 
 <!-- Group planner -->
@@ -415,116 +455,225 @@ footer {
 <section id="planner" class="layout hidden">
 
     <div class="panel">
-        <h2>Find the best time for everyone</h2>
 
-        <p class="muted">
-            Tell us when you want your event to happen.
-            Everything Calendar will find the best available time.
-        </p>
+        <h2>Plan an event together</h2>
 
         <label class="field">Event name</label>
-        <input id="ename" value="Birthday party">
+        <input id="partyName" value="Birthday party">
 
-        <div class="row">
+        <label class="field">Location</label>
+        <input id="partyLocation" placeholder="My house">
+
+        <div class="row fields">
             <div>
-                <label class="field">Start date</label>
-                <input type="date" id="start" value="2027-03-15">
+                <label class="field">First possible date</label>
+                <input type="date" id="partyStart">
             </div>
 
             <div>
-                <label class="field">End date</label>
-                <input type="date" id="end" value="2027-04-02">
+                <label class="field">Last possible date</label>
+                <input type="date" id="partyEnd">
             </div>
         </div>
 
-        <label class="check">
-            <input type="checkbox" id="weekends" checked>
-            Weekends only
-        </label>
+        <p>
+            <label>
+                <input type="checkbox" id="weekends" checked>
+                Weekends only
+            </label>
+        </p>
 
-        <div class="row">
+        <div class="row fields">
             <div>
-                <label class="field">Earliest time</label>
-                <input type="time" id="early" value="15:00">
+                <label class="field">Earliest start</label>
+                <input type="time" id="partyEarly" value="15:00">
             </div>
 
             <div>
                 <label class="field">Latest finish</label>
-                <input type="time" id="late" value="23:00">
+                <input type="time" id="partyLate" value="23:00">
             </div>
         </div>
 
-        <div class="row">
+        <div class="row fields">
             <div>
                 <label class="field">Minimum hours</label>
-                <input type="number" id="minh"
-                    value="3" min="1" max="12" step="0.5">
+                <input id="partyMin" type="number"
+                    min=".5" step=".5" max="12" value="3">
             </div>
 
             <div>
                 <label class="field">Maximum hours</label>
-                <input type="number" id="maxh"
-                    value="6" min="1" max="12" step="0.5">
+                <input id="partyMax" type="number"
+                    min=".5" step=".5" max="12" value="6">
             </div>
         </div>
 
-        <label class="field">Priority</label>
+        <label class="field">Scheduling priority</label>
 
-        <select id="priority">
-            <option value="guests">More guests</option>
-            <option value="balanced">Balanced</option>
-            <option value="time">Longer event</option>
-        </select>
+        <div class="row between">
+            <small>Longer event</small>
+            <small>More guests</small>
+        </div>
+
+        <input id="priority" type="range"
+            min="0" max="100" value="75"
+            oninput="updatePriority()">
+
+        <p id="priorityText"></p>
+
+        <label>
+            <input type="checkbox" id="respectCalendar" checked>
+            Avoid conflicts with my calendar
+        </label>
 
         <p>
-            <button class="primary" onclick="optimize()">
-                Find best times
+            <button class="primary" onclick="createInvitation()">
+                Create invitation link
+            </button>
+
+            <button onclick="saveParty()">
+                Save draft
             </button>
         </p>
 
-        <div id="options"></div>
-    </div>
+        <div id="invitationOutput"></div>
 
-    <div class="panel">
-        <h2>Guest availability</h2>
+        <hr style="border:0;border-top:1px solid #e1e6ef">
 
-        <small>
-            Select the friends you would like to invite.
-            Only free/busy information is used.
-        </small>
+        <h2>Find the optimal time</h2>
 
-        <div id="guests"></div>
+        <p class="muted">
+            The optimizer searches possible dates, start
+            times and durations using submitted availability.
+        </p>
 
-        <button onclick="copyInvite()">
-            Copy invitation
+        <button class="primary" onclick="optimizeParty()">
+            Calculate best times
         </button>
 
-        <p id="inviteStatus" class="note"></p>
+        <div id="partyResults"></div>
 
-        <div id="curve"></div>
     </div>
 
+    <div>
+
+        <div class="panel">
+            <h2>Invited guests</h2>
+
+            <div class="row">
+                <input id="guestName" placeholder="Guest name">
+
+                <button onclick="addGuest()">
+                    Add
+                </button>
+            </div>
+
+            <div id="guestList"></div>
+        </div>
+
+        <div class="panel">
+            <h2>Import guest response</h2>
+
+            <p class="muted">
+                Guests return a response code containing
+                their selected availability.
+            </p>
+
+            <textarea id="responseCode"
+                placeholder="Paste guest response code"></textarea>
+
+            <button class="primary" onclick="importResponse()">
+                Import availability
+            </button>
+
+            <div id="importStatus"></div>
+        </div>
+
+        <div class="panel">
+            <h2>Attendance trade-off</h2>
+
+            <p class="muted">
+                Maximum event duration for each achievable
+                level of attendance.
+            </p>
+
+            <div id="pareto"></div>
+        </div>
+    </div>
 </section>
 
-<!-- Meals and groceries -->
+<!-- Guest response -->
+
+<section id="respond" class="hidden">
+    <div class="panel">
+
+        <h2 id="responseTitle"></h2>
+        <p id="responseDetails"></p>
+
+        <label class="field">Your name</label>
+        <input id="respondName">
+
+        <h3>When are you available?</h3>
+
+        <p class="muted">
+            Select each available day and provide the times
+            during which you are free.
+        </p>
+
+        <div id="responseDates"></div>
+
+        <button class="primary" onclick="generateResponse()">
+            Submit availability
+        </button>
+
+        <div id="responseOutput"></div>
+    </div>
+</section>
+
+<!-- Grocery planner -->
 
 <section id="grocery" class="layout hidden">
 
     <div class="panel">
-        <h2>Your weekly meal plan</h2>
+        <h2>Intelligent weekly meal planner</h2>
 
-        <label class="field">Food preferences</label>
+        <div class="row fields">
+            <div>
+                <label class="field">Weekly budget (CAD)</label>
+                <input id="budget" type="number"
+                    min="1" value="100">
+            </div>
+
+            <div>
+                <label class="field">People</label>
+                <input id="household" type="number"
+                    min="1" max="20" value="1">
+            </div>
+        </div>
+
+        <label class="field">Dietary preference</label>
 
         <select id="diet">
             <option>Mixed</option>
             <option>Vegetarian</option>
+            <option>Vegan</option>
+            <option>High protein</option>
         </select>
 
-        <label class="field">Weekly budget (CAD)</label>
+        <label class="field">Foods to exclude</label>
 
-        <input id="budget" type="number" value="90" min="1">
+        <input id="exclude"
+            placeholder="Mushrooms, peanuts, fish...">
 
-        <label class="field">Delivery day</label>
+        <label class="field">Meal coverage</label>
+
+        <select id="coverage">
+            <option value="all">Breakfast, lunch and dinner</option>
+            <option value="dinner">Dinner only</option>
+        </select>
+
+        <label class="field">Weekly delivery day</label>
 
         <select id="delivery">
             <option>Sunday</option>
@@ -536,98 +685,180 @@ footer {
             <option>Saturday</option>
         </select>
 
+        <h3>Custom grocery items</h3>
+
+        <input id="customName" placeholder="Item name">
+
+        <div class="row fields">
+            <div>
+                <label class="field">Quantity</label>
+                <input id="customQty" type="number"
+                    min=".1" step=".1" value="1">
+            </div>
+
+            <div>
+                <label class="field">Price per unit</label>
+                <input id="customPrice" type="number"
+                    min="0" step=".01" placeholder="4.99">
+            </div>
+        </div>
+
         <p>
-            <button class="primary" onclick="meals()">
-                Generate meal plan
+            <button onclick="addCustom()">
+                + Add custom item
             </button>
         </p>
 
-        <div id="mealplan"></div>
+        <div id="customList"></div>
+
+        <p>
+            <button class="primary" onclick="generateMeals()">
+                Generate optimized plan
+            </button>
+
+            <button onclick="generateMeals()">
+                Regenerate
+            </button>
+        </p>
+
+        <div id="mealPlan"></div>
     </div>
 
     <div class="panel">
-        <h2>Grocery basket</h2>
+        <h2>Weekly grocery basket</h2>
 
-        <div id="basket">
-            <p class="muted">
-                Generate a meal plan to see your basket.
-            </p>
-        </div>
+        <div id="basket"></div>
     </div>
-
 </section>
 
-<!-- Connections -->
+<!-- Settings -->
 
 <section id="connections" class="panel hidden">
 
-    <h2>You control what connects</h2>
+    <h2>Workspace settings</h2>
 
     <p>
-        Choose which applications Everything Calendar
-        would be allowed to access.
+        All personal information is stored locally
+        in your browser.
     </p>
 
-    <div id="connectlist"></div>
+    <h3>Data management</h3>
 
-    <p class="note">
-        These connections are simulated for the product demonstration.
-        No real accounts are accessed.
+    <button class="primary" onclick="exportData()">
+        Export workspace
+    </button>
+
+    <p>
+        <input id="importFile" type="file"
+            accept=".json" onchange="importData(event)">
     </p>
+
+    <button class="danger" onclick="resetData()">
+        Reset workspace
+    </button>
+
+    <h3>External integrations</h3>
+
+    <p class="muted">
+        External accounts and purchases are not connected
+        in this version.
+    </p>
+
+    <div class="item">Google Calendar — Not connected</div>
+    <div class="item">Apple Calendar — Not connected</div>
+    <div class="item">Messages — Not connected</div>
+    <div class="item">Grocery delivery — Simulation only</div>
 
 </section>
 
 </main>
 
+<!-- Event editor -->
+
+<dialog id="eventDialog">
+
+    <h2 id="eventHeading">New event</h2>
+
+    <label class="field">Event name</label>
+    <input id="eventName">
+
+    <label class="field">Date</label>
+    <input id="eventDate" type="date">
+
+    <div class="row fields">
+        <div>
+            <label class="field">Start time</label>
+            <input id="eventTime" type="time" value="15:00">
+        </div>
+
+        <div>
+            <label class="field">End time</label>
+            <input id="eventEnd" type="time" value="16:00">
+        </div>
+    </div>
+
+    <label class="field">Location</label>
+    <input id="eventLocation">
+
+    <label class="field">Repeat</label>
+
+    <select id="eventRepeat">
+        <option value="none">Never</option>
+        <option value="daily">Daily</option>
+        <option value="weekly">Weekly</option>
+        <option value="monthly">Monthly</option>
+    </select>
+
+    <label class="field">Notes</label>
+    <textarea id="eventNotes"></textarea>
+
+    <p class="row">
+        <button class="primary" onclick="saveEvent()">
+            Save
+        </button>
+
+        <button onclick="$('eventDialog').close()">
+            Cancel
+        </button>
+
+        <button id="deleteEventButton"
+            class="danger" onclick="deleteEvent()">
+            Delete
+        </button>
+    </p>
+
+</dialog>
+
+<dialog id="guestDialog">
+    <h2 id="guestHeading"></h2>
+    <div id="guestAvailability"></div>
+
+    <p>
+        <button class="primary" onclick="saveGuestAvailability()">
+            Save availability
+        </button>
+
+        <button onclick="$('guestDialog').close()">
+            Cancel
+        </button>
+    </p>
+</dialog>
+
 <footer>
-    Everything Calendar © 2026 · Less planning. More living.
-    <br>
-    Interactive product demonstration
+    Everything Calendar · Less planning. More living.
 </footer>
 
 <script>
 
 const $ = id => document.getElementById(id);
 
-let view = new Date();
-view.setDate(1);
+const uid = () =>
+    globalThis.crypto?.randomUUID?.() ||
+    Date.now().toString(36) + Math.random().toString(36).slice(2);
 
-let events;
+const money = n => "$" + Number(n).toFixed(2);
 
-try {
-    events = JSON.parse(localStorage.getItem("ec-events")) || [];
-} catch {
-    events = [];
-}
-
-if (!events.length) {
-    events = [
-        {
-            title: "Hockey practice",
-            date: "2026-12-04",
-            time: "18:00"
-        },
-        {
-            title: "Math club",
-            date: "2026-12-08",
-            time: "12:00"
-        },
-        {
-            title: "Family dinner",
-            date: "2026-12-20",
-            time: "17:30"
-        }
-    ];
-}
-
-// Format dates
-
-const iso = d =>
-    `${d.getFullYear()}-${String(d.getMonth() + 1)
-    .padStart(2, "0")}-${String(d.getDate())
-    .padStart(2, "0")}`;
-
-const esc = s => String(s).replace(
+const esc = s => String(s ?? "").replace(
     /[&<>"']/g,
     c => ({
         "&": "&amp;",
@@ -638,643 +869,2079 @@ const esc = s => String(s).replace(
     }[c])
 );
 
+const iso = d =>
+    `${d.getFullYear()}-${
+        String(d.getMonth() + 1).padStart(2, "0")
+    }-${String(d.getDate()).padStart(2, "0")}`;
+
+const dateOf = s => new Date(s + "T12:00:00");
+
+const mins = s => {
+    const [h, m] = String(s).split(":").map(Number);
+    return h * 60 + m;
+};
+
+const clock = n =>
+    `${String(Math.floor(n / 60)).padStart(2, "0")}:${
+        String(n % 60).padStart(2, "0")
+    }`;
+
+const prettyDate = s => dateOf(s).toLocaleDateString(
+    "en-CA",
+    {weekday:"short", month:"short", day:"numeric"}
+);
+
+function encode(data) {
+    const bytes = new TextEncoder().encode(
+        JSON.stringify(data)
+    );
+
+    return btoa(
+        Array.from(bytes, b => String.fromCharCode(b)).join("")
+    ).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function decode(code) {
+    let text = code.replace(/-/g, "+").replace(/_/g, "/");
+    text += "=".repeat((4 - text.length % 4) % 4);
+
+    const bytes = Uint8Array.from(
+        atob(text),
+        c => c.charCodeAt(0)
+    );
+
+    return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+async function copy(text) {
+    try {
+        await navigator.clipboard.writeText(text);
+        alert("Copied successfully.");
+    } catch {
+        prompt("Copy this text:", text);
+    }
+}
+
+// Storage
+
+function emptyState() {
+    return {
+        events: [],
+        guests: [],
+        party: null,
+        custom: [],
+        mealPlan: [],
+        grocerySettings: null
+    };
+}
+
+let state;
+
+try {
+    state = {
+        ...emptyState(),
+        ...JSON.parse(localStorage.getItem("ec-advanced") || "{}")
+    };
+} catch {
+    state = emptyState();
+}
+
+function persist() {
+    localStorage.setItem(
+        "ec-advanced",
+        JSON.stringify(state)
+    );
+}
+
 // Navigation
 
 function show(id) {
-    for (const s of [
-        "calendar",
-        "planner",
-        "grocery",
-        "connections"
+    for (const section of [
+        "calendar", "planner", "grocery", "connections", "respond"
     ]) {
-        $(s).classList.toggle("hidden", s !== id);
+        $(section).classList.toggle("hidden", section !== id);
 
-        $("tab-" + s).classList.toggle("active", s === id);
-    }
-
-    if (id === "calendar") {
-        render();
-    }
-}
-
-function move(n) {
-    view.setMonth(view.getMonth() + n);
-    render();
-}
-
-// Save events
-
-function save(e) {
-    events.push(e);
-
-    localStorage.setItem(
-        "ec-events",
-        JSON.stringify(events)
-    );
-
-    view = new Date(e.date + "T12:00");
-    view.setDate(1);
-
-    render();
-}
-
-// Render calendar
-
-function render() {
-    $("month").textContent = view.toLocaleDateString(
-        "en-CA",
-        {
-            month: "long",
-            year: "numeric"
+        if ($("tab-" + section)) {
+            $("tab-" + section).classList.toggle(
+                "active", section === id
+            );
         }
-    );
-
-    let h = [
-        "Sun", "Mon", "Tue", "Wed",
-        "Thu", "Fri", "Sat"
-    ].map(x =>
-        `<div class="weekday">${x}</div>`
-    ).join("");
-
-    let y = view.getFullYear();
-    let m = view.getMonth();
-
-    let offset = new Date(y, m, 1).getDay();
-    let count = new Date(y, m + 1, 0).getDate();
-
-    for (let i = 0; i < offset; i++) {
-        h += '<div class="day"></div>';
     }
 
-    for (let d = 1; d <= count; d++) {
-        let date = iso(new Date(y, m, d));
+    if (id === "calendar") renderCalendar();
 
-        let dayEvents = events
-            .filter(e => e.date === date)
-            .map(e => `
-                <div class="event">
-                    ${esc(e.time)} ${esc(e.title)}
-                </div>
-            `).join("");
+    if (id === "planner") {
+        renderGuests();
+        updatePriority();
+    }
 
-        h += `
-            <div class="day
-                ${date === iso(new Date()) ? "today" : ""}">
-                <b>${d}</b>
-                ${dayEvents}
+    if (id === "grocery") {
+        renderCustom();
+        renderMeals();
+        renderBasket();
+    }
+}
+
+// Calendar
+
+let view = new Date();
+view.setDate(1);
+
+let editingEvent = null;
+
+function occursOn(event, date) {
+    if (date < event.date) return false;
+    if (date === event.date) return true;
+
+    const a = dateOf(event.date);
+    const b = dateOf(date);
+
+    const difference = Math.round(
+        (Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) -
+        Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()))
+        / 86400000
+    );
+
+    if (event.repeat === "daily") return true;
+
+    if (event.repeat === "weekly") {
+        return difference % 7 === 0;
+    }
+
+    if (event.repeat === "monthly") {
+        return a.getDate() === b.getDate();
+    }
+
+    return false;
+}
+
+function eventsOn(date) {
+    return state.events.filter(e => occursOn(e, date));
+}
+
+function moveMonth(n) {
+    view.setMonth(view.getMonth() + n);
+    renderCalendar();
+}
+
+function goToday() {
+    view = new Date();
+    view.setDate(1);
+    renderCalendar();
+}
+
+function renderCalendar() {
+    $("month").textContent = view.toLocaleDateString(
+        "en-CA", {month:"long", year:"numeric"}
+    );
+
+    let html = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+        .map(d => `<div class="weekday">${d}</div>`)
+        .join("");
+
+    const year = view.getFullYear();
+    const month = view.getMonth();
+    const offset = new Date(year, month, 1).getDay();
+    const count = new Date(year, month + 1, 0).getDate();
+
+    html += '<div class="day"></div>'.repeat(offset);
+
+    for (let day = 1; day <= count; day++) {
+        const date = iso(new Date(year, month, day));
+
+        html += `
+            <div class="day ${date === iso(new Date()) ? "today" : ""}"
+                onclick="openEvent('${date}')">
+
+                <b>${day}</b>
+
+                ${eventsOn(date).map(e => `
+                    <div class="event"
+                        onclick="event.stopPropagation();editEvent('${e.id}')">
+                        ${esc(e.time)} ${esc(e.title)}
+                    </div>
+                `).join("")}
+
             </div>
         `;
     }
 
-    for (
-        let i = (offset + count) % 7;
-        i > 0 && i < 7;
-        i++
-    ) {
-        h += '<div class="day"></div>';
-    }
-
-    $("grid").innerHTML = h;
-
-    $("upcoming").innerHTML = [...events]
-        .sort((a, b) => a.date.localeCompare(b.date))
-        .map(e => `
-            <div class="item">
-                <b>${esc(e.title)}</b>
-                <br>
-                <small>${esc(e.date)} · ${esc(e.time)}</small>
-            </div>
-        `).join("");
-}
-
-// Extract events from messages
-
-let draft;
-
-function extract() {
-    let s = $("message").value;
-
-    let months = [
-        "January", "February", "March", "April",
-        "May", "June", "July", "August",
-        "September", "October", "November", "December"
-    ];
-
-    let d = s.match(
-        new RegExp(
-            "(" + months.join("|") +
-            ")\\s+(\\d{1,2})(?:st|nd|rd|th)?" +
-            "(?:,?\\s+(20\\d{2}))?",
-            "i"
-        )
+    html += '<div class="day"></div>'.repeat(
+        (7 - (offset + count) % 7) % 7
     );
 
-    let t = s.match(
+    $("calendarGrid").innerHTML = html;
+
+    const upcoming = [];
+
+    for (let i = 0; i < 90; i++) {
+        const d = new Date();
+        d.setDate(d.getDate() + i);
+
+        for (const e of eventsOn(iso(d))) {
+            upcoming.push({...e, occurrence: iso(d)});
+        }
+    }
+
+    upcoming.sort((a,b) =>
+        (a.occurrence + a.time)
+        .localeCompare(b.occurrence + b.time)
+    );
+
+    $("upcoming").innerHTML = upcoming.slice(0, 15)
+        .map(e => `
+            <div class="item">
+                <b>${esc(e.title)}</b><br>
+                <small>
+                    ${prettyDate(e.occurrence)} ·
+                    ${esc(e.time)}–${esc(e.end)}
+                </small><br>
+                <button onclick="editEvent('${e.id}')">
+                    Edit
+                </button>
+            </div>
+        `).join("") || '<p class="muted">No upcoming events.</p>';
+}
+
+function openEvent(date = iso(new Date())) {
+    editingEvent = null;
+
+    $("eventHeading").textContent = "New event";
+    $("eventName").value = "";
+    $("eventDate").value = date;
+    $("eventTime").value = "15:00";
+    $("eventEnd").value = "16:00";
+    $("eventLocation").value = "";
+    $("eventRepeat").value = "none";
+    $("eventNotes").value = "";
+
+    $("deleteEventButton").classList.add("hidden");
+    $("eventDialog").showModal();
+}
+
+function editEvent(id) {
+    const e = state.events.find(x => x.id === id);
+
+    if (!e) return;
+
+    editingEvent = id;
+
+    $("eventHeading").textContent = "Edit event";
+    $("eventName").value = e.title;
+    $("eventDate").value = e.date;
+    $("eventTime").value = e.time;
+    $("eventEnd").value = e.end;
+    $("eventLocation").value = e.location || "";
+    $("eventRepeat").value = e.repeat || "none";
+    $("eventNotes").value = e.notes || "";
+
+    $("deleteEventButton").classList.remove("hidden");
+    $("eventDialog").showModal();
+}
+
+function saveEvent() {
+    const event = {
+        id: editingEvent || uid(),
+        title: $("eventName").value.trim(),
+        date: $("eventDate").value,
+        time: $("eventTime").value,
+        end: $("eventEnd").value,
+        location: $("eventLocation").value.trim(),
+        repeat: $("eventRepeat").value,
+        notes: $("eventNotes").value
+    };
+
+    if (
+        !event.title ||
+        !event.date ||
+        !event.time ||
+        !event.end ||
+        mins(event.end) <= mins(event.time)
+    ) {
+        alert("Enter a valid event name, date and time.");
+        return;
+    }
+
+    state.events = state.events.filter(
+        e => e.id !== event.id
+    );
+
+    state.events.push(event);
+    persist();
+
+    view = dateOf(event.date);
+    view.setDate(1);
+
+    $("eventDialog").close();
+    renderCalendar();
+}
+
+function deleteEvent() {
+    if (!confirm("Delete this event and all its repetitions?")) {
+        return;
+    }
+
+    state.events = state.events.filter(
+        e => e.id !== editingEvent
+    );
+
+    persist();
+    $("eventDialog").close();
+    renderCalendar();
+}
+
+// Message detection
+
+function detectEvent() {
+    const text = $("message").value.trim();
+    const months = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+    ];
+
+    let date = null;
+    const today = new Date();
+
+    if (/\btomorrow\b/i.test(text)) {
+        date = new Date();
+        date.setDate(date.getDate() + 1);
+    } else if (/\btoday\b/i.test(text)) {
+        date = new Date();
+    } else {
+        const match = text.match(
+            new RegExp(
+                "(" + months.join("|") +
+                ")\\s+(\\d{1,2})(?:st|nd|rd|th)?" +
+                "(?:,?\\s+(20\\d{2}))?", "i"
+            )
+        );
+
+        const numeric = text.match(/\b20\d{2}-\d{2}-\d{2}\b/);
+
+        if (match) {
+            const month = months.findIndex(
+                m => m.toLowerCase() === match[1].toLowerCase()
+            );
+
+            date = new Date(
+                Number(match[3] || today.getFullYear()),
+                month,
+                Number(match[2]),
+                12
+            );
+
+            if (date.getMonth() !== month) {
+                date = null;
+            }
+
+            if (date && !match[3] && iso(date) < iso(today)) {
+                date.setFullYear(date.getFullYear() + 1);
+            }
+
+        } else if (numeric) {
+            date = dateOf(numeric[0]);
+
+            if (isNaN(date) || iso(date) !== numeric[0]) {
+                date = null;
+            }
+        } else {
+            const weekdays = [
+                "Sunday","Monday","Tuesday","Wednesday",
+                "Thursday","Friday","Saturday"
+            ];
+
+            const weekday = text.match(
+                new RegExp("\\b(" + weekdays.join("|") + ")\\b", "i")
+            );
+
+            if (weekday) {
+                const target = weekdays.findIndex(
+                    d => d.toLowerCase() === weekday[1].toLowerCase()
+                );
+
+                date = new Date();
+                const delta = (target - date.getDay() + 7) % 7;
+                date.setDate(date.getDate() + (delta || 7));
+            }
+        }
+    }
+
+    const time = text.match(
         /\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i
     );
 
-    if (!d || !t) {
-        $("suggestion").textContent =
-            "Try including a month, day and AM/PM time.";
-        return;
-    }
+    const military = text.match(/\b([01]\d|2[0-3]):([0-5]\d)\b/);
 
-    let m = months.findIndex(
-        x => x.toLowerCase() === d[1].toLowerCase()
-    );
-
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let year = d[3] ? +d[3] : today.getFullYear();
-
-    let dt = new Date(year, m, +d[2]);
+    let start = null;
 
     if (
-        dt.getMonth() !== m ||
-        +t[1] < 1 ||
-        +t[1] > 12 ||
-        +(t[2] || 0) > 59
+        time &&
+        +time[1] >= 1 &&
+        +time[1] <= 12 &&
+        +(time[2] || 0) <= 59
     ) {
-        $("suggestion").textContent =
-            "Invalid date or time.";
+        start = (+time[1] % 12) * 60 +
+            (time[3].toLowerCase() === "pm" ? 720 : 0) +
+            +(time[2] || 0);
+    } else if (!time && military) {
+        start = +military[1] * 60 + +military[2];
+    }
+
+    if (!date || start === null) {
+        $("detected").textContent =
+            "Could not identify a clear date and time.";
         return;
     }
 
-    if (!d[3] && dt < today) {
-        dt.setFullYear(year + 1);
+    let title = text.split(/\bat\b|\bon\b|tomorrow|today/i)[0]
+        .replace(/^(hey|hi)[!,\s]+/i, "")
+        .trim();
+
+    if (/party/i.test(text)) title = "Party";
+    if (/birthday/i.test(text)) title = "Birthday party";
+    if (/meeting/i.test(text)) title = "Meeting";
+    if (/appointment/i.test(text)) title = "Appointment";
+    if (/practice/i.test(text)) title = "Practice";
+
+    openEvent(iso(date));
+
+    $("eventName").value = title || "Detected event";
+    $("eventTime").value = clock(start);
+    $("eventEnd").value = clock(Math.min(1439, start + 60));
+    $("eventNotes").value = text;
+
+    $("detected").textContent =
+        "Review the detected information before saving.";
+}
+
+// Party planning
+
+let currentResponse = null;
+let guestEditing = null;
+let partyChoices = [];
+
+function updatePriority() {
+    const p = Number($("priority").value);
+
+    $("priorityText").textContent =
+        `${p}% attendance · ${100-p}% duration`;
+}
+
+function getParty() {
+    return {
+        id: state.party?.id || uid(),
+        name: $("partyName").value.trim(),
+        location: $("partyLocation").value.trim(),
+        start: $("partyStart").value,
+        end: $("partyEnd").value,
+        early: $("partyEarly").value,
+        late: $("partyLate").value,
+        min: Number($("partyMin").value),
+        max: Number($("partyMax").value),
+        weekends: $("weekends").checked,
+        priority: Number($("priority").value)
+    };
+}
+
+function validParty(p) {
+    return p.name &&
+        p.start &&
+        p.end &&
+        p.start <= p.end &&
+        dateOf(p.end) - dateOf(p.start) <= 62 * 86400000 &&
+        mins(p.late) > mins(p.early) &&
+        p.min >= .5 &&
+        p.max >= p.min &&
+        p.max <= 12 &&
+        Number.isInteger(p.min * 60) &&
+        Number.isInteger(p.max * 60) &&
+        p.min * 60 <= mins(p.late) - mins(p.early);
+}
+
+function possibleDates(p) {
+    let dates = [];
+
+    if (!validParty(p)) return dates;
+
+    for (
+        let d = dateOf(p.start);
+        d <= dateOf(p.end);
+        d.setDate(d.getDate() + 1)
+    ) {
+        if (
+            !p.weekends ||
+            d.getDay() === 0 ||
+            d.getDay() === 6
+        ) {
+            dates.push(iso(d));
+        }
     }
 
-    let hour = +t[1] % 12 +
-        (t[3].toLowerCase() === "pm" ? 12 : 0);
+    return dates;
+}
 
-    draft = {
-        title: /party/i.test(s)
-            ? "Party"
-            : s.split(/[.!]/)[0].slice(0, 50),
+function saveParty() {
+    const p = getParty();
 
-        date: iso(dt),
+    if (!validParty(p)) {
+        alert("Check the party requirements. Maximum date range is 62 days.");
+        return false;
+    }
 
-        time: String(hour).padStart(2, "0") +
-            ":" + (t[2] || "00")
-    };
+    const previous = state.party;
 
-    $("suggestion").innerHTML = `
+    if (previous) {
+        const keys = ["start","end","early","late","min","max","weekends"];
+
+        if (keys.some(k => previous[k] !== p[k])) {
+            if (
+                state.guests.some(g => g.responded) &&
+                !confirm("Changing scheduling requirements resets existing guest responses. Continue?")
+            ) {
+                return false;
+            }
+
+            p.id = uid();
+
+            state.guests.forEach(g => {
+                g.responded = false;
+                g.availability = [];
+            });
+        }
+    }
+
+    state.party = p;
+    persist();
+    renderGuests();
+    return true;
+}
+
+function loadParty() {
+    const today = new Date();
+
+    const start = new Date();
+    start.setDate(today.getDate() + 1);
+
+    const end = new Date();
+    end.setDate(today.getDate() + 21);
+
+    const p = state.party;
+
+    $("partyStart").value = p?.start || iso(start);
+    $("partyEnd").value = p?.end || iso(end);
+
+    if (!p) return;
+
+    $("partyName").value = p.name;
+    $("partyLocation").value = p.location;
+    $("partyEarly").value = p.early;
+    $("partyLate").value = p.late;
+    $("partyMin").value = p.min;
+    $("partyMax").value = p.max;
+    $("weekends").checked = p.weekends;
+    $("priority").value = p.priority;
+}
+
+function addGuest() {
+    const name = $("guestName").value.trim();
+
+    if (!name) return;
+
+    if (state.guests.some(
+        g => g.name.toLowerCase() === name.toLowerCase()
+    )) {
+        alert("This guest is already invited.");
+        return;
+    }
+
+    state.guests.push({
+        id: uid(),
+        name,
+        responded: false,
+        availability: []
+    });
+
+    $("guestName").value = "";
+    persist();
+    renderGuests();
+}
+
+function removeGuest(id) {
+    state.guests = state.guests.filter(g => g.id !== id);
+    persist();
+    renderGuests();
+}
+
+function renderGuests() {
+    $("guestList").innerHTML = state.guests.map(g => `
+        <div class="item">
+            <div class="row between">
+                <b>${esc(g.name)}</b>
+
+                <span class="pill ${g.responded ? "" : "warning"}">
+                    ${g.responded ? "Responded" : "Awaiting response"}
+                </span>
+            </div>
+
+            <small>
+                ${g.availability.length} available time windows
+            </small>
+
+            <p class="row">
+                <button onclick="editGuest('${g.id}')">
+                    Availability
+                </button>
+
+                <button onclick="guestInvite('${g.id}')">
+                    Invite link
+                </button>
+
+                <button class="danger"
+                    onclick="removeGuest('${g.id}')">
+                    Remove
+                </button>
+            </p>
+        </div>
+    `).join("") || '<p class="muted">Add your first guest.</p>';
+}
+
+function invitationLink(p, guest = null) {
+    const url = new URL(location.href);
+
+    url.hash = "invite=" + encode({
+        party: p,
+        guest: guest ? {id: guest.id, name: guest.name} : null
+    });
+
+    return url.href;
+}
+
+function createInvitation() {
+    if (!saveParty()) return;
+
+    const p = state.party;
+
+    if (!possibleDates(p).length) {
+        alert("No eligible dates in this range.");
+        return;
+    }
+
+    const link = invitationLink(p);
+
+    $("invitationOutput").innerHTML = `
         <div class="result">
-            <span class="pill">Event detected</span>
-            <br><br>
+            <b>Invitation ready</b>
 
-            <b>${esc(draft.title)}</b>
-            <br>
-            ${draft.date} at ${draft.time}
-            <br><br>
+            <p>Share this link with your guests.</p>
 
-            <button class="primary" onclick="approveEvent()">
-                Approve & add
-            </button>
+            <textarea id="inviteLink" readonly>${esc(link)}</textarea>
+
+            <p class="row">
+                <button class="primary"
+                    onclick="copy($('inviteLink').value)">
+                    Copy link
+                </button>
+
+                <button onclick="shareInvitation()">
+                    Share
+                </button>
+            </p>
+
+            <small>
+                Guests submit their free times and return
+                a response code to you.
+            </small>
         </div>
     `;
 }
 
-function approveEvent() {
-    save(draft);
+async function shareInvitation() {
+    const url = $("inviteLink").value;
 
-    $("suggestion").textContent =
-        "Event successfully added to your calendar.";
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: state.party.name,
+                text: "Choose when you're available!",
+                url
+            });
+        } catch {}
+    } else {
+        copy(url);
+    }
 }
 
-// Guest calendars
+function guestInvite(id) {
+    if (!saveParty()) return;
 
-const people = [
-    "Alex",
-    "Jordan",
-    "Sam",
-    "Taylor",
-    "Morgan"
-];
+    const guest = state.guests.find(g => g.id === id);
 
-$("guests").innerHTML = people.map((p, i) => `
-    <label class="check">
-        <input type="checkbox"
-            class="guest"
-            value="${i}"
-            checked>
+    if (guest) {
+        copy(invitationLink(state.party, guest));
+    }
+}
 
-        ${p}
+// Availability forms
 
-        <span class="pill">Connected</span>
-    </label>
-`).join("");
+function availabilityForm(p, previous = []) {
+    return possibleDates(p).map(date => {
+        const old = previous.find(a => a.date === date);
 
-const clock = n =>
-    `${String(Math.floor(n / 60)).padStart(2, "0")}:` +
-    `${String(n % 60).padStart(2, "0")}`;
+        return `
+            <div class="availability-day" data-date="${date}">
 
-const mins = s => {
-    let [h, m] = s.split(":").map(Number);
-    return h * 60 + m;
-};
+                <label>
+                    <input class="available" type="checkbox"
+                        ${old ? "checked" : ""}>
+                    <b>${prettyDate(date)}</b>
+                </label>
 
-let choices = [];
+                <div class="row fields">
+                    <div>
+                        <label class="field">Free from</label>
+                        <input class="freeStart" type="time"
+                            value="${old?.start || p.early}">
+                    </div>
 
-// Optimize event scheduling
+                    <div>
+                        <label class="field">Free until</label>
+                        <input class="freeEnd" type="time"
+                            value="${old?.end || p.late}">
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("");
+}
 
-function optimize() {
+function readAvailability(container) {
+    let availability = [];
 
-    let a = new Date($("start").value + "T12:00");
-    let b = new Date($("end").value + "T12:00");
+    for (const day of $(container).querySelectorAll(".availability-day")) {
+        if (!day.querySelector(".available").checked) {
+            continue;
+        }
 
-    let lo = mins($("early").value);
-    let hi = mins($("late").value);
+        const start = day.querySelector(".freeStart").value;
+        const end = day.querySelector(".freeEnd").value;
 
-    let mn = +$("minh").value * 60;
-    let mx = +$("maxh").value * 60;
+        if (!start || !end || mins(end) <= mins(start)) {
+            throw new Error("Invalid availability on " + day.dataset.date);
+        }
 
-    let ids = [
-        ...document.querySelectorAll(".guest:checked")
-    ].map(x => +x.value);
+        availability.push({
+            date: day.dataset.date,
+            start,
+            end
+        });
+    }
 
-    let all = [];
+    return availability;
+}
 
-    if (
-        !(a <= b) ||
-        !Number.isFinite(lo + hi + mn + mx) ||
-        mn < 30 ||
-        mx < mn ||
-        mx > 720 ||
-        hi <= lo ||
-        (b - a) > 366 * 86400000 ||
-        !ids.length
-    ) {
-        $("options").textContent =
-            "Check your dates, times, duration and guests.";
+function editGuest(id) {
+    if (!saveParty()) return;
+
+    const guest = state.guests.find(g => g.id === id);
+
+    if (!guest) return;
+
+    guestEditing = id;
+
+    $("guestHeading").textContent = guest.name + "'s availability";
+
+    $("guestAvailability").innerHTML = availabilityForm(
+        state.party,
+        guest.availability
+    );
+
+    $("guestDialog").showModal();
+}
+
+function saveGuestAvailability() {
+    const guest = state.guests.find(g => g.id === guestEditing);
+
+    if (!guest) return;
+
+    try {
+        guest.availability = readAvailability("guestAvailability");
+        guest.responded = true;
+
+        persist();
+        renderGuests();
+        $("guestDialog").close();
+
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+// Guest response links
+
+function openInvitation(data) {
+    if (!validParty(data.party)) {
+        throw new Error("Invalid invitation");
+    }
+
+    currentResponse = data;
+
+    $("hero").classList.add("hidden");
+    $("navigation").classList.add("hidden");
+
+    $("responseTitle").textContent =
+        "You're invited to " + data.party.name;
+
+    $("responseDetails").textContent =
+        (data.party.location || "") +
+        " · " + data.party.min + "–" +
+        data.party.max + " hours";
+
+    $("respondName").value = data.guest?.name || "";
+
+    $("responseDates").innerHTML = availabilityForm(data.party);
+
+    show("respond");
+}
+
+function generateResponse() {
+    if (!currentResponse) return;
+
+    const name = $("respondName").value.trim();
+
+    if (!name) {
+        alert("Enter your name.");
         return;
     }
 
-    $("options").innerHTML =
-        '<div class="result">Analyzing guest calendars...</div>';
+    try {
+        const response = {
+            partyId: currentResponse.party.id,
+            guestId: currentResponse.guest?.id || null,
+            name,
+            availability: readAvailability("responseDates")
+        };
 
-    setTimeout(() => {
+        const code = encode(response);
 
-        for (
-            let d = new Date(a);
-            d <= b;
-            d.setDate(d.getDate() + 1)
-        ) {
+        $("responseOutput").innerHTML = `
+            <div class="result">
+                <b>Availability ready to send!</b>
 
-            if (
-                $("weekends").checked &&
-                ![0, 6].includes(d.getDay())
-            ) {
-                continue;
-            }
+                <p>
+                    Copy this response code and send it
+                    back to the event organizer.
+                </p>
 
-            for (let t = lo; t + mn <= hi; t += 30) {
+                <textarea id="generatedCode"
+                    readonly>${esc(code)}</textarea>
 
-                for (
-                    let dur = mn;
-                    dur <= mx && t + dur <= hi;
-                    dur += 30
-                ) {
+                <button class="primary"
+                    onclick="copy($('generatedCode').value)">
+                    Copy response
+                </button>
+            </div>
+        `;
 
-                    let attending = ids.filter(i => {
-
-                        let busyStart = 900 +
-                            ((d.getDate() * 7 + i * 5) % 12)
-                            * 30;
-
-                        let busyEnd = busyStart + 60 +
-                            ((d.getDate() + i) % 3) * 30;
-
-                        return (
-                            (d.getDate() + i * 3) % 7 !== 0 &&
-                            (
-                                t + dur <= busyStart ||
-                                t >= busyEnd
-                            )
-                        );
-                    });
-
-                    all.push({
-                        date: iso(d),
-                        t,
-                        dur,
-                        attending
-                    });
-                }
-            }
-        }
-
-        let priority = $("priority").value;
-
-        all.sort((a, b) => {
-
-            if (priority === "guests") {
-                return (
-                    b.attending.length - a.attending.length ||
-                    b.dur - a.dur
-                );
-            }
-
-            if (priority === "time") {
-                return (
-                    b.dur - a.dur ||
-                    b.attending.length - a.attending.length
-                );
-            }
-
-            return (
-                (b.attending.length - a.attending.length)
-                / ids.length +
-                (b.dur - a.dur) / mx
-            );
-        });
-
-        choices = all.slice(0, 3);
-
-        $("options").innerHTML = choices.length
-            ? choices.map((c, i) => `
-                <div class="result">
-
-                    ${i === 0
-                        ? '<span class="pill">Best match</span><br>'
-                        : ""}
-
-                    <b>
-                        ${c.date} ·
-                        ${clock(c.t)}–${clock(c.t + c.dur)}
-                    </b>
-
-                    <br>
-
-                    ${c.attending.length}/${ids.length}
-                    guests · ${c.dur / 60} hours
-
-                    <br>
-
-                    <small>
-                        ${c.attending.map(j => people[j]).join(", ")}
-                    </small>
-
-                    <br><br>
-
-                    <button class="primary" onclick="book(${i})">
-                        Confirm event
-                    </button>
-
-                </div>
-            `).join("")
-            : "No matching time.";
-
-        let front = [];
-
-        for (let n = ids.length; n >= 0; n--) {
-
-            let match = all.filter(
-                c => c.attending.length >= n
-            );
-
-            if (match.length) {
-
-                let h = match.reduce(
-                    (best, c) => Math.max(best, c.dur),
-                    0
-                ) / 60;
-
-                front.push(`
-                    <div class="item">
-
-                        ${n}+ guests
-                        <b>${h} hours</b>
-
-                        <div style="
-                            height: 8px;
-                            background: #e9edf5;
-                            border-radius: 6px;
-                        ">
-
-                            <div style="
-                                height: 8px;
-                                background: #315de8;
-                                border-radius: 6px;
-                                width: ${100 * h / (mx / 60)}%;
-                            "></div>
-
-                        </div>
-
-                    </div>
-                `);
-            }
-        }
-
-        $("curve").innerHTML =
-            "<h3>Guest / duration trade-off</h3>" +
-            front.join("");
-
-    }, 700);
+    } catch (e) {
+        alert(e.message);
+    }
 }
 
-// Confirm event
+function importResponse() {
+    if (!saveParty()) return;
 
-function book(i) {
-    let c = choices[i];
+    try {
+        const r = decode($("responseCode").value.trim());
+
+        if (r.partyId !== state.party.id) {
+            throw new Error("Response belongs to another event or an outdated invitation.");
+        }
+
+        if (!r.name || !Array.isArray(r.availability)) {
+            throw new Error("Invalid response.");
+        }
+
+        const dates = possibleDates(state.party);
+
+        const timeValid = s =>
+            typeof s === "string" &&
+            /^([01]\d|2[0-3]):[0-5]\d$/.test(s);
+
+        if (r.availability.some(a =>
+            !dates.includes(a.date) ||
+            !timeValid(a.start) ||
+            !timeValid(a.end) ||
+            mins(a.end) <= mins(a.start)
+        )) {
+            throw new Error("Response contains invalid availability.");
+        }
+
+        let guest = state.guests.find(g =>
+            r.guestId
+                ? g.id === r.guestId
+                : g.name.toLowerCase() === r.name.toLowerCase()
+        );
+
+        if (!guest) {
+            guest = {
+                id: uid(),
+                name: String(r.name),
+                availability: []
+            };
+
+            state.guests.push(guest);
+        }
+
+        guest.availability = r.availability;
+        guest.responded = true;
+
+        persist();
+        renderGuests();
+
+        $("responseCode").value = "";
+
+        $("importStatus").textContent =
+            guest.name + "'s availability imported.";
+
+    } catch (e) {
+        $("importStatus").textContent =
+            "Import failed: " + e.message;
+    }
+}
+
+// Exact scheduling search
+
+function optimizeParty() {
+    if (!saveParty()) return;
+
+    const p = state.party;
+    const guests = state.guests;
+
+    if (!guests.length) {
+        alert("Add some guests first.");
+        return;
+    }
+
+    if (!guests.some(g => g.responded)) {
+        alert("Collect or enter guest availability first.");
+        return;
+    }
+
+    const alpha = p.priority / 100;
+    const minimum = Math.round(p.min * 60);
+    const maximum = Math.round(p.max * 60);
+
+    const candidates = [];
+    let checked = 0;
+
+    for (const date of possibleDates(p)) {
+
+        const busy = $("respectCalendar").checked
+            ? eventsOn(date)
+            : [];
+
+        for (
+            let start = mins(p.early);
+            start + minimum <= mins(p.late);
+            start += 15
+        ) {
+
+            for (
+                let duration = minimum;
+                duration <= maximum &&
+                start + duration <= mins(p.late);
+                duration += 15
+            ) {
+
+                checked++;
+
+                const end = start + duration;
+
+                const conflict = busy.some(e =>
+                    start < mins(e.end) &&
+                    end > mins(e.time)
+                );
+
+                if (conflict) continue;
+
+                const attending = guests.filter(g =>
+                    g.responded &&
+                    g.availability.some(a =>
+                        a.date === date &&
+                        mins(a.start) <= start &&
+                        mins(a.end) >= end
+                    )
+                );
+
+                if (!attending.length) continue;
+
+                const allAvailable =
+                    attending.length === guests.length;
+
+                const score =
+                    alpha * attending.length / guests.length +
+                    (1-alpha) * duration / maximum;
+
+                candidates.push({
+                    date,
+                    start,
+                    end,
+                    duration,
+                    attending: attending.map(g => g.name),
+                    allAvailable,
+                    score
+                });
+            }
+        }
+    }
+
+    candidates.sort((a,b) =>
+        Number(b.allAvailable) - Number(a.allAvailable) ||
+        b.score - a.score ||
+        b.attending.length - a.attending.length ||
+        b.duration - a.duration ||
+        a.date.localeCompare(b.date) ||
+        a.start - b.start
+    );
+
+    partyChoices = candidates.slice(0, 8);
+
+    const pending = guests.filter(g => !g.responded).length;
+
+    $("partyResults").innerHTML = `
+        <div class="result">
+            <b>${checked.toLocaleString()} combinations evaluated</b><br>
+            ${pending} guests have not responded.
+            ${pending ? "<br>Unanswered invitations are not counted as available." : ""}
+        </div>
+    ` + partyChoices.map((c,i) => `
+        <div class="result">
+            ${i === 0 ? '<span class="pill">Best match</span><br>' : ""}
+
+            <b>${prettyDate(c.date)}</b><br>
+
+            ${clock(c.start)}–${clock(c.end)}<br>
+
+            ${c.attending.length}/${guests.length} guests ·
+            ${c.duration / 60} hours
+
+            <p>
+                <small>Available: ${esc(c.attending.join(", "))}</small>
+            </p>
+
+            <div class="progress">
+                <div style="width:${
+                    c.attending.length / guests.length * 100
+                }%"></div>
+            </div>
+
+            <p>
+                <button class="primary" onclick="confirmParty(${i})">
+                    Confirm this time
+                </button>
+            </p>
+        </div>
+    `).join("");
+
+    if (!partyChoices.length) {
+        $("partyResults").innerHTML +=
+            '<p>No feasible times found. Try changing your constraints.</p>';
+    }
+
+    renderPareto(candidates, guests.length);
+}
+
+function renderPareto(candidates, total) {
+    let points = [];
+
+    for (let n = 1; n <= total; n++) {
+        const matching = candidates.filter(
+            c => c.attending.length >= n
+        );
+
+        if (!matching.length) continue;
+
+        const duration = matching.reduce(
+            (best,c) => Math.max(best,c.duration), 0
+        );
+
+        points.push({guests:n, duration});
+    }
+
+    points = points.filter((p,i) =>
+        i === points.length - 1 ||
+        points[i+1].duration < p.duration
+    );
+
+    if (!points.length) {
+        $("pareto").textContent = "No feasible solutions.";
+        return;
+    }
+
+    const width = 320;
+    const height = 220;
+    const maxDuration = state.party.max * 60;
+
+    const px = g => 40 + g / total * 260;
+    const py = d => 180 - d / maxDuration * 150;
+
+    const line = points.map(
+        p => `${px(p.guests)},${py(p.duration)}`
+    ).join(" ");
+
+    $("pareto").innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" width="100%">
+
+            <path d="M40 15V180H305"
+                fill="none" stroke="#9ba9bf" stroke-width="1.5"/>
+
+            ${[0,.25,.5,.75,1].map(v => `
+                <line x1="40" x2="305"
+                    y1="${py(v*maxDuration)}"
+                    y2="${py(v*maxDuration)}"
+                    stroke="#e1e6ef"/>
+
+                <text x="34" y="${py(v*maxDuration)+4}"
+                    font-size="10" text-anchor="end">
+                    ${(v*maxDuration/60).toFixed(1)}
+                </text>
+            `).join("")}
+
+            <polyline points="${line}"
+                fill="none"
+                stroke="#315de8"
+                stroke-width="3"/>
+
+            ${points.map(p => `
+                <circle cx="${px(p.guests)}"
+                    cy="${py(p.duration)}"
+                    r="5" fill="#315de8"/>
+
+                <text x="${px(p.guests)}" y="195"
+                    text-anchor="middle" font-size="11">
+                    ${p.guests}
+                </text>
+            `).join("")}
+
+            <text x="170" y="215"
+                text-anchor="middle" font-size="12">
+                Guests attending
+            </text>
+
+            <text x="12" y="95"
+                transform="rotate(-90 12 95)"
+                text-anchor="middle" font-size="12">
+                Hours
+            </text>
+        </svg>
+    ` + points.map(p => `
+        <div class="item row between">
+            <b>${p.guests} guests</b>
+            <span>${p.duration/60} hours</span>
+        </div>
+    `).join("");
+}
+
+function confirmParty(i) {
+    const c = partyChoices[i];
 
     if (!c) return;
 
-    save({
-        title: $("ename").value,
-        date: c.date,
-        time: clock(c.t)
-    });
+    const p = state.party;
 
-    show("calendar");
+    const event = {
+        id: uid(),
+        title: p.name,
+        date: c.date,
+        time: clock(c.start),
+        end: clock(c.end),
+        location: p.location,
+        repeat: "none",
+        notes: "Available guests: " + c.attending.join(", ")
+    };
+
+    state.events.push(event);
+    persist();
+
+    $("partyResults").innerHTML = `
+        <div class="result">
+            <span class="pill">Event confirmed</span>
+
+            <h3>${esc(event.title)}</h3>
+
+            ${prettyDate(event.date)}<br>
+            ${event.time}–${event.end}<br>
+            ${c.attending.length} available guests
+
+            <p>
+                <button class="primary"
+                    onclick="downloadEvent('${event.id}')">
+                    Download calendar invitation
+                </button>
+
+                <button onclick="copyConfirmation('${event.id}')">
+                    Copy confirmation
+                </button>
+            </p>
+
+            Added to your personal calendar.
+        </div>
+    `;
+
+    partyChoices = [];
 }
 
-// Invitations
+// Calendar file export
 
-async function copyInvite() {
+function downloadBlob(data, name, type) {
+    const blob = new Blob([data], {type});
+    const url = URL.createObjectURL(blob);
 
-    let s =
-        "You're invited to " +
-        $("ename").value +
-        "!\n\n" +
-        "Possible dates: " +
-        $("start").value +
-        " to " +
-        $("end").value +
-        "\n\nPlanned using Everything Calendar.";
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    a.click();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function icsEscape(text) {
+    return String(text || "")
+        .replace(/\\/g,"\\\\")
+        .replace(/\r?\n/g,"\\n")
+        .replace(/;/g,"\\;")
+        .replace(/,/g,"\\,");
+}
+
+function downloadEvent(id) {
+    const e = state.events.find(x => x.id === id);
+
+    if (!e) return;
+
+    const stamp = new Date().toISOString()
+        .replace(/[-:]/g,"")
+        .replace(/\.\d+Z$/, "Z");
+
+    const time = t =>
+        e.date.replace(/-/g,"") + "T" +
+        t.replace(":","") + "00";
+
+    const content = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Everything Calendar//EN",
+        "BEGIN:VEVENT",
+        "UID:" + e.id + "@everything-calendar",
+        "DTSTAMP:" + stamp,
+        "DTSTART:" + time(e.time),
+        "DTEND:" + time(e.end),
+        "SUMMARY:" + icsEscape(e.title),
+        "LOCATION:" + icsEscape(e.location),
+        "DESCRIPTION:" + icsEscape(e.notes),
+        "END:VEVENT",
+        "END:VCALENDAR"
+    ].join("\r\n");
+
+    downloadBlob(content, "event.ics", "text/calendar");
+}
+
+function copyConfirmation(id) {
+    const e = state.events.find(x => x.id === id);
+
+    if (!e) return;
+
+    copy(
+        "You're invited!\n\n" +
+        e.title + "\n" +
+        prettyDate(e.date) + "\n" +
+        e.time + "–" + e.end + "\n" +
+        e.location + "\n\n" +
+        "Planned with Everything Calendar."
+    );
+}
+
+// Ingredient prices per unit
+
+const ingredients = {
+    "Oats": [5.00,"kg"],
+    "Milk": [2.25,"L"],
+    "Bananas": [1.80,"kg"],
+    "Eggs": [.45,"each"],
+    "Bread": [.25,"slice"],
+    "Rice": [3.00,"kg"],
+    "Beans": [5.00,"kg"],
+    "Lentils": [4.50,"kg"],
+    "Chicken": [14.00,"kg"],
+    "Beef": [18.00,"kg"],
+    "Salmon": [28.00,"kg"],
+    "Steak": [35.00,"kg"],
+    "Pasta": [3.50,"kg"],
+    "Tomato sauce": [5.00,"L"],
+    "Vegetables": [6.00,"kg"],
+    "Potatoes": [3.00,"kg"],
+    "Cheese": [16.00,"kg"],
+    "Tortillas": [.50,"each"],
+    "Yogurt": [7.00,"kg"],
+    "Berries": [12.00,"kg"],
+    "Tofu": [8.00,"kg"],
+    "Apples": [4.00,"kg"],
+    "Chickpeas": [5.00,"kg"],
+    "Shrimp": [25.00,"kg"],
+    "Curry sauce": [8.00,"L"],
+    "Peanut butter": [9.00,"kg"],
+    "Oil": [8.00,"L"],
+    "Seasoning": [20.00,"kg"]
+};
+
+function recipe(name, category, diet, protein, quality, items) {
+    return {name, category, diet, protein, quality, items};
+}
+
+// Meal database
+
+const recipes = [
+    recipe("Banana oatmeal","Breakfast","vegan",12,3,
+        {"Oats":.08,"Bananas":.15,"Peanut butter":.02}),
+
+    recipe("Toast and peanut butter","Breakfast","vegan",13,2,
+        {"Bread":3,"Peanut butter":.04,"Apples":.15}),
+
+    recipe("Scrambled eggs and toast","Breakfast","vegetarian",22,4,
+        {"Eggs":3,"Bread":2,"Oil":.01}),
+
+    recipe("Yogurt and berries","Breakfast","vegetarian",20,7,
+        {"Yogurt":.25,"Berries":.15,"Oats":.04}),
+
+    recipe("Protein oatmeal","Breakfast","vegetarian",25,6,
+        {"Oats":.08,"Milk":.25,"Peanut butter":.03,"Yogurt":.15}),
+
+    recipe("Breakfast burrito","Breakfast","vegetarian",25,6,
+        {"Eggs":3,"Tortillas":2,"Cheese":.04}),
+
+    recipe("Tofu scramble","Breakfast","vegan",22,5,
+        {"Tofu":.2,"Vegetables":.15,"Bread":2,"Oil":.01}),
+
+    recipe("Berry pancakes","Breakfast","vegetarian",18,8,
+        {"Oats":.12,"Eggs":2,"Milk":.2,"Berries":.15}),
+
+    recipe("Rice and beans","Lunch","vegan",21,3,
+        {"Rice":.1,"Beans":.13,"Oil":.01,"Seasoning":.005}),
+
+    recipe("Lentil soup","Lunch","vegan",22,4,
+        {"Lentils":.12,"Vegetables":.2,"Seasoning":.005}),
+
+    recipe("Chickpea wraps","Lunch","vegan",23,5,
+        {"Chickpeas":.15,"Tortillas":2,"Vegetables":.12}),
+
+    recipe("Egg sandwich","Lunch","vegetarian",24,5,
+        {"Eggs":3,"Bread":3,"Cheese":.025}),
+
+    recipe("Chicken rice bowl","Lunch","mixed",40,7,
+        {"Chicken":.2,"Rice":.1,"Vegetables":.15}),
+
+    recipe("Beef tacos","Lunch","mixed",37,8,
+        {"Beef":.2,"Tortillas":3,"Vegetables":.1,"Cheese":.03}),
+
+    recipe("Salmon salad","Lunch","mixed",35,10,
+        {"Salmon":.17,"Vegetables":.3,"Oil":.02}),
+
+    recipe("Tofu rice bowl","Lunch","vegan",27,6,
+        {"Tofu":.25,"Rice":.1,"Vegetables":.15}),
+
+    recipe("Tomato pasta","Dinner","vegan",18,3,
+        {"Pasta":.15,"Tomato sauce":.15,"Oil":.01}),
+
+    recipe("Lentil curry","Dinner","vegan",27,5,
+        {"Lentils":.15,"Rice":.1,"Curry sauce":.1}),
+
+    recipe("Loaded baked potatoes","Dinner","vegetarian",24,5,
+        {"Potatoes":.4,"Cheese":.08,"Beans":.1}),
+
+    recipe("Vegetable fried rice","Dinner","vegetarian",25,5,
+        {"Rice":.13,"Eggs":3,"Vegetables":.2,"Oil":.02}),
+
+    recipe("Chickpea curry","Dinner","vegan",27,6,
+        {"Chickpeas":.17,"Rice":.12,"Curry sauce":.12}),
+
+    recipe("Chicken stir-fry","Dinner","mixed",43,7,
+        {"Chicken":.23,"Rice":.12,"Vegetables":.25}),
+
+    recipe("Chicken pasta","Dinner","mixed",45,8,
+        {"Chicken":.2,"Pasta":.15,"Tomato sauce":.15,"Cheese":.04}),
+
+    recipe("Beef and potatoes","Dinner","mixed",45,8,
+        {"Beef":.25,"Potatoes":.35,"Vegetables":.15}),
+
+    recipe("Salmon and vegetables","Dinner","mixed",44,10,
+        {"Salmon":.25,"Vegetables":.25,"Rice":.1}),
+
+    recipe("Shrimp pasta","Dinner","mixed",42,10,
+        {"Shrimp":.25,"Pasta":.15,"Tomato sauce":.15}),
+
+    recipe("Steak dinner","Dinner","mixed",53,12,
+        {"Steak":.3,"Potatoes":.35,"Vegetables":.25}),
+
+    recipe("Tofu curry","Dinner","vegan",32,8,
+        {"Tofu":.3,"Rice":.12,"Vegetables":.2,"Curry sauce":.1})
+];
+
+const days = [
+    "Monday","Tuesday","Wednesday","Thursday",
+    "Friday","Saturday","Sunday"
+];
+
+function recipeCost(r) {
+    return Object.entries(r.items).reduce(
+        (total,[name,amount]) =>
+            total + ingredients[name][0] * amount,
+        0
+    );
+}
+
+function grocerySettings() {
+    return {
+        budget: Number($("budget").value),
+        people: Number($("household").value),
+        diet: $("diet").value,
+        exclude: $("exclude").value,
+        coverage: $("coverage").value,
+        delivery: $("delivery").value
+    };
+}
+
+function validGrocery(s) {
+    return Number.isFinite(s.budget) &&
+        s.budget > 0 &&
+        Number.isInteger(s.people) &&
+        s.people >= 1 &&
+        s.people <= 20;
+}
+
+function allowedRecipes(s, category) {
+    const excluded = s.exclude.toLowerCase()
+        .split(",").map(x => x.trim()).filter(Boolean);
+
+    return recipes.filter(r => {
+
+        if (r.category !== category) return false;
+
+        if (s.diet === "Vegan" && r.diet !== "vegan") {
+            return false;
+        }
+
+        if (s.diet === "Vegetarian" && r.diet === "mixed") {
+            return false;
+        }
+
+        if (s.diet === "High protein" && r.protein < 22) {
+            return false;
+        }
+
+        const text = (
+            r.name + " " + Object.keys(r.items).join(" ")
+        ).toLowerCase();
+
+        return !excluded.some(x => text.includes(x));
+    });
+}
+
+// Custom groceries
+
+function customTotal() {
+    return state.custom.reduce(
+        (sum,item) => sum + item.qty * item.price, 0
+    );
+}
+
+function addCustom() {
+    const name = $("customName").value.trim();
+    const qty = Number($("customQty").value);
+    const price = Number($("customPrice").value);
+
+    if (
+        !name ||
+        !Number.isFinite(qty) ||
+        qty <= 0 ||
+        !$("customPrice").value ||
+        !Number.isFinite(price) ||
+        price < 0
+    ) {
+        alert("Enter a valid item, quantity and price.");
+        return;
+    }
+
+    state.custom.push({id:uid(), name, qty, price});
+
+    $("customName").value = "";
+    $("customQty").value = 1;
+    $("customPrice").value = "";
+
+    persist();
+    renderCustom();
+
+    if (state.mealPlan.length) generateMeals();
+    else renderBasket();
+}
+
+function editCustom(id) {
+    const item = state.custom.find(x => x.id === id);
+    if (!item) return;
+
+    const name = prompt("Item name:", item.name);
+    if (name === null) return;
+
+    const quantity = prompt("Quantity:", item.qty);
+    if (quantity === null) return;
+
+    const cost = prompt("Price per unit:", item.price);
+    if (cost === null) return;
+
+    const qty = Number(quantity);
+    const price = Number(cost);
+
+    if (
+        !name.trim() ||
+        !Number.isFinite(qty) ||
+        qty <= 0 ||
+        !Number.isFinite(price) ||
+        price < 0
+    ) {
+        alert("Invalid item.");
+        return;
+    }
+
+    Object.assign(item, {name:name.trim(), qty, price});
+
+    persist();
+    renderCustom();
+
+    if (state.mealPlan.length) generateMeals();
+    else renderBasket();
+}
+
+function removeCustom(id) {
+    state.custom = state.custom.filter(x => x.id !== id);
+
+    persist();
+    renderCustom();
+
+    if (state.mealPlan.length) generateMeals();
+    else renderBasket();
+}
+
+function renderCustom() {
+    $("customList").innerHTML = state.custom.map(item => `
+        <div class="item">
+            <div class="row between">
+                <b>${esc(item.name)}</b>
+                <b>${money(item.qty * item.price)}</b>
+            </div>
+
+            <small>
+                ${item.qty} × ${money(item.price)}
+            </small>
+
+            <p class="row">
+                <button onclick="editCustom('${item.id}')">
+                    Edit
+                </button>
+
+                <button class="danger"
+                    onclick="removeCustom('${item.id}')">
+                    Remove
+                </button>
+            </p>
+        </div>
+    `).join("");
+}
+
+// Budget-constrained meal optimization
+
+function generateMeals() {
+    const s = grocerySettings();
+
+    if (!validGrocery(s)) {
+        alert("Enter a valid budget and household size.");
+        return;
+    }
+
+    state.grocerySettings = s;
+
+    const remaining = s.budget - customTotal();
+
+    const categories = s.coverage === "all"
+        ? ["Breakfast","Lunch","Dinner"]
+        : ["Dinner"];
+
+    const slots = days.flatMap((day,index) =>
+        categories.map(category => ({
+            day:index,
+            category
+        }))
+    );
+
+    const options = slots.map(slot =>
+        allowedRecipes(s, slot.category)
+    );
+
+    if (options.some(o => !o.length)) {
+        state.mealPlan = [];
+        persist();
+
+        $("mealPlan").textContent =
+            "No compatible recipes for one or more meal categories.";
+
+        renderBasket();
+        return;
+    }
+
+    const costs = options.map(o =>
+        Math.min(...o.map(recipeCost)) * s.people
+    );
+
+    const minimum = costs.reduce((a,b) => a+b, 0);
+
+    if (minimum > remaining + 1e-8) {
+        state.mealPlan = [];
+        persist();
+
+        $("mealPlan").innerHTML = `
+            <div class="result">
+                <b>Budget is too low for this meal plan.</b><br>
+                Available after custom groceries:
+                ${money(remaining)}<br>
+                Minimum meal cost: ${money(minimum)}
+            </div>
+        `;
+
+        renderBasket();
+        return;
+    }
+
+    const futureMinimum = Array(slots.length+1).fill(0);
+
+    for (let i = slots.length-1; i >= 0; i--) {
+        futureMinimum[i] = costs[i] + futureMinimum[i+1];
+    }
+
+    let bestScore = -Infinity;
+    let bestPlan = [];
+
+    for (let attempt = 0; attempt < 1800; attempt++) {
+
+        let plan = [];
+        let spent = 0;
+        let score = 0;
+        let counts = {};
+
+        for (let i = 0; i < slots.length; i++) {
+
+            const feasible = options[i].filter(r =>
+                spent +
+                recipeCost(r) * s.people +
+                futureMinimum[i+1] <= remaining + 1e-8
+            );
+
+            if (!feasible.length) break;
+
+            const weighted = feasible.map(r => {
+                const repeats = counts[r.name] || 0;
+
+                return {
+                    r,
+                    score:
+                        r.quality * (0.5 + Math.random()) +
+                        (s.diet === "High protein" ? r.protein/15 : 0) -
+                        repeats * 3 -
+                        recipeCost(r) * Math.random() * .5
+                };
+            });
+
+            weighted.sort((a,b) => b.score-a.score);
+
+            const selected = weighted[0].r;
+
+            spent += recipeCost(selected) * s.people;
+
+            counts[selected.name] =
+                (counts[selected.name] || 0) + 1;
+
+            score += selected.quality +
+                selected.protein * .025;
+
+            plan.push({
+                ...slots[i],
+                recipe: selected.name
+            });
+        }
+
+        if (plan.length !== slots.length) continue;
+
+        const variety = Object.keys(counts).length;
+
+        score += variety * 3;
+
+        for (const count of Object.values(counts)) {
+            score -= Math.pow(Math.max(0,count-2),2);
+        }
+
+        score -= spent / Math.max(remaining,1);
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestPlan = plan;
+        }
+    }
+
+    state.mealPlan = bestPlan;
+    persist();
+
+    renderMeals();
+    renderBasket();
+}
+
+function renderMeals() {
+    const s = state.grocerySettings || grocerySettings();
+
+    if (!state.mealPlan.length) {
+        $("mealPlan").innerHTML =
+            '<p class="muted">Generate a meal plan to begin.</p>';
+        return;
+    }
+
+    $("mealPlan").innerHTML = days.map((day,index) => `
+        <h3>${day}</h3>
+
+        ${state.mealPlan.map((entry,i) => {
+            if (entry.day !== index) return "";
+
+            const r = recipes.find(x => x.name === entry.recipe);
+            if (!r) return "";
+
+            const options = allowedRecipes(s,entry.category);
+
+            return `
+                <div class="meal">
+
+                    <div class="row between">
+                        <small>${entry.category}</small>
+                        <b>${money(recipeCost(r)*s.people)}</b>
+                    </div>
+
+                    <select onchange="changeMeal(${i},this.value)">
+                        ${options.map(option => `
+                            <option value="${esc(option.name)}"
+                                ${option.name === r.name ? "selected" : ""}>
+                                ${esc(option.name)}
+                            </option>
+                        `).join("")}
+                    </select>
+
+                    <small>
+                        Approx. ${r.protein}g protein per person
+                    </small>
+                </div>
+            `;
+        }).join("")}
+    `).join("");
+}
+
+function changeMeal(index,name) {
+    const entry = state.mealPlan[index];
+    const s = state.grocerySettings || grocerySettings();
+
+    if (!entry) return;
+
+    if (!allowedRecipes(s,entry.category).some(
+        r => r.name === name
+    )) return;
+
+    entry.recipe = name;
+    persist();
+    renderMeals();
+    renderBasket();
+}
+
+// Consolidate ingredients
+
+function buildBasket() {
+    const s = state.grocerySettings || grocerySettings();
+
+    const basket = {};
+
+    for (const entry of state.mealPlan) {
+        const recipe = recipes.find(r => r.name === entry.recipe);
+
+        if (!recipe) continue;
+
+        for (const [name,quantity] of Object.entries(recipe.items)) {
+            basket[name] =
+                (basket[name] || 0) + quantity*s.people;
+        }
+    }
+
+    return Object.entries(basket).map(([name,quantity]) => ({
+        name,
+        quantity,
+        unit: ingredients[name][1],
+        cost: quantity*ingredients[name][0]
+    }));
+}
+
+function renderBasket() {
+    const s = state.grocerySettings || grocerySettings();
+    const basket = buildBasket();
+
+    const mealsCost = basket.reduce(
+        (sum,item) => sum+item.cost,0
+    );
+
+    const total = mealsCost+customTotal();
+    const remaining = s.budget-total;
+
+    $("basket").innerHTML = `
+        <small>ESTIMATED WEEKLY SPENDING</small>
+
+        <div class="amount">${money(total)}</div>
+
+        <p>Budget: ${money(s.budget)}</p>
+
+        <div class="progress">
+            <div style="
+                width:${Math.min(100,total/Math.max(s.budget,1)*100)}%;
+                background:${remaining>=0?"#315de8":"#dc3545"}
+            "></div>
+        </div>
+
+        <p style="color:${remaining>=0?"#18835b":"#dc3545"}">
+            ${remaining>=0
+                ? money(remaining)+" remaining"
+                : money(-remaining)+" over budget"}
+        </p>
+
+        <h3>Meal ingredients</h3>
+
+        ${basket.map(item => `
+            <div class="item row between">
+                <div>
+                    <b>${esc(item.name)}</b><br>
+                    <small>
+                        ${Number(item.quantity.toFixed(3))} ${item.unit}
+                    </small>
+                </div>
+
+                <b>${money(item.cost)}</b>
+            </div>
+        `).join("")}
+
+        <h3>Custom groceries</h3>
+
+        ${state.custom.map(item => `
+            <div class="item row between">
+                <span>${item.qty} × ${esc(item.name)}</span>
+                <b>${money(item.qty*item.price)}</b>
+            </div>
+        `).join("")}
+
+        <div class="result">
+            Meals: ${money(mealsCost)}<br>
+            Custom groceries: ${money(customTotal)}<br>
+
+            <b>Total: ${money(total)}</b><br>
+
+            Delivery: Every ${esc(s.delivery)}
+        </div>
+
+        <p class="muted">
+            Prices are illustrative estimates based on
+            consumed ingredient quantities, not live
+            retailer prices or package sizes.
+        </p>
+
+        <button class="primary"
+            onclick="scheduleDelivery()"
+            ${remaining < -1e-8 || total <= 0 ? "disabled" : ""}>
+            Schedule weekly groceries
+        </button>
+
+        <button onclick="copyShoppingList()">
+            Copy shopping list
+        </button>
+
+        <div id="deliveryStatus"></div>
+    `;
+}
+
+function copyShoppingList() {
+    const lines = buildBasket().map(item =>
+        item.name + ": " +
+        Number(item.quantity.toFixed(3)) +
+        " " + item.unit
+    );
+
+    for (const item of state.custom) {
+        lines.push(item.name + ": " + item.qty);
+    }
+
+    copy("Everything Calendar Shopping List\n\n" + lines.join("\n"));
+}
+
+function scheduleDelivery() {
+    const s = state.grocerySettings || grocerySettings();
+
+    const total = buildBasket().reduce(
+        (sum,item) => sum+item.cost,0
+    ) + customTotal();
+
+    if (total > s.budget + 1e-8 || total <= 0) return;
+
+    const weekdays = [
+        "Sunday","Monday","Tuesday","Wednesday",
+        "Thursday","Friday","Saturday"
+    ];
+
+    const target = weekdays.indexOf(s.delivery);
+
+    const next = new Date();
+    next.setDate(
+        next.getDate() +
+        ((target-next.getDay()+7)%7 || 7)
+    );
+
+    state.events = state.events.filter(
+        e => e.source !== "groceries"
+    );
+
+    state.events.push({
+        id:uid(),
+        title:"Weekly grocery delivery",
+        date:iso(next),
+        time:"10:00",
+        end:"11:00",
+        location:"Home",
+        repeat:"weekly",
+        source:"groceries",
+        notes:"Simulated delivery. Estimated basket: "+money(total)
+    });
+
+    persist();
+
+    $("deliveryStatus").innerHTML = `
+        <div class="result">
+            Weekly grocery delivery added to your calendar.
+            No actual order or payment was made.
+        </div>
+    `;
+}
+
+function loadGrocery() {
+    const s = state.grocerySettings;
+
+    if (!s) return;
+
+    $("budget").value = s.budget;
+    $("household").value = s.people;
+    $("diet").value = s.diet;
+    $("exclude").value = s.exclude;
+    $("coverage").value = s.coverage;
+    $("delivery").value = s.delivery;
+}
+
+// Workspace data
+
+function exportData() {
+    downloadBlob(
+        JSON.stringify(state,null,2),
+        "everything-calendar-backup.json",
+        "application/json"
+    );
+}
+
+async function importData(event) {
+    const file = event.target.files[0];
+
+    if (!file) return;
 
     try {
-        await navigator.clipboard.writeText(s);
+        const imported = JSON.parse(await file.text());
 
-        $("inviteStatus").textContent =
-            "Invitation copied! Share it with your friends.";
+        if (
+            !Array.isArray(imported.events) ||
+            !Array.isArray(imported.guests) ||
+            !Array.isArray(imported.custom) ||
+            !Array.isArray(imported.mealPlan)
+        ) {
+            throw new Error("Invalid workspace backup.");
+        }
 
-    } catch {
+        if (!confirm("Replace your existing workspace?")) return;
 
-        $("inviteStatus").textContent = s;
+        state = {...emptyState(), ...imported};
+
+        // Rebuild IDs used by interface controls
+        state.events = state.events.map(e => ({...e,id:uid()}));
+        state.custom = state.custom.map(e => ({...e,id:uid()}));
+        state.guests = state.guests.map(e => ({...e,id:uid()}));
+
+        persist();
+        location.reload();
+
+    } catch(e) {
+        alert("Import failed: " + e.message);
     }
 }
 
-// Generate meal plan
+function resetData() {
+    if (!confirm("Delete all Everything Calendar data?")) return;
 
-function meals() {
-
-    let veg = $("diet").value === "Vegetarian";
-    let budget = +$("budget").value;
-
-    let menu = veg ? [
-        "Chickpea curry",
-        "Bean tacos",
-        "Tomato pasta",
-        "Lentil soup",
-        "Veggie stir-fry",
-        "Baked potatoes",
-        "Rice bowls"
-    ] : [
-        "Chicken rice bowls",
-        "Bean tacos",
-        "Tomato pasta",
-        "Lentil soup",
-        "Chicken stir-fry",
-        "Baked potatoes",
-        "Egg fried rice"
-    ];
-
-    let items = veg ? [
-        ["Chickpeas & beans", 8],
-        ["Lentils", 5],
-        ["Rice & pasta", 9],
-        ["Vegetables", 18],
-        ["Potatoes", 5],
-        ["Tortillas", 4],
-        ["Tomato sauce", 5],
-        ["Fruit & breakfast staples", 15]
-    ] : [
-        ["Chicken", 16],
-        ["Beans & lentils", 8],
-        ["Rice & pasta", 9],
-        ["Vegetables", 16],
-        ["Potatoes", 5],
-        ["Tortillas", 4],
-        ["Eggs & sauce", 8],
-        ["Fruit & breakfast staples", 12]
-    ];
-
-    let total = items.reduce((s, x) => s + x[1], 0);
-
-    let days = [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
-    ];
-
-    $("mealplan").innerHTML = menu.map((x, i) => `
-        <div class="item">
-            <small>${days[i]}</small>
-            <input aria-label="Meal" value="${x}">
-        </div>
-    `).join("") + `
-        <p class="note">
-            You can edit any meal in your weekly plan.
-            Grocery prices are sample estimates.
-        </p>
-    `;
-
-    $("basket").innerHTML = items.map(x => `
-        <div class="bar item">
-            <span>${x[0]}</span>
-            <b>$${x[1]}</b>
-        </div>
-    `).join("") + `
-
-        <p class="cost">$${total}</p>
-
-        <p>
-            ${total <= budget
-                ? '<span class="pill">Within your budget</span>'
-                : "Over budget by $" + (total - budget)}
-        </p>
-
-        <p>
-            Delivery: Every ${$("delivery").value}
-        </p>
-
-        <button class="primary" onclick="approveOrder()">
-            Approve weekly basket
-        </button>
-
-        <p id="orderstatus" class="note"></p>
-    `;
+    localStorage.removeItem("ec-advanced");
+    location.href = location.pathname;
 }
 
-function approveOrder() {
+// Settings changes
 
-    $("orderstatus").textContent =
-        "Demo weekly grocery order confirmed. No purchase made.";
+for (const id of [
+    "budget","household","diet","exclude","coverage"
+]) {
+    $(id).addEventListener("change", () => {
+        if (state.mealPlan.length) {
+            generateMeals();
+        } else {
+            const settings = grocerySettings();
 
-    localStorage.setItem(
-        "ec-grocery",
-        JSON.stringify({
-            delivery: $("delivery").value,
-            budget: $("budget").value,
-            approved: true
-        })
-    );
+            if (validGrocery(settings)) {
+                state.grocerySettings = settings;
+                persist();
+                renderBasket();
+            }
+        }
+    });
 }
 
-// App connections
-
-const connections = [
-    "Messages",
-    "Email",
-    "Google Calendar",
-    "Apple Calendar",
-    "Sports schedules",
-    "Personal calendar",
-    "Grocery retailer"
-];
-
-let permissions;
-
-try {
-    permissions = JSON.parse(
-        localStorage.getItem("ec-permissions")
-    ) || {};
-} catch {
-    permissions = {};
-}
-
-connections.forEach((p, i) => {
-
-    $("connectlist").innerHTML += `
-        <label class="check item">
-
-            <input type="checkbox"
-                ${permissions[i] ? "checked" : ""}
-                onchange="setPermission(${i}, this.checked)">
-
-            Allow ${p}
-
-        </label>
-    `;
+$("delivery").addEventListener("change", () => {
+    state.grocerySettings = grocerySettings();
+    persist();
+    renderBasket();
 });
 
-function setPermission(i, value) {
+// Initialize
 
-    permissions[i] = value;
+loadParty();
+loadGrocery();
+renderCustom();
 
-    localStorage.setItem(
-        "ec-permissions",
-        JSON.stringify(permissions)
-    );
+if (location.hash.startsWith("#invite=")) {
+    try {
+        openInvitation(
+            decode(location.hash.slice(8))
+        );
+    } catch {
+        alert("This invitation link is invalid.");
+        show("calendar");
+    }
+} else {
+    show("calendar");
 }
-
-render();
 
 </script>
 
