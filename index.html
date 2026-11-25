@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everything Calendar</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4f6fa;
+    color: #17243b;
+    font: 15px system-ui, sans-serif;
+}
+
+button, input, select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 15px;
+    background: #e8edf6;
+    color: #233b61;
+    font-weight: 650;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.96);
+}
+
+button.primary {
+    background: #315de8;
+    color: white;
+}
+
+header {
+    background: white;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e7ef;
+}
+
+header b {
+    font-size: 23px;
+    letter-spacing: -1px;
+}
+
+header span {
+    color: #315de8;
+}
+
+main {
+    max-width: 1250px;
+    margin: auto;
+    padding: 28px 22px;
+}
+
+.hero {
+    background: #14264b;
+    color: white;
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.hero h1 {
+    font-size: 40px;
+    letter-spacing: -2px;
+    margin: 8px 0;
+}
+
+.hero p {
+    color: #ccd8f4;
+    max-width: 570px;
+}
+
+.tag {
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    color: #a8beff;
+}
+
+.hero .mark {
+    font-size: 78px;
+    color: #7796ff;
+}
+
+nav {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+}
+
+nav button.active {
+    background: #315de8;
+    color: white;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 18px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e0e6ef;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 16px;
+    animation: appear 0.3s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h2 {
+    margin: 0 0 15px;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+}
+
+h3 {
+    margin: 14px 0 8px;
+}
+
+p, small {
+    line-height: 1.5;
+}
+
+small, .muted {
+    color: #65748a;
+}
+
+.bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin-top: 18px;
+    border: 1px solid #e5e9f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.weekday {
+    padding: 10px 4px;
+    text-align: center;
+    background: #f3f5f9;
+    font-size: 12px;
+    color: #69768b;
+}
+
+.day {
+    min-height: 92px;
+    border-top: 1px solid #e5e9f0;
+    border-right: 1px solid #e5e9f0;
+    padding: 6px;
+    overflow-wrap: anywhere;
+}
+
+.day:nth-child(7n) {
+    border-right: 0;
+}
+
+.day b {
+    font-size: 12px;
+}
+
+.event {
+    font-size: 11px;
+    background: #e7edff;
+    color: #2448b1;
+    border-radius: 5px;
+    padding: 4px;
+    margin-top: 4px;
+}
+
+.today {
+    background: #f3f6ff;
+}
+
+.field {
+    display: block;
+    margin: 13px 0 5px;
+    font-weight: 600;
+}
+
+input:not([type=checkbox]), select, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccd5e3;
+    border-radius: 8px;
+    background: white;
+    font: inherit;
+    color: inherit;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.row > * {
+    flex: 1;
+    min-width: 0;
+}
+
+.result {
+    padding: 12px;
+    background: #edf2ff;
+    border-radius: 9px;
+    margin: 12px 0;
+    line-height: 1.5;
+    animation: appear 0.3s ease;
+}
+
+.item {
+    padding: 12px 0;
+    border-bottom: 1px solid #e9edf3;
+}
+
+.item:last-child {
+    border: 0;
+}
+
+.pill {
+    display: inline-block;
+    background: #e7f3ec;
+    color: #21664c;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.check {
+    display: block;
+    margin: 12px 0;
+}
+
+.cost {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.note {
+    font-size: 12px;
+    color: #65748a;
+}
+
+footer {
+    text-align: center;
+    color: #65748a;
+    padding: 20px;
+}
+
+@media (max-width: 800px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .hero .mark {
+        display: none;
+    }
+
+    .day {
+        min-height: 70px;
+        padding: 3px;
+    }
+
+    .panel {
+        padding: 14px;
+    }
+
+    .event {
+        font-size: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <b><span>◈</span> Everything Calendar</b>
+    <small>Your life, in sync.</small>
+</header>
+
+<main>
+
+<section class="hero">
+    <div>
+        <div class="tag">YOUR LIFE, IN SYNC.</div>
+
+        <h1>Less planning. More living.</h1>
+
+        <p>
+            One intelligent calendar for your conversations,
+            your friends, and your everyday life.
+        </p>
+
+        <button class="primary" onclick="show('planner')">
+            Find a time together →
+        </button>
+    </div>
+
+    <div class="mark">▦</div>
+</section>
+
+<nav>
+    <button id="tab-calendar" class="active"
+        onclick="show('calendar')">
+        My calendar
+    </button>
+
+    <button id="tab-planner" onclick="show('planner')">
+        Group planner
+    </button>
+
+    <button id="tab-grocery" onclick="show('grocery')">
+        Meals & groceries
+    </button>
+
+    <button id="tab-connections" onclick="show('connections')">
+        Connections
+    </button>
+</nav>
+
+<!-- Calendar -->
+
+<section id="calendar" class="layout">
+
+    <div class="panel">
+        <div class="bar">
+            <h2 id="month"></h2>
+
+            <div>
+                <button onclick="move(-1)">‹</button>
+                <button onclick="move(1)">›</button>
+            </div>
+        </div>
+
+        <div id="grid" class="calendar"></div>
+    </div>
+
+    <div>
+        <div class="panel">
+            <h2>Smart inbox</h2>
+
+            <small>
+                Automatically identify events from your messages.
+            </small>
+
+            <textarea id="message">Hey! Party at my house at 6:00pm December 31st</textarea>
+
+            <button class="primary" onclick="extract()">
+                Find event
+            </button>
+
+            <div id="suggestion"></div>
+        </div>
+
+        <div class="panel">
+            <h2>Upcoming events</h2>
+            <div id="upcoming"></div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Group planner -->
+
+<section id="planner" class="layout hidden">
+
+    <div class="panel">
+        <h2>Find the best time for everyone</h2>
+
+        <p class="muted">
+            Tell us when you want your event to happen.
+            Everything Calendar will find the best available time.
+        </p>
+
+        <label class="field">Event name</label>
+        <input id="ename" value="Birthday party">
+
+        <div class="row">
+            <div>
+                <label class="field">Start date</label>
+                <input type="date" id="start" value="2027-03-15">
+            </div>
+
+            <div>
+                <label class="field">End date</label>
+                <input type="date" id="end" value="2027-04-02">
+            </div>
+        </div>
+
+        <label class="check">
+            <input type="checkbox" id="weekends" checked>
+            Weekends only
+        </label>
+
+        <div class="row">
+            <div>
+                <label class="field">Earliest time</label>
+                <input type="time" id="early" value="15:00">
+            </div>
+
+            <div>
+                <label class="field">Latest finish</label>
+                <input type="time" id="late" value="23:00">
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label class="field">Minimum hours</label>
+                <input type="number" id="minh"
+                    value="3" min="1" max="12" step="0.5">
+            </div>
+
+            <div>
+                <label class="field">Maximum hours</label>
+                <input type="number" id="maxh"
+                    value="6" min="1" max="12" step="0.5">
+            </div>
+        </div>
+
+        <label class="field">Priority</label>
+
+        <select id="priority">
+            <option value="guests">More guests</option>
+            <option value="balanced">Balanced</option>
+            <option value="time">Longer event</option>
+        </select>
+
+        <p>
+            <button class="primary" onclick="optimize()">
+                Find best times
+            </button>
+        </p>
+
+        <div id="options"></div>
+    </div>
+
+    <div class="panel">
+        <h2>Guest availability</h2>
+
+        <small>
+            Select the friends you would like to invite.
+            Only free/busy information is used.
+        </small>
+
+        <div id="guests"></div>
+
+        <button onclick="copyInvite()">
+            Copy invitation
+        </button>
+
+        <p id="inviteStatus" class="note"></p>
+
+        <div id="curve"></div>
+    </div>
+
+</section>
+
+<!-- Meals and groceries -->
+
+<section id="grocery" class="layout hidden">
+
+    <div class="panel">
+        <h2>Your weekly meal plan</h2>
+
+        <label class="field">Food preferences</label>
+
+        <select id="diet">
+            <option>Mixed</option>
+            <option>Vegetarian</option>
+        </select>
+
+        <label class="field">Weekly budget (CAD)</label>
+
+        <input id="budget" type="number" value="90" min="1">
+
+        <label class="field">Delivery day</label>
+
+        <select id="delivery">
+            <option>Sunday</option>
+            <option>Monday</option>
+            <option>Tuesday</option>
+            <option>Wednesday</option>
+            <option>Thursday</option>
+            <option>Friday</option>
+            <option>Saturday</option>
+        </select>
+
+        <p>
+            <button class="primary" onclick="meals()">
+                Generate meal plan
+            </button>
+        </p>
+
+        <div id="mealplan"></div>
+    </div>
+
+    <div class="panel">
+        <h2>Grocery basket</h2>
+
+        <div id="basket">
+            <p class="muted">
+                Generate a meal plan to see your basket.
+            </p>
+        </div>
+    </div>
+
+</section>
+
+<!-- Connections -->
+
+<section id="connections" class="panel hidden">
+
+    <h2>You control what connects</h2>
+
+    <p>
+        Choose which applications Everything Calendar
+        would be allowed to access.
+    </p>
+
+    <div id="connectlist"></div>
+
+    <p class="note">
+        These connections are simulated for the product demonstration.
+        No real accounts are accessed.
+    </p>
+
+</section>
+
+</main>
+
+<footer>
+    Everything Calendar © 2026 · Less planning. More living.
+    <br>
+    Interactive product demonstration
+</footer>
+
+<script>
+
+const $ = id => document.getElementById(id);
+
+let view = new Date();
+view.setDate(1);
+
+let events;
+
+try {
+    events = JSON.parse(localStorage.getItem("ec-events")) || [];
+} catch {
+    events = [];
+}
+
+if (!events.length) {
+    events = [
+        {
+            title: "Hockey practice",
+            date: "2026-12-04",
+            time: "18:00"
+        },
+        {
+            title: "Math club",
+            date: "2026-12-08",
+            time: "12:00"
+        },
+        {
+            title: "Family dinner",
+            date: "2026-12-20",
+            time: "17:30"
+        }
+    ];
+}
+
+// Format dates
+
+const iso = d =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1)
+    .padStart(2, "0")}-${String(d.getDate())
+    .padStart(2, "0")}`;
+
+const esc = s => String(s).replace(
+    /[&<>"']/g,
+    c => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    }[c])
+);
+
+// Navigation
+
+function show(id) {
+    for (const s of [
+        "calendar",
+        "planner",
+        "grocery",
+        "connections"
+    ]) {
+        $(s).classList.toggle("hidden", s !== id);
+
+        $("tab-" + s).classList.toggle("active", s === id);
+    }
+
+    if (id === "calendar") {
+        render();
+    }
+}
+
+function move(n) {
+    view.setMonth(view.getMonth() + n);
+    render();
+}
+
+// Save events
+
+function save(e) {
+    events.push(e);
+
+    localStorage.setItem(
+        "ec-events",
+        JSON.stringify(events)
+    );
+
+    view = new Date(e.date + "T12:00");
+    view.setDate(1);
+
+    render();
+}
+
+// Render calendar
+
+function render() {
+    $("month").textContent = view.toLocaleDateString(
+        "en-CA",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+    let h = [
+        "Sun", "Mon", "Tue", "Wed",
+        "Thu", "Fri", "Sat"
+    ].map(x =>
+        `<div class="weekday">${x}</div>`
+    ).join("");
+
+    let y = view.getFullYear();
+    let m = view.getMonth();
+
+    let offset = new Date(y, m, 1).getDay();
+    let count = new Date(y, m + 1, 0).getDate();
+
+    for (let i = 0; i < offset; i++) {
+        h += '<div class="day"></div>';
+    }
+
+    for (let d = 1; d <= count; d++) {
+        let date = iso(new Date(y, m, d));
+
+        let dayEvents = events
+            .filter(e => e.date === date)
+            .map(e => `
+                <div class="event">
+                    ${esc(e.time)} ${esc(e.title)}
+                </div>
+            `).join("");
+
+        h += `
+            <div class="day
+                ${date === iso(new Date()) ? "today" : ""}">
+                <b>${d}</b>
+                ${dayEvents}
+            </div>
+        `;
+    }
+
+    for (
+        let i = (offset + count) % 7;
+        i > 0 && i < 7;
+        i++
+    ) {
+        h += '<div class="day"></div>';
+    }
+
+    $("grid").innerHTML = h;
+
+    $("upcoming").innerHTML = [...events]
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .map(e => `
+            <div class="item">
+                <b>${esc(e.title)}</b>
+                <br>
+                <small>${esc(e.date)} · ${esc(e.time)}</small>
+            </div>
+        `).join("");
+}
+
+// Extract events from messages
+
+let draft;
+
+function extract() {
+    let s = $("message").value;
+
+    let months = [
+        "January", "February", "March", "April",
+        "May", "June", "July", "August",
+        "September", "October", "November", "December"
+    ];
+
+    let d = s.match(
+        new RegExp(
+            "(" + months.join("|") +
+            ")\\s+(\\d{1,2})(?:st|nd|rd|th)?" +
+            "(?:,?\\s+(20\\d{2}))?",
+            "i"
+        )
+    );
+
+    let t = s.match(
+        /\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i
+    );
+
+    if (!d || !t) {
+        $("suggestion").textContent =
+            "Try including a month, day and AM/PM time.";
+        return;
+    }
+
+    let m = months.findIndex(
+        x => x.toLowerCase() === d[1].toLowerCase()
+    );
+
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let year = d[3] ? +d[3] : today.getFullYear();
+
+    let dt = new Date(year, m, +d[2]);
+
+    if (
+        dt.getMonth() !== m ||
+        +t[1] < 1 ||
+        +t[1] > 12 ||
+        +(t[2] || 0) > 59
+    ) {
+        $("suggestion").textContent =
+            "Invalid date or time.";
+        return;
+    }
+
+    if (!d[3] && dt < today) {
+        dt.setFullYear(year + 1);
+    }
+
+    let hour = +t[1] % 12 +
+        (t[3].toLowerCase() === "pm" ? 12 : 0);
+
+    draft = {
+        title: /party/i.test(s)
+            ? "Party"
+            : s.split(/[.!]/)[0].slice(0, 50),
+
+        date: iso(dt),
+
+        time: String(hour).padStart(2, "0") +
+            ":" + (t[2] || "00")
+    };
+
+    $("suggestion").innerHTML = `
+        <div class="result">
+            <span class="pill">Event detected</span>
+            <br><br>
+
+            <b>${esc(draft.title)}</b>
+            <br>
+            ${draft.date} at ${draft.time}
+            <br><br>
+
+            <button class="primary" onclick="approveEvent()">
+                Approve & add
+            </button>
+        </div>
+    `;
+}
+
+function approveEvent() {
+    save(draft);
+
+    $("suggestion").textContent =
+        "Event successfully added to your calendar.";
+}
+
+// Guest calendars
+
+const people = [
+    "Alex",
+    "Jordan",
+    "Sam",
+    "Taylor",
+    "Morgan"
+];
+
+$("guests").innerHTML = people.map((p, i) => `
+    <label class="check">
+        <input type="checkbox"
+            class="guest"
+            value="${i}"
+            checked>
+
+        ${p}
+
+        <span class="pill">Connected</span>
+    </label>
+`).join("");
+
+const clock = n =>
+    `${String(Math.floor(n / 60)).padStart(2, "0")}:` +
+    `${String(n % 60).padStart(2, "0")}`;
+
+const mins = s => {
+    let [h, m] = s.split(":").map(Number);
+    return h * 60 + m;
+};
+
+let choices = [];
+
+// Optimize event scheduling
+
+function optimize() {
+
+    let a = new Date($("start").value + "T12:00");
+    let b = new Date($("end").value + "T12:00");
+
+    let lo = mins($("early").value);
+    let hi = mins($("late").value);
+
+    let mn = +$("minh").value * 60;
+    let mx = +$("maxh").value * 60;
+
+    let ids = [
+        ...document.querySelectorAll(".guest:checked")
+    ].map(x => +x.value);
+
+    let all = [];
+
+    if (
+        !(a <= b) ||
+        !Number.isFinite(lo + hi + mn + mx) ||
+        mn < 30 ||
+        mx < mn ||
+        mx > 720 ||
+        hi <= lo ||
+        (b - a) > 366 * 86400000 ||
+        !ids.length
+    ) {
+        $("options").textContent =
+            "Check your dates, times, duration and guests.";
+        return;
+    }
+
+    $("options").innerHTML =
+        '<div class="result">Analyzing guest calendars...</div>';
+
+    setTimeout(() => {
+
+        for (
+            let d = new Date(a);
+            d <= b;
+            d.setDate(d.getDate() + 1)
+        ) {
+
+            if (
+                $("weekends").checked &&
+                ![0, 6].includes(d.getDay())
+            ) {
+                continue;
+            }
+
+            for (let t = lo; t + mn <= hi; t += 30) {
+
+                for (
+                    let dur = mn;
+                    dur <= mx && t + dur <= hi;
+                    dur += 30
+                ) {
+
+                    let attending = ids.filter(i => {
+
+                        let busyStart = 900 +
+                            ((d.getDate() * 7 + i * 5) % 12)
+                            * 30;
+
+                        let busyEnd = busyStart + 60 +
+                            ((d.getDate() + i) % 3) * 30;
+
+                        return (
+                            (d.getDate() + i * 3) % 7 !== 0 &&
+                            (
+                                t + dur <= busyStart ||
+                                t >= busyEnd
+                            )
+                        );
+                    });
+
+                    all.push({
+                        date: iso(d),
+                        t,
+                        dur,
+                        attending
+                    });
+                }
+            }
+        }
+
+        let priority = $("priority").value;
+
+        all.sort((a, b) => {
+
+            if (priority === "guests") {
+                return (
+                    b.attending.length - a.attending.length ||
+                    b.dur - a.dur
+                );
+            }
+
+            if (priority === "time") {
+                return (
+                    b.dur - a.dur ||
+                    b.attending.length - a.attending.length
+                );
+            }
+
+            return (
+                (b.attending.length - a.attending.length)
+                / ids.length +
+                (b.dur - a.dur) / mx
+            );
+        });
+
+        choices = all.slice(0, 3);
+
+        $("options").innerHTML = choices.length
+            ? choices.map((c, i) => `
+                <div class="result">
+
+                    ${i === 0
+                        ? '<span class="pill">Best match</span><br>'
+                        : ""}
+
+                    <b>
+                        ${c.date} ·
+                        ${clock(c.t)}–${clock(c.t + c.dur)}
+                    </b>
+
+                    <br>
+
+                    ${c.attending.length}/${ids.length}
+                    guests · ${c.dur / 60} hours
+
+                    <br>
+
+                    <small>
+                        ${c.attending.map(j => people[j]).join(", ")}
+                    </small>
+
+                    <br><br>
+
+                    <button class="primary" onclick="book(${i})">
+                        Confirm event
+                    </button>
+
+                </div>
+            `).join("")
+            : "No matching time.";
+
+        let front = [];
+
+        for (let n = ids.length; n >= 0; n--) {
+
+            let match = all.filter(
+                c => c.attending.length >= n
+            );
+
+            if (match.length) {
+
+                let h = match.reduce(
+                    (best, c) => Math.max(best, c.dur),
+                    0
+                ) / 60;
+
+                front.push(`
+                    <div class="item">
+
+                        ${n}+ guests
+                        <b>${h} hours</b>
+
+                        <div style="
+                            height: 8px;
+                            background: #e9edf5;
+                            border-radius: 6px;
+                        ">
+
+                            <div style="
+                                height: 8px;
+                                background: #315de8;
+                                border-radius: 6px;
+                                width: ${100 * h / (mx / 60)}%;
+                            "></div>
+
+                        </div>
+
+                    </div>
+                `);
+            }
+        }
+
+        $("curve").innerHTML =
+            "<h3>Guest / duration trade-off</h3>" +
+            front.join("");
+
+    }, 700);
+}
+
+// Confirm event
+
+function book(i) {
+    let c = choices[i];
+
+    if (!c) return;
+
+    save({
+        title: $("ename").value,
+        date: c.date,
+        time: clock(c.t)
+    });
+
+    show("calendar");
+}
+
+// Invitations
+
+async function copyInvite() {
+
+    let s =
+        "You're invited to " +
+        $("ename").value +
+        "!\n\n" +
+        "Possible dates: " +
+        $("start").value +
+        " to " +
+        $("end").value +
+        "\n\nPlanned using Everything Calendar.";
+
+    try {
+        await navigator.clipboard.writeText(s);
+
+        $("inviteStatus").textContent =
+            "Invitation copied! Share it with your friends.";
+
+    } catch {
+
+        $("inviteStatus").textContent = s;
+    }
+}
+
+// Generate meal plan
+
+function meals() {
+
+    let veg = $("diet").value === "Vegetarian";
+    let budget = +$("budget").value;
+
+    let menu = veg ? [
+        "Chickpea curry",
+        "Bean tacos",
+        "Tomato pasta",
+        "Lentil soup",
+        "Veggie stir-fry",
+        "Baked potatoes",
+        "Rice bowls"
+    ] : [
+        "Chicken rice bowls",
+        "Bean tacos",
+        "Tomato pasta",
+        "Lentil soup",
+        "Chicken stir-fry",
+        "Baked potatoes",
+        "Egg fried rice"
+    ];
+
+    let items = veg ? [
+        ["Chickpeas & beans", 8],
+        ["Lentils", 5],
+        ["Rice & pasta", 9],
+        ["Vegetables", 18],
+        ["Potatoes", 5],
+        ["Tortillas", 4],
+        ["Tomato sauce", 5],
+        ["Fruit & breakfast staples", 15]
+    ] : [
+        ["Chicken", 16],
+        ["Beans & lentils", 8],
+        ["Rice & pasta", 9],
+        ["Vegetables", 16],
+        ["Potatoes", 5],
+        ["Tortillas", 4],
+        ["Eggs & sauce", 8],
+        ["Fruit & breakfast staples", 12]
+    ];
+
+    let total = items.reduce((s, x) => s + x[1], 0);
+
+    let days = [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+    ];
+
+    $("mealplan").innerHTML = menu.map((x, i) => `
+        <div class="item">
+            <small>${days[i]}</small>
+            <input aria-label="Meal" value="${x}">
+        </div>
+    `).join("") + `
+        <p class="note">
+            You can edit any meal in your weekly plan.
+            Grocery prices are sample estimates.
+        </p>
+    `;
+
+    $("basket").innerHTML = items.map(x => `
+        <div class="bar item">
+            <span>${x[0]}</span>
+            <b>$${x[1]}</b>
+        </div>
+    `).join("") + `
+
+        <p class="cost">$${total}</p>
+
+        <p>
+            ${total <= budget
+                ? '<span class="pill">Within your budget</span>'
+                : "Over budget by $" + (total - budget)}
+        </p>
+
+        <p>
+            Delivery: Every ${$("delivery").value}
+        </p>
+
+        <button class="primary" onclick="approveOrder()">
+            Approve weekly basket
+        </button>
+
+        <p id="orderstatus" class="note"></p>
+    `;
+}
+
+function approveOrder() {
+
+    $("orderstatus").textContent =
+        "Demo weekly grocery order confirmed. No purchase made.";
+
+    localStorage.setItem(
+        "ec-grocery",
+        JSON.stringify({
+            delivery: $("delivery").value,
+            budget: $("budget").value,
+            approved: true
+        })
+    );
+}
+
+// App connections
+
+const connections = [
+    "Messages",
+    "Email",
+    "Google Calendar",
+    "Apple Calendar",
+    "Sports schedules",
+    "Personal calendar",
+    "Grocery retailer"
+];
+
+let permissions;
+
+try {
+    permissions = JSON.parse(
+        localStorage.getItem("ec-permissions")
+    ) || {};
+} catch {
+    permissions = {};
+}
+
+connections.forEach((p, i) => {
+
+    $("connectlist").innerHTML += `
+        <label class="check item">
+
+            <input type="checkbox"
+                ${permissions[i] ? "checked" : ""}
+                onchange="setPermission(${i}, this.checked)">
+
+            Allow ${p}
+
+        </label>
+    `;
+});
+
+function setPermission(i, value) {
+
+    permissions[i] = value;
+
+    localStorage.setItem(
+        "ec-permissions",
+        JSON.stringify(permissions)
+    );
+}
+
+render();
+
+</script>
+
+</body>
+</html>
