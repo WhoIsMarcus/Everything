@@ -45,12 +45,13 @@ button {
 
 button:hover {
     filter: brightness(.95);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
 }
 
 button:disabled {
     opacity: .5;
     cursor: not-allowed;
+    transform: none;
 }
 
 .primary {
@@ -83,16 +84,30 @@ header {
 }
 
 main {
-    max-width: 1350px;
+    max-width: 1400px;
     margin: auto;
     padding: 24px;
 }
 
 .hero {
+    position: relative;
+    overflow: hidden;
     color: white;
-    padding: 35px;
-    border-radius: 22px;
+    padding: 40px;
+    border-radius: 24px;
     background: linear-gradient(120deg, #14264b, #315de8);
+}
+
+.hero:after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    right: -80px;
+    top: -120px;
+    border: 60px solid #ffffff0d;
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .hero h1 {
@@ -173,6 +188,11 @@ select, textarea {
     color: var(--navy);
 }
 
+input:focus, select:focus, textarea:focus {
+    outline: 2px solid #315de833;
+    border-color: var(--blue);
+}
+
 textarea {
     min-height: 90px;
     resize: vertical;
@@ -183,10 +203,15 @@ input[type=range] {
     accent-color: var(--blue);
 }
 
+input[type=checkbox] {
+    accent-color: var(--blue);
+}
+
 .row {
     display: flex;
     gap: 10px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .row > * {
@@ -216,6 +241,7 @@ input[type=range] {
     border-radius: 10px;
     margin: 12px 0;
     line-height: 1.6;
+    animation: enter .3s ease;
 }
 
 .pill {
@@ -250,7 +276,7 @@ input[type=range] {
 }
 
 .day {
-    min-height: 100px;
+    min-height: 105px;
     border-top: 1px solid var(--border);
     border-right: 1px solid var(--border);
     padding: 6px;
@@ -273,6 +299,16 @@ input[type=range] {
     color: #2648b3;
     border-radius: 5px;
     font-size: 11px;
+}
+
+.event.grocery {
+    background: #ddf5e7;
+    color: #18835b;
+}
+
+.event.party {
+    background: #f0e2ff;
+    color: #7943bd;
 }
 
 .amount {
@@ -304,7 +340,9 @@ input[type=range] {
 dialog {
     border: 0;
     border-radius: 18px;
-    width: min(500px, 94vw);
+    width: min(540px, 94vw);
+    max-height: 90vh;
+    overflow: auto;
     padding: 25px;
     color: var(--navy);
     box-shadow: 0 20px 80px #0003;
@@ -322,6 +360,191 @@ dialog::backdrop {
     margin: 10px 0;
 }
 
+.demo-dashboard {
+    background: #f0f4ff;
+    border: 1px solid #d5dfff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.demo-guests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.demo-guest {
+    background: white;
+    border: 1px solid #dce4f3;
+    border-radius: 12px;
+    padding: 12px 8px;
+    text-align: center;
+    transition: .4s;
+}
+
+.demo-avatar {
+    width: 45px;
+    height: 45px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.demo-status {
+    font-size: 11px;
+    color: #69788e;
+    margin-top: 6px;
+}
+
+.demo-guest.sending {
+    border-color: #315de8;
+    animation: invitePulse .65s infinite;
+}
+
+.demo-guest.delivered {
+    border-color: #315de8;
+    background: #eaf0ff;
+}
+
+.demo-guest.responded,
+.demo-guest.confirmed {
+    background: #e9f9ef;
+    border-color: #18835b;
+}
+
+.demo-guest.responded {
+    transform: scale(1.03);
+}
+
+@keyframes invitePulse {
+    50% {
+        transform: translateY(-5px);
+        box-shadow: 0 0 18px #315de844;
+    }
+}
+
+.demo-sender {
+    width: 65px;
+    height: 65px;
+    background: #315de8;
+    color: white;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    margin: 20px auto;
+    font-size: 30px;
+    box-shadow: 0 8px 25px #315de844;
+}
+
+.demo-plane {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    color: #315de8;
+    font-size: 27px;
+}
+
+.demo-message {
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    margin-top: 7px;
+    font-size: 13px;
+    animation: enter .3s ease;
+}
+
+.demo-success {
+    background: linear-gradient(130deg,#18835b,#126745);
+    color: white;
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    animation: enter .5s ease;
+}
+
+.demo-big {
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.demo-confetti {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    width: 9px;
+    height: 14px;
+    animation: confettiFall 2.5s ease-in forwards;
+}
+
+@keyframes confettiFall {
+    from {
+        transform: translateY(-30px) rotate(0deg);
+    }
+    to {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.mini-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-top: 10px;
+}
+
+.mini-day {
+    background: #edf0f6;
+    border-radius: 4px;
+    padding: 5px 0;
+    font-size: 10px;
+}
+
+.mini-day.booked {
+    background: #18835b;
+    color: white;
+}
+
+.guest-window {
+    background: #edf2ff;
+    padding: 8px;
+    border-radius: 6px;
+    margin: 4px 0;
+    font-size: 12px;
+}
+
+.stat {
+    background: #f5f7fb;
+    padding: 15px;
+    border-radius: 12px;
+    flex: 1;
+}
+
+.stat b {
+    display: block;
+    font-size: 25px;
+}
+
+.toast {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    max-width: 85vw;
+    background: #14264b;
+    color: white;
+    padding: 15px 22px;
+    border-radius: 12px;
+    z-index: 99999;
+    box-shadow: 0 8px 30px #0003;
+    animation: enter .3s ease;
+}
+
 footer {
     text-align: center;
     padding: 25px;
@@ -335,6 +558,14 @@ footer {
 
     main {
         padding: 12px;
+    }
+
+    header {
+        padding: 15px;
+    }
+
+    header small {
+        display: none;
     }
 
     .panel {
@@ -353,6 +584,10 @@ footer {
     .event {
         font-size: 10px;
     }
+
+    .demo-guests {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 </style>
 </head>
@@ -363,7 +598,7 @@ footer {
     <div class="logo">
         <span>◈</span> Everything Calendar
     </div>
-    <small>Personal workspace</small>
+    <small>Your life, in sync.</small>
 </header>
 
 <main>
@@ -380,9 +615,15 @@ footer {
         intelligently organized in one place.
     </p>
 
-    <button onclick="show('planner')">
-        Plan something together →
-    </button>
+    <div class="row">
+        <button onclick="show('planner')">
+            Plan something together →
+        </button>
+
+        <button onclick="prepareDemo()">
+            Try live demo
+        </button>
+    </div>
 </section>
 
 <nav id="navigation">
@@ -402,8 +643,6 @@ footer {
         Settings
     </button>
 </nav>
-
-<!-- Calendar -->
 
 <section id="calendar" class="layout">
 
@@ -430,15 +669,21 @@ footer {
             <h2>Smart inbox</h2>
 
             <p class="muted">
-                Paste a message to detect an event.
+                Paste a message to automatically detect an event.
             </p>
 
             <textarea id="message"
                 placeholder="Party at my house December 31st at 6pm"></textarea>
 
-            <button class="primary" onclick="detectEvent()">
-                Detect event
-            </button>
+            <div class="row">
+                <button class="primary" onclick="detectEvent()">
+                    Detect event
+                </button>
+
+                <button onclick="sampleMessage()">
+                    Sample message
+                </button>
+            </div>
 
             <div id="detected"></div>
         </div>
@@ -450,16 +695,26 @@ footer {
     </div>
 </section>
 
-<!-- Group planner -->
-
 <section id="planner" class="layout hidden">
 
     <div class="panel">
 
-        <h2>Plan an event together</h2>
+        <div class="row between">
+            <h2>Plan an event together</h2>
+
+            <button onclick="prepareDemo()">
+                Load demo
+            </button>
+        </div>
+
+        <div id="demoNotice" class="result hidden">
+            Demo mode is enabled. Invitations and guest responses
+            will be simulated automatically.
+        </div>
 
         <label class="field">Event name</label>
-        <input id="partyName" value="Birthday party">
+        <input id="partyName" value="Birthday party"
+            oninput="updateDemoMode()">
 
         <label class="field">Location</label>
         <input id="partyLocation" placeholder="My house">
@@ -527,8 +782,9 @@ footer {
             Avoid conflicts with my calendar
         </label>
 
-        <p>
-            <button class="primary" onclick="createInvitation()">
+        <p class="row">
+            <button class="primary" id="inviteButton"
+                onclick="createInvitation()">
                 Create invitation link
             </button>
 
@@ -544,8 +800,8 @@ footer {
         <h2>Find the optimal time</h2>
 
         <p class="muted">
-            The optimizer searches possible dates, start
-            times and durations using submitted availability.
+            Everything Calendar evaluates possible dates,
+            start times, durations and guest availability.
         </p>
 
         <button class="primary" onclick="optimizeParty()">
@@ -562,7 +818,8 @@ footer {
             <h2>Invited guests</h2>
 
             <div class="row">
-                <input id="guestName" placeholder="Guest name">
+                <input id="guestName" placeholder="Guest name"
+                    style="flex:1">
 
                 <button onclick="addGuest()">
                     Add
@@ -573,11 +830,22 @@ footer {
         </div>
 
         <div class="panel">
+            <h2>Attendance trade-off</h2>
+
+            <p class="muted">
+                The maximum possible duration for each
+                achievable number of guests.
+            </p>
+
+            <div id="pareto"></div>
+        </div>
+
+        <div class="panel">
             <h2>Import guest response</h2>
 
             <p class="muted">
-                Guests return a response code containing
-                their selected availability.
+                For normal events, guests can return their
+                availability using response codes.
             </p>
 
             <textarea id="responseCode"
@@ -589,21 +857,8 @@ footer {
 
             <div id="importStatus"></div>
         </div>
-
-        <div class="panel">
-            <h2>Attendance trade-off</h2>
-
-            <p class="muted">
-                Maximum event duration for each achievable
-                level of attendance.
-            </p>
-
-            <div id="pareto"></div>
-        </div>
     </div>
 </section>
-
-<!-- Guest response -->
 
 <section id="respond" class="hidden">
     <div class="panel">
@@ -617,8 +872,8 @@ footer {
         <h3>When are you available?</h3>
 
         <p class="muted">
-            Select each available day and provide the times
-            during which you are free.
+            Select the days you are available and enter
+            your free time windows.
         </p>
 
         <div id="responseDates"></div>
@@ -631,8 +886,6 @@ footer {
     </div>
 </section>
 
-<!-- Grocery planner -->
-
 <section id="grocery" class="layout hidden">
 
     <div class="panel">
@@ -642,7 +895,7 @@ footer {
             <div>
                 <label class="field">Weekly budget (CAD)</label>
                 <input id="budget" type="number"
-                    min="1" value="100">
+                    min="1" max="100000" value="100">
             </div>
 
             <div>
@@ -673,21 +926,31 @@ footer {
             <option value="dinner">Dinner only</option>
         </select>
 
-        <label class="field">Weekly delivery day</label>
+        <div class="row fields">
+            <div>
+                <label class="field">Weekly delivery day</label>
 
-        <select id="delivery">
-            <option>Sunday</option>
-            <option>Monday</option>
-            <option>Tuesday</option>
-            <option>Wednesday</option>
-            <option>Thursday</option>
-            <option>Friday</option>
-            <option>Saturday</option>
-        </select>
+                <select id="delivery">
+                    <option>Sunday</option>
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="field">Delivery time</label>
+                <input id="deliveryTime" type="time" value="10:00">
+            </div>
+        </div>
 
         <h3>Custom grocery items</h3>
 
-        <input id="customName" placeholder="Item name">
+        <input id="customName"
+            placeholder="Milk, snacks, coffee, toiletries...">
 
         <div class="row fields">
             <div>
@@ -711,7 +974,7 @@ footer {
 
         <div id="customList"></div>
 
-        <p>
+        <p class="row">
             <button class="primary" onclick="generateMeals()">
                 Generate optimized plan
             </button>
@@ -726,21 +989,27 @@ footer {
 
     <div class="panel">
         <h2>Weekly grocery basket</h2>
-
         <div id="basket"></div>
     </div>
 </section>
-
-<!-- Settings -->
 
 <section id="connections" class="panel hidden">
 
     <h2>Workspace settings</h2>
 
     <p>
-        All personal information is stored locally
+        Your personal information is stored locally
         in your browser.
     </p>
+
+    <h3>Application permissions</h3>
+
+    <p class="muted">
+        These switches demonstrate how users would control
+        external application access.
+    </p>
+
+    <div id="connectionList"></div>
 
     <h3>Data management</h3>
 
@@ -757,23 +1026,14 @@ footer {
         Reset workspace
     </button>
 
-    <h3>External integrations</h3>
-
     <p class="muted">
-        External accounts and purchases are not connected
-        in this version.
+        External account synchronization, automatic messages
+        and grocery purchases are simulated.
     </p>
-
-    <div class="item">Google Calendar — Not connected</div>
-    <div class="item">Apple Calendar — Not connected</div>
-    <div class="item">Messages — Not connected</div>
-    <div class="item">Grocery delivery — Simulation only</div>
 
 </section>
 
 </main>
-
-<!-- Event editor -->
 
 <dialog id="eventDialog">
 
@@ -831,9 +1091,10 @@ footer {
 
 <dialog id="guestDialog">
     <h2 id="guestHeading"></h2>
+
     <div id="guestAvailability"></div>
 
-    <p>
+    <p class="row">
         <button class="primary" onclick="saveGuestAvailability()">
             Save availability
         </button>
@@ -844,8 +1105,19 @@ footer {
     </p>
 </dialog>
 
+<dialog id="guestCalendarDialog">
+    <h2 id="guestCalendarHeading">Guest calendars</h2>
+    <div id="guestCalendarContent"></div>
+
+    <button onclick="$('guestCalendarDialog').close()">
+        Close
+    </button>
+</dialog>
+
 <footer>
     Everything Calendar · Less planning. More living.
+    <br>
+    <small>Interactive product prototype</small>
 </footer>
 
 <script>
@@ -858,56 +1130,77 @@ const uid = () =>
 
 const money = n => "$" + Number(n).toFixed(2);
 
+const sleep = ms =>
+    new Promise(resolve => setTimeout(resolve,ms));
+
 const esc = s => String(s ?? "").replace(
     /[&<>"']/g,
     c => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
     }[c])
 );
 
 const iso = d =>
     `${d.getFullYear()}-${
-        String(d.getMonth() + 1).padStart(2, "0")
-    }-${String(d.getDate()).padStart(2, "0")}`;
+        String(d.getMonth()+1).padStart(2,"0")
+    }-${String(d.getDate()).padStart(2,"0")}`;
 
-const dateOf = s => new Date(s + "T12:00:00");
+const dateOf = s => new Date(s+"T12:00:00");
 
 const mins = s => {
-    const [h, m] = String(s).split(":").map(Number);
-    return h * 60 + m;
+    const [h,m] = String(s).split(":").map(Number);
+    return h*60+m;
 };
 
 const clock = n =>
-    `${String(Math.floor(n / 60)).padStart(2, "0")}:${
-        String(n % 60).padStart(2, "0")
+    `${String(Math.floor(n/60)).padStart(2,"0")}:${
+        String(n%60).padStart(2,"0")
     }`;
 
 const prettyDate = s => dateOf(s).toLocaleDateString(
     "en-CA",
-    {weekday:"short", month:"short", day:"numeric"}
+    {weekday:"short",month:"short",day:"numeric",year:"numeric"}
 );
 
+function prettyTime(s) {
+    const n = mins(s);
+    const h = Math.floor(n/60);
+    return `${h%12 || 12}:${
+        String(n%60).padStart(2,"0")
+    } ${h>=12?"PM":"AM"}`;
+}
+
+function toast(message) {
+    const old = document.querySelector(".toast");
+    if (old) old.remove();
+
+    const element = document.createElement("div");
+    element.className = "toast";
+    element.textContent = message;
+
+    document.body.appendChild(element);
+
+    setTimeout(()=>element.remove(),3500);
+}
+
 function encode(data) {
-    const bytes = new TextEncoder().encode(
-        JSON.stringify(data)
-    );
+    const bytes = new TextEncoder().encode(JSON.stringify(data));
 
     return btoa(
-        Array.from(bytes, b => String.fromCharCode(b)).join("")
-    ).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+        Array.from(bytes,b=>String.fromCharCode(b)).join("")
+    ).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 }
 
 function decode(code) {
-    let text = code.replace(/-/g, "+").replace(/_/g, "/");
-    text += "=".repeat((4 - text.length % 4) % 4);
+    let text = code.replace(/-/g,"+").replace(/_/g,"/");
+    text += "=".repeat((4-text.length%4)%4);
 
     const bytes = Uint8Array.from(
-        atob(text),
-        c => c.charCodeAt(0)
+        atob(text),c=>c.charCodeAt(0)
     );
 
     return JSON.parse(new TextDecoder().decode(bytes));
@@ -916,9 +1209,9 @@ function decode(code) {
 async function copy(text) {
     try {
         await navigator.clipboard.writeText(text);
-        alert("Copied successfully.");
+        toast("Copied successfully.");
     } catch {
-        prompt("Copy this text:", text);
+        prompt("Copy this text:",text);
     }
 }
 
@@ -926,12 +1219,14 @@ async function copy(text) {
 
 function emptyState() {
     return {
-        events: [],
-        guests: [],
-        party: null,
-        custom: [],
-        mealPlan: [],
-        grocerySettings: null
+        events:[],
+        guests:[],
+        party:null,
+        custom:[],
+        mealPlan:[],
+        grocerySettings:null,
+        permissions:{},
+        demoCalendars:{}
     };
 }
 
@@ -940,42 +1235,49 @@ let state;
 try {
     state = {
         ...emptyState(),
-        ...JSON.parse(localStorage.getItem("ec-advanced") || "{}")
+        ...JSON.parse(
+            localStorage.getItem("everything-calendar-v4") || "{}"
+        )
     };
 } catch {
     state = emptyState();
 }
 
 function persist() {
-    localStorage.setItem(
-        "ec-advanced",
-        JSON.stringify(state)
-    );
+    try {
+        localStorage.setItem(
+            "everything-calendar-v4",
+            JSON.stringify(state)
+        );
+    } catch {
+        toast("Unable to save browser storage.");
+    }
 }
 
 // Navigation
 
 function show(id) {
     for (const section of [
-        "calendar", "planner", "grocery", "connections", "respond"
+        "calendar","planner","grocery","connections","respond"
     ]) {
-        $(section).classList.toggle("hidden", section !== id);
+        $(section).classList.toggle("hidden",section!==id);
 
-        if ($("tab-" + section)) {
-            $("tab-" + section).classList.toggle(
-                "active", section === id
+        if ($("tab-"+section)) {
+            $("tab-"+section).classList.toggle(
+                "active",section===id
             );
         }
     }
 
-    if (id === "calendar") renderCalendar();
+    if (id==="calendar") renderCalendar();
 
-    if (id === "planner") {
+    if (id==="planner") {
         renderGuests();
         updatePriority();
+        updateDemoMode();
     }
 
-    if (id === "grocery") {
+    if (id==="grocery") {
         renderCustom();
         renderMeals();
         renderBasket();
@@ -989,38 +1291,36 @@ view.setDate(1);
 
 let editingEvent = null;
 
-function occursOn(event, date) {
-    if (date < event.date) return false;
-    if (date === event.date) return true;
+function occursOn(event,date) {
+    if (date<event.date) return false;
+    if (date===event.date) return true;
 
     const a = dateOf(event.date);
     const b = dateOf(date);
 
     const difference = Math.round(
-        (Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) -
-        Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()))
-        / 86400000
+        (
+            Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-
+            Date.UTC(a.getFullYear(),a.getMonth(),a.getDate())
+        )/86400000
     );
 
-    if (event.repeat === "daily") return true;
+    if (event.repeat==="daily") return true;
+    if (event.repeat==="weekly") return difference%7===0;
 
-    if (event.repeat === "weekly") {
-        return difference % 7 === 0;
-    }
-
-    if (event.repeat === "monthly") {
-        return a.getDate() === b.getDate();
+    if (event.repeat==="monthly") {
+        return a.getDate()===b.getDate();
     }
 
     return false;
 }
 
 function eventsOn(date) {
-    return state.events.filter(e => occursOn(e, date));
+    return state.events.filter(e=>occursOn(e,date));
 }
 
 function moveMonth(n) {
-    view.setMonth(view.getMonth() + n);
+    view.setMonth(view.getMonth()+n);
     renderCalendar();
 }
 
@@ -1032,32 +1332,36 @@ function goToday() {
 
 function renderCalendar() {
     $("month").textContent = view.toLocaleDateString(
-        "en-CA", {month:"long", year:"numeric"}
+        "en-CA",{month:"long",year:"numeric"}
     );
 
     let html = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
-        .map(d => `<div class="weekday">${d}</div>`)
+        .map(d=>`<div class="weekday">${d}</div>`)
         .join("");
 
     const year = view.getFullYear();
     const month = view.getMonth();
-    const offset = new Date(year, month, 1).getDay();
-    const count = new Date(year, month + 1, 0).getDate();
+    const offset = new Date(year,month,1).getDay();
+    const count = new Date(year,month+1,0).getDate();
 
     html += '<div class="day"></div>'.repeat(offset);
 
-    for (let day = 1; day <= count; day++) {
-        const date = iso(new Date(year, month, day));
+    for (let day=1;day<=count;day++) {
+        const date = iso(new Date(year,month,day));
 
         html += `
-            <div class="day ${date === iso(new Date()) ? "today" : ""}"
-                onclick="openEvent('${date}')">
+            <div class="day ${
+                date===iso(new Date())?"today":""
+            }" onclick="openEvent('${date}')">
 
                 <b>${day}</b>
 
-                ${eventsOn(date).map(e => `
-                    <div class="event"
-                        onclick="event.stopPropagation();editEvent('${e.id}')">
+                ${eventsOn(date).map(e=>`
+                    <div class="event ${
+                        e.source==="groceries"?"grocery":
+                        e.source==="party"?"party":""
+                    }"
+                    onclick="event.stopPropagation();editEvent('${e.id}')">
                         ${esc(e.time)} ${esc(e.title)}
                     </div>
                 `).join("")}
@@ -1067,43 +1371,51 @@ function renderCalendar() {
     }
 
     html += '<div class="day"></div>'.repeat(
-        (7 - (offset + count) % 7) % 7
+        (7-(offset+count)%7)%7
     );
 
     $("calendarGrid").innerHTML = html;
 
     const upcoming = [];
 
-    for (let i = 0; i < 90; i++) {
+    for (let i=0;i<90;i++) {
         const d = new Date();
-        d.setDate(d.getDate() + i);
+        d.setDate(d.getDate()+i);
 
         for (const e of eventsOn(iso(d))) {
-            upcoming.push({...e, occurrence: iso(d)});
+            upcoming.push({...e,occurrence:iso(d)});
         }
     }
 
-    upcoming.sort((a,b) =>
-        (a.occurrence + a.time)
-        .localeCompare(b.occurrence + b.time)
+    upcoming.sort((a,b)=>
+        (a.occurrence+a.time).localeCompare(b.occurrence+b.time)
     );
 
-    $("upcoming").innerHTML = upcoming.slice(0, 15)
-        .map(e => `
+    $("upcoming").innerHTML = upcoming.slice(0,15)
+        .map(e=>`
             <div class="item">
                 <b>${esc(e.title)}</b><br>
+
                 <small>
-                    ${prettyDate(e.occurrence)} ·
-                    ${esc(e.time)}–${esc(e.end)}
-                </small><br>
-                <button onclick="editEvent('${e.id}')">
-                    Edit
-                </button>
+                    ${prettyDate(e.occurrence)}<br>
+                    ${prettyTime(e.time)}–${prettyTime(e.end)}
+                </small>
+
+                <p class="row">
+                    <button onclick="editEvent('${e.id}')">
+                        Edit
+                    </button>
+
+                    <button onclick="downloadEvent('${e.id}')">
+                        Export
+                    </button>
+                </p>
             </div>
-        `).join("") || '<p class="muted">No upcoming events.</p>';
+        `).join("") ||
+        '<p class="muted">No upcoming events.</p>';
 }
 
-function openEvent(date = iso(new Date())) {
+function openEvent(date=iso(new Date())) {
     editingEvent = null;
 
     $("eventHeading").textContent = "New event";
@@ -1120,8 +1432,7 @@ function openEvent(date = iso(new Date())) {
 }
 
 function editEvent(id) {
-    const e = state.events.find(x => x.id === id);
-
+    const e = state.events.find(x=>x.id===id);
     if (!e) return;
 
     editingEvent = id;
@@ -1140,15 +1451,18 @@ function editEvent(id) {
 }
 
 function saveEvent() {
+    const previous = state.events.find(e=>e.id===editingEvent);
+
     const event = {
-        id: editingEvent || uid(),
-        title: $("eventName").value.trim(),
-        date: $("eventDate").value,
-        time: $("eventTime").value,
-        end: $("eventEnd").value,
-        location: $("eventLocation").value.trim(),
-        repeat: $("eventRepeat").value,
-        notes: $("eventNotes").value
+        ...previous,
+        id:editingEvent || uid(),
+        title:$("eventName").value.trim(),
+        date:$("eventDate").value,
+        time:$("eventTime").value,
+        end:$("eventEnd").value,
+        location:$("eventLocation").value.trim(),
+        repeat:$("eventRepeat").value,
+        notes:$("eventNotes").value
     };
 
     if (
@@ -1156,17 +1470,15 @@ function saveEvent() {
         !event.date ||
         !event.time ||
         !event.end ||
-        mins(event.end) <= mins(event.time)
+        mins(event.end)<=mins(event.time)
     ) {
         alert("Enter a valid event name, date and time.");
         return;
     }
 
-    state.events = state.events.filter(
-        e => e.id !== event.id
-    );
-
+    state.events = state.events.filter(e=>e.id!==event.id);
     state.events.push(event);
+
     persist();
 
     view = dateOf(event.date);
@@ -1174,26 +1486,37 @@ function saveEvent() {
 
     $("eventDialog").close();
     renderCalendar();
+    toast("Event saved.");
 }
 
 function deleteEvent() {
-    if (!confirm("Delete this event and all its repetitions?")) {
-        return;
+    if (!confirm("Delete this event and its repetitions?")) return;
+
+    state.events = state.events.filter(e=>e.id!==editingEvent);
+
+    for (const calendar of Object.values(state.demoCalendars)) {
+        calendar.events = calendar.events.filter(
+            e=>e.id!==editingEvent
+        );
     }
 
-    state.events = state.events.filter(
-        e => e.id !== editingEvent
-    );
-
     persist();
+
     $("eventDialog").close();
     renderCalendar();
+    toast("Event deleted.");
 }
 
 // Message detection
 
+function sampleMessage() {
+    $("message").value =
+        "Hey! Party at my house on December 31st at 6pm.";
+}
+
 function detectEvent() {
     const text = $("message").value.trim();
+
     const months = [
         "January","February","March","April","May","June",
         "July","August","September","October","November","December"
@@ -1204,15 +1527,17 @@ function detectEvent() {
 
     if (/\btomorrow\b/i.test(text)) {
         date = new Date();
-        date.setDate(date.getDate() + 1);
+        date.setDate(date.getDate()+1);
+
     } else if (/\btoday\b/i.test(text)) {
         date = new Date();
+
     } else {
         const match = text.match(
             new RegExp(
-                "(" + months.join("|") +
-                ")\\s+(\\d{1,2})(?:st|nd|rd|th)?" +
-                "(?:,?\\s+(20\\d{2}))?", "i"
+                "("+months.join("|")+
+                ")\\s+(\\d{1,2})(?:st|nd|rd|th)?"+
+                "(?:,?\\s+(20\\d{2}))?","i"
             )
         );
 
@@ -1220,30 +1545,30 @@ function detectEvent() {
 
         if (match) {
             const month = months.findIndex(
-                m => m.toLowerCase() === match[1].toLowerCase()
+                m=>m.toLowerCase()===match[1].toLowerCase()
             );
 
             date = new Date(
                 Number(match[3] || today.getFullYear()),
                 month,
-                Number(match[2]),
-                12
+                Number(match[2]),12
             );
 
-            if (date.getMonth() !== month) {
-                date = null;
-            }
+            if (date.getMonth()!==month) date=null;
 
-            if (date && !match[3] && iso(date) < iso(today)) {
-                date.setFullYear(date.getFullYear() + 1);
+            if (date && !match[3] && iso(date)<iso(today)) {
+                date.setFullYear(date.getFullYear()+1);
+
+                if (date.getMonth()!==month) date=null;
             }
 
         } else if (numeric) {
             date = dateOf(numeric[0]);
 
-            if (isNaN(date) || iso(date) !== numeric[0]) {
-                date = null;
+            if (isNaN(date) || iso(date)!==numeric[0]) {
+                date=null;
             }
+
         } else {
             const weekdays = [
                 "Sunday","Monday","Tuesday","Wednesday",
@@ -1251,17 +1576,18 @@ function detectEvent() {
             ];
 
             const weekday = text.match(
-                new RegExp("\\b(" + weekdays.join("|") + ")\\b", "i")
+                new RegExp("\\b("+weekdays.join("|")+")\\b","i")
             );
 
             if (weekday) {
                 const target = weekdays.findIndex(
-                    d => d.toLowerCase() === weekday[1].toLowerCase()
+                    d=>d.toLowerCase()===weekday[1].toLowerCase()
                 );
 
                 date = new Date();
-                const delta = (target - date.getDay() + 7) % 7;
-                date.setDate(date.getDate() + (delta || 7));
+
+                const delta = (target-date.getDay()+7)%7;
+                date.setDate(date.getDate()+(delta || 7));
             }
         }
     }
@@ -1270,48 +1596,55 @@ function detectEvent() {
         /\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)\b/i
     );
 
-    const military = text.match(/\b([01]\d|2[0-3]):([0-5]\d)\b/);
+    const military = text.match(
+        /\b([01]\d|2[0-3]):([0-5]\d)\b/
+    );
 
     let start = null;
 
     if (
         time &&
-        +time[1] >= 1 &&
-        +time[1] <= 12 &&
-        +(time[2] || 0) <= 59
+        +time[1]>=1 &&
+        +time[1]<=12 &&
+        +(time[2] || 0)<=59
     ) {
-        start = (+time[1] % 12) * 60 +
-            (time[3].toLowerCase() === "pm" ? 720 : 0) +
+        start = (+time[1]%12)*60+
+            (time[3].toLowerCase()==="pm"?720:0)+
             +(time[2] || 0);
+
     } else if (!time && military) {
-        start = +military[1] * 60 + +military[2];
+        start = +military[1]*60 + +military[2];
     }
 
-    if (!date || start === null) {
+    if (!date || start===null || start>=1439) {
         $("detected").textContent =
             "Could not identify a clear date and time.";
         return;
     }
 
     let title = text.split(/\bat\b|\bon\b|tomorrow|today/i)[0]
-        .replace(/^(hey|hi)[!,\s]+/i, "")
+        .replace(/^(hey|hi)[!,\s]+/i,"")
         .trim();
 
-    if (/party/i.test(text)) title = "Party";
-    if (/birthday/i.test(text)) title = "Birthday party";
-    if (/meeting/i.test(text)) title = "Meeting";
-    if (/appointment/i.test(text)) title = "Appointment";
-    if (/practice/i.test(text)) title = "Practice";
+    if (/party/i.test(text)) title="Party";
+    if (/birthday/i.test(text)) title="Birthday party";
+    if (/meeting/i.test(text)) title="Meeting";
+    if (/appointment/i.test(text)) title="Appointment";
+    if (/practice/i.test(text)) title="Practice";
 
     openEvent(iso(date));
 
     $("eventName").value = title || "Detected event";
     $("eventTime").value = clock(start);
-    $("eventEnd").value = clock(Math.min(1439, start + 60));
+    $("eventEnd").value = clock(Math.min(1439,start+60));
     $("eventNotes").value = text;
 
+    if (/my house/i.test(text)) {
+        $("eventLocation").value = "Sender's house";
+    }
+
     $("detected").textContent =
-        "Review the detected information before saving.";
+        "Event detected. Review the information before saving.";
 }
 
 // Party planning
@@ -1319,6 +1652,32 @@ function detectEvent() {
 let currentResponse = null;
 let guestEditing = null;
 let partyChoices = [];
+let demoRunning = false;
+let demoActive = false;
+let optimizedSignature = "";
+
+const demoPeople = [
+    {name:"Alex",color:"#315de8"},
+    {name:"Jordan",color:"#8b5cf6"},
+    {name:"Taylor",color:"#ec4899"},
+    {name:"Morgan",color:"#14b8a6"},
+    {name:"Sam",color:"#f59e0b"},
+    {name:"Riley",color:"#ef4444"},
+    {name:"Jamie",color:"#6366f1"},
+    {name:"Casey",color:"#10b981"}
+];
+
+function isDemo() {
+    return $("partyName").value.trim().toLowerCase()==="demo";
+}
+
+function updateDemoMode() {
+    $("demoNotice").classList.toggle("hidden",!isDemo());
+
+    $("inviteButton").textContent = isDemo()
+        ? "Send invitations to 8 friends"
+        : "Create invitation link";
+}
 
 function updatePriority() {
     const p = Number($("priority").value);
@@ -1327,51 +1686,85 @@ function updatePriority() {
         `${p}% attendance · ${100-p}% duration`;
 }
 
+function prepareDemo() {
+    if (demoRunning) return;
+
+    $("partyName").value = "Demo";
+    $("partyLocation").value = "My house";
+
+    const start = new Date();
+    start.setDate(start.getDate()+1);
+
+    const end = new Date(start);
+    end.setDate(end.getDate()+20);
+
+    $("partyStart").value = iso(start);
+    $("partyEnd").value = iso(end);
+
+    $("partyEarly").value = "15:00";
+    $("partyLate").value = "23:00";
+
+    $("partyMin").value = 3;
+    $("partyMax").value = 6;
+
+    $("weekends").checked = true;
+    $("priority").value = 75;
+    $("respectCalendar").checked = true;
+
+    show("planner");
+    updateDemoMode();
+    updatePriority();
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
 function getParty() {
     return {
-        id: state.party?.id || uid(),
-        name: $("partyName").value.trim(),
-        location: $("partyLocation").value.trim(),
-        start: $("partyStart").value,
-        end: $("partyEnd").value,
-        early: $("partyEarly").value,
-        late: $("partyLate").value,
-        min: Number($("partyMin").value),
-        max: Number($("partyMax").value),
-        weekends: $("weekends").checked,
-        priority: Number($("priority").value)
+        id:state.party?.id || uid(),
+        name:$("partyName").value.trim(),
+        location:$("partyLocation").value.trim(),
+        start:$("partyStart").value,
+        end:$("partyEnd").value,
+        early:$("partyEarly").value,
+        late:$("partyLate").value,
+        min:Number($("partyMin").value),
+        max:Number($("partyMax").value),
+        weekends:$("weekends").checked,
+        priority:Number($("priority").value)
     };
 }
 
 function validParty(p) {
-    return p.name &&
+    return p &&
+        typeof p.name==="string" &&
+        p.name.length>0 &&
         p.start &&
         p.end &&
-        p.start <= p.end &&
-        dateOf(p.end) - dateOf(p.start) <= 62 * 86400000 &&
-        mins(p.late) > mins(p.early) &&
-        p.min >= .5 &&
-        p.max >= p.min &&
-        p.max <= 12 &&
-        Number.isInteger(p.min * 60) &&
-        Number.isInteger(p.max * 60) &&
-        p.min * 60 <= mins(p.late) - mins(p.early);
+        p.start<=p.end &&
+        dateOf(p.end)-dateOf(p.start)<=63*86400000 &&
+        mins(p.late)>mins(p.early) &&
+        p.min>=.5 &&
+        p.max>=p.min &&
+        p.max<=12 &&
+        Number.isInteger(p.min*4) &&
+        Number.isInteger(p.max*4) &&
+        p.min*60<=mins(p.late)-mins(p.early);
 }
 
 function possibleDates(p) {
-    let dates = [];
+    const dates = [];
 
     if (!validParty(p)) return dates;
 
     for (
-        let d = dateOf(p.start);
-        d <= dateOf(p.end);
-        d.setDate(d.getDate() + 1)
+        let d=dateOf(p.start);
+        d<=dateOf(p.end);
+        d.setDate(d.getDate()+1)
     ) {
         if (
             !p.weekends ||
-            d.getDay() === 0 ||
-            d.getDay() === 6
+            d.getDay()===0 ||
+            d.getDay()===6
         ) {
             dates.push(iso(d));
         }
@@ -1380,106 +1773,133 @@ function possibleDates(p) {
     return dates;
 }
 
-function saveParty() {
+function invalidateResults() {
+    partyChoices = [];
+    optimizedSignature = "";
+
+    $("partyResults").innerHTML = "";
+    $("pareto").innerHTML = "";
+}
+
+function saveParty(force=false) {
     const p = getParty();
 
     if (!validParty(p)) {
-        alert("Check the party requirements. Maximum date range is 62 days.");
+        alert(
+            "Check your dates, times and durations. "+
+            "Use a date range of at most 62 days."
+        );
         return false;
     }
 
     const previous = state.party;
 
     if (previous) {
-        const keys = ["start","end","early","late","min","max","weekends"];
+        const keys = [
+            "name","start","end","early","late","min","max","weekends"
+        ];
 
-        if (keys.some(k => previous[k] !== p[k])) {
+        if (keys.some(k=>previous[k]!==p[k])) {
+
             if (
-                state.guests.some(g => g.responded) &&
-                !confirm("Changing scheduling requirements resets existing guest responses. Continue?")
+                !force &&
+                state.guests.some(g=>g.responded) &&
+                !confirm(
+                    "Changing the event requirements resets "+
+                    "existing availability. Continue?"
+                )
             ) {
                 return false;
             }
 
             p.id = uid();
 
-            state.guests.forEach(g => {
-                g.responded = false;
-                g.availability = [];
+            state.guests.forEach(g=>{
+                g.responded=false;
+                g.availability=[];
             });
+
+            invalidateResults();
         }
     }
 
-    state.party = p;
+    state.party=p;
     persist();
     renderGuests();
+
     return true;
 }
 
 function loadParty() {
-    const today = new Date();
-
     const start = new Date();
-    start.setDate(today.getDate() + 1);
+    start.setDate(start.getDate()+1);
 
-    const end = new Date();
-    end.setDate(today.getDate() + 21);
+    const end = new Date(start);
+    end.setDate(end.getDate()+21);
 
-    const p = state.party;
+    const p=state.party;
 
-    $("partyStart").value = p?.start || iso(start);
-    $("partyEnd").value = p?.end || iso(end);
+    $("partyStart").value=p?.start || iso(start);
+    $("partyEnd").value=p?.end || iso(end);
 
     if (!p) return;
 
-    $("partyName").value = p.name;
-    $("partyLocation").value = p.location;
-    $("partyEarly").value = p.early;
-    $("partyLate").value = p.late;
-    $("partyMin").value = p.min;
-    $("partyMax").value = p.max;
-    $("weekends").checked = p.weekends;
-    $("priority").value = p.priority;
+    $("partyName").value=p.name;
+    $("partyLocation").value=p.location;
+    $("partyEarly").value=p.early;
+    $("partyLate").value=p.late;
+    $("partyMin").value=p.min;
+    $("partyMax").value=p.max;
+    $("weekends").checked=p.weekends;
+    $("priority").value=p.priority;
 }
 
 function addGuest() {
-    const name = $("guestName").value.trim();
+    if (demoRunning) return;
+
+    const name=$("guestName").value.trim();
 
     if (!name) return;
 
     if (state.guests.some(
-        g => g.name.toLowerCase() === name.toLowerCase()
+        g=>g.name.toLowerCase()===name.toLowerCase()
     )) {
-        alert("This guest is already invited.");
+        toast("Guest already added.");
         return;
     }
 
     state.guests.push({
-        id: uid(),
+        id:uid(),
         name,
-        responded: false,
-        availability: []
+        responded:false,
+        availability:[]
     });
 
-    $("guestName").value = "";
+    $("guestName").value="";
+
+    invalidateResults();
     persist();
     renderGuests();
 }
 
 function removeGuest(id) {
-    state.guests = state.guests.filter(g => g.id !== id);
+    if (demoRunning) return;
+
+    state.guests=state.guests.filter(g=>g.id!==id);
+
+    invalidateResults();
     persist();
     renderGuests();
 }
 
 function renderGuests() {
-    $("guestList").innerHTML = state.guests.map(g => `
+    $("guestList").innerHTML=state.guests.map(g=>`
         <div class="item">
             <div class="row between">
                 <b>${esc(g.name)}</b>
 
-                <span class="pill ${g.responded ? "" : "warning"}">
-                    ${g.responded ? "Responded" : "Awaiting response"}
+                <span class="pill ${g.responded?"":"warning"}">
+                    ${g.responded?"Responded":"Awaiting response"}
                 </span>
             </div>
 
@@ -1488,16 +1908,19 @@ function renderGuests() {
             </small>
 
             <p class="row">
-                <button onclick="editGuest('${g.id}')">
+                <button onclick="editGuest('${g.id}')"
+                    ${demoRunning?"disabled":""}>
                     Availability
                 </button>
 
-                <button onclick="guestInvite('${g.id}')">
+                <button onclick="guestInvite('${g.id}')"
+                    ${demoRunning?"disabled":""}>
                     Invite link
                 </button>
 
                 <button class="danger"
-                    onclick="removeGuest('${g.id}')">
+                    onclick="removeGuest('${g.id}')"
+                    ${demoRunning?"disabled":""}>
                     Remove
                 </button>
             </p>
@@ -1505,30 +1928,37 @@ function renderGuests() {
     `).join("") || '<p class="muted">Add your first guest.</p>';
 }
 
-function invitationLink(p, guest = null) {
-    const url = new URL(location.href);
+function invitationLink(p,guest=null) {
+    const url=new URL(location.href);
 
-    url.hash = "invite=" + encode({
-        party: p,
-        guest: guest ? {id: guest.id, name: guest.name} : null
+    url.hash="invite="+encode({
+        party:p,
+        guest:guest?{id:guest.id,name:guest.name}:null
     });
 
     return url.href;
 }
 
 function createInvitation() {
-    if (!saveParty()) return;
+    if (demoRunning) return;
 
-    const p = state.party;
-
-    if (!possibleDates(p).length) {
-        alert("No eligible dates in this range.");
+    if (isDemo()) {
+        runDemo();
         return;
     }
 
-    const link = invitationLink(p);
+    demoActive=false;
 
-    $("invitationOutput").innerHTML = `
+    if (!saveParty()) return;
+
+    if (!possibleDates(state.party).length) {
+        alert("No eligible dates.");
+        return;
+    }
+
+    const link=invitationLink(state.party);
+
+    $("invitationOutput").innerHTML=`
         <div class="result">
             <b>Invitation ready</b>
 
@@ -1539,7 +1969,7 @@ function createInvitation() {
             <p class="row">
                 <button class="primary"
                     onclick="copy($('inviteLink').value)">
-                    Copy link
+                    Copy invitation
                 </button>
 
                 <button onclick="shareInvitation()">
@@ -1548,21 +1978,21 @@ function createInvitation() {
             </p>
 
             <small>
-                Guests submit their free times and return
-                a response code to you.
+                Guests can return their availability
+                using a response code.
             </small>
         </div>
     `;
 }
 
 async function shareInvitation() {
-    const url = $("inviteLink").value;
+    const url=$("inviteLink").value;
 
     if (navigator.share) {
         try {
             await navigator.share({
-                title: state.party.name,
-                text: "Choose when you're available!",
+                title:state.party.name,
+                text:"Choose when you're available!",
                 url
             });
         } catch {}
@@ -1574,163 +2004,217 @@ async function shareInvitation() {
 function guestInvite(id) {
     if (!saveParty()) return;
 
-    const guest = state.guests.find(g => g.id === id);
+    const guest=state.guests.find(g=>g.id===id);
 
-    if (guest) {
-        copy(invitationLink(state.party, guest));
-    }
+    if (guest) copy(invitationLink(state.party,guest));
 }
 
-// Availability forms
+// Guest availability
 
-function availabilityForm(p, previous = []) {
-    return possibleDates(p).map(date => {
-        const old = previous.find(a => a.date === date);
+function availabilityForm(p,previous=[]) {
+    return possibleDates(p).map(date=>{
+
+        const old=previous.filter(a=>a.date===date);
+
+        const windows=old.length?old:[
+            {start:p.early,end:p.late}
+        ];
 
         return `
             <div class="availability-day" data-date="${date}">
 
                 <label>
                     <input class="available" type="checkbox"
-                        ${old ? "checked" : ""}>
+                        ${old.length?"checked":""}>
                     <b>${prettyDate(date)}</b>
                 </label>
 
-                <div class="row fields">
-                    <div>
-                        <label class="field">Free from</label>
-                        <input class="freeStart" type="time"
-                            value="${old?.start || p.early}">
-                    </div>
-
-                    <div>
-                        <label class="field">Free until</label>
-                        <input class="freeEnd" type="time"
-                            value="${old?.end || p.late}">
-                    </div>
+                <div class="windows">
+                    ${windows.map(w=>windowHTML(w.start,w.end)).join("")}
                 </div>
+
+                <p>
+                    <button onclick="addWindow(this)">
+                        + Time window
+                    </button>
+                </p>
             </div>
         `;
     }).join("");
 }
 
+function windowHTML(start="15:00",end="23:00") {
+    return `
+        <div class="row fields time-window">
+            <div>
+                <label class="field">Free from</label>
+                <input class="freeStart" type="time"
+                    value="${esc(start)}">
+            </div>
+
+            <div>
+                <label class="field">Free until</label>
+                <input class="freeEnd" type="time"
+                    value="${esc(end)}">
+            </div>
+
+            <button style="flex:0;margin-top:30px"
+                onclick="this.closest('.time-window').remove()">
+                ×
+            </button>
+        </div>
+    `;
+}
+
+function addWindow(button) {
+    const day=button.closest(".availability-day");
+
+    day.querySelector(".available").checked=true;
+
+    day.querySelector(".windows").insertAdjacentHTML(
+        "beforeend",windowHTML()
+    );
+}
+
 function readAvailability(container) {
-    let availability = [];
+    const availability=[];
 
     for (const day of $(container).querySelectorAll(".availability-day")) {
-        if (!day.querySelector(".available").checked) {
-            continue;
+
+        if (!day.querySelector(".available").checked) continue;
+
+        for (const window of day.querySelectorAll(".time-window")) {
+            const start=window.querySelector(".freeStart").value;
+            const end=window.querySelector(".freeEnd").value;
+
+            if (!start || !end || mins(end)<=mins(start)) {
+                throw new Error(
+                    "Invalid availability on "+day.dataset.date
+                );
+            }
+
+            availability.push({
+                date:day.dataset.date,
+                start,
+                end
+            });
         }
-
-        const start = day.querySelector(".freeStart").value;
-        const end = day.querySelector(".freeEnd").value;
-
-        if (!start || !end || mins(end) <= mins(start)) {
-            throw new Error("Invalid availability on " + day.dataset.date);
-        }
-
-        availability.push({
-            date: day.dataset.date,
-            start,
-            end
-        });
     }
 
-    return availability;
+    return mergeAvailability(availability);
+}
+
+function mergeAvailability(list) {
+    const sorted=[...list].sort((a,b)=>
+        a.date.localeCompare(b.date) ||
+        mins(a.start)-mins(b.start)
+    );
+
+    const merged=[];
+
+    for (const window of sorted) {
+        const previous=merged[merged.length-1];
+
+        if (
+            previous &&
+            previous.date===window.date &&
+            mins(window.start)<=mins(previous.end)
+        ) {
+            previous.end=clock(Math.max(
+                mins(previous.end),mins(window.end)
+            ));
+
+        } else {
+            merged.push({...window});
+        }
+    }
+
+    return merged;
 }
 
 function editGuest(id) {
-    if (!saveParty()) return;
+    if (demoRunning || !saveParty()) return;
 
-    const guest = state.guests.find(g => g.id === id);
+    const guest=state.guests.find(g=>g.id===id);
 
     if (!guest) return;
 
-    guestEditing = id;
+    guestEditing=id;
 
-    $("guestHeading").textContent = guest.name + "'s availability";
+    $("guestHeading").textContent=guest.name+"'s availability";
 
-    $("guestAvailability").innerHTML = availabilityForm(
-        state.party,
-        guest.availability
+    $("guestAvailability").innerHTML=availabilityForm(
+        state.party,guest.availability
     );
 
     $("guestDialog").showModal();
 }
 
 function saveGuestAvailability() {
-    const guest = state.guests.find(g => g.id === guestEditing);
-
+    const guest=state.guests.find(g=>g.id===guestEditing);
     if (!guest) return;
 
     try {
-        guest.availability = readAvailability("guestAvailability");
-        guest.responded = true;
+        guest.availability=readAvailability("guestAvailability");
+        guest.responded=true;
 
+        invalidateResults();
         persist();
         renderGuests();
         $("guestDialog").close();
 
-    } catch (e) {
+    } catch(e) {
         alert(e.message);
     }
 }
 
-// Guest response links
-
 function openInvitation(data) {
     if (!validParty(data.party)) {
-        throw new Error("Invalid invitation");
+        throw new Error("Invalid invitation.");
     }
 
-    currentResponse = data;
+    currentResponse=data;
 
     $("hero").classList.add("hidden");
     $("navigation").classList.add("hidden");
 
-    $("responseTitle").textContent =
-        "You're invited to " + data.party.name;
+    $("responseTitle").textContent=
+        "You're invited to "+data.party.name;
 
-    $("responseDetails").textContent =
-        (data.party.location || "") +
-        " · " + data.party.min + "–" +
-        data.party.max + " hours";
+    $("responseDetails").textContent=
+        (data.party.location || "")+
+        " · "+data.party.min+"–"+data.party.max+" hours";
 
-    $("respondName").value = data.guest?.name || "";
+    $("respondName").value=data.guest?.name || "";
 
-    $("responseDates").innerHTML = availabilityForm(data.party);
+    $("responseDates").innerHTML=availabilityForm(data.party);
 
     show("respond");
 }
 
 function generateResponse() {
-    if (!currentResponse) return;
+    const name=$("respondName").value.trim();
 
-    const name = $("respondName").value.trim();
-
-    if (!name) {
+    if (!name || !currentResponse) {
         alert("Enter your name.");
         return;
     }
 
     try {
-        const response = {
-            partyId: currentResponse.party.id,
-            guestId: currentResponse.guest?.id || null,
+        const response={
+            partyId:currentResponse.party.id,
+            guestId:currentResponse.guest?.id || null,
             name,
-            availability: readAvailability("responseDates")
+            availability:readAvailability("responseDates")
         };
 
-        const code = encode(response);
+        const code=encode(response);
 
-        $("responseOutput").innerHTML = `
+        $("responseOutput").innerHTML=`
             <div class="result">
-                <b>Availability ready to send!</b>
+                <b>Your availability is ready!</b>
 
-                <p>
-                    Copy this response code and send it
-                    back to the event organizer.
-                </p>
+                <p>Send this response code to the organizer.</p>
 
                 <textarea id="generatedCode"
                     readonly>${esc(code)}</textarea>
@@ -1742,198 +2226,243 @@ function generateResponse() {
             </div>
         `;
 
-    } catch (e) {
+    } catch(e) {
         alert(e.message);
     }
 }
 
 function importResponse() {
-    if (!saveParty()) return;
+    if (demoRunning || !saveParty()) return;
 
     try {
-        const r = decode($("responseCode").value.trim());
+        const r=decode($("responseCode").value.trim());
 
-        if (r.partyId !== state.party.id) {
-            throw new Error("Response belongs to another event or an outdated invitation.");
+        if (r.partyId!==state.party.id) {
+            throw new Error("Response belongs to another event.");
         }
 
-        if (!r.name || !Array.isArray(r.availability)) {
+        if (
+            typeof r.name!=="string" ||
+            !r.name.trim() ||
+            !Array.isArray(r.availability)
+        ) {
             throw new Error("Invalid response.");
         }
 
-        const dates = possibleDates(state.party);
+        const dates=possibleDates(state.party);
 
-        const timeValid = s =>
-            typeof s === "string" &&
+        const timeValid=s=>
+            typeof s==="string" &&
             /^([01]\d|2[0-3]):[0-5]\d$/.test(s);
 
-        if (r.availability.some(a =>
+        if (r.availability.some(a=>
             !dates.includes(a.date) ||
             !timeValid(a.start) ||
             !timeValid(a.end) ||
-            mins(a.end) <= mins(a.start)
+            mins(a.end)<=mins(a.start)
         )) {
-            throw new Error("Response contains invalid availability.");
+            throw new Error("Invalid time window.");
         }
 
-        let guest = state.guests.find(g =>
+        let guest=state.guests.find(g=>
             r.guestId
-                ? g.id === r.guestId
-                : g.name.toLowerCase() === r.name.toLowerCase()
+                ?g.id===r.guestId
+                :g.name.toLowerCase()===r.name.toLowerCase()
         );
 
         if (!guest) {
-            guest = {
-                id: uid(),
-                name: String(r.name),
-                availability: []
+            guest={
+                id:uid(),
+                name:r.name,
+                availability:[]
             };
 
             state.guests.push(guest);
         }
 
-        guest.availability = r.availability;
-        guest.responded = true;
+        guest.availability=mergeAvailability(r.availability);
+        guest.responded=true;
 
+        invalidateResults();
         persist();
         renderGuests();
 
-        $("responseCode").value = "";
+        $("responseCode").value="";
+        $("importStatus").textContent=
+            guest.name+"'s availability imported.";
 
-        $("importStatus").textContent =
-            guest.name + "'s availability imported.";
-
-    } catch (e) {
-        $("importStatus").textContent =
-            "Import failed: " + e.message;
+    } catch(e) {
+        $("importStatus").textContent="Import failed: "+e.message;
     }
 }
 
-// Exact scheduling search
+// Scheduling optimization
 
-function optimizeParty() {
+function schedulingSignature() {
+    return JSON.stringify({
+        party:getParty(),
+        guests:state.guests,
+        events:state.events,
+        respect:$("respectCalendar").checked
+    });
+}
+
+function optimizeParty(fromDemo=false) {
+    if (demoRunning && !fromDemo) return;
+
     if (!saveParty()) return;
 
-    const p = state.party;
-    const guests = state.guests;
+    const p=state.party;
+    const guests=state.guests;
 
     if (!guests.length) {
         alert("Add some guests first.");
         return;
     }
 
-    if (!guests.some(g => g.responded)) {
+    if (!guests.some(g=>g.responded)) {
         alert("Collect or enter guest availability first.");
         return;
     }
 
-    const alpha = p.priority / 100;
-    const minimum = Math.round(p.min * 60);
-    const maximum = Math.round(p.max * 60);
+    const alpha=p.priority/100;
+    const minimum=Math.round(p.min*60);
+    const maximum=Math.round(p.max*60);
 
-    const candidates = [];
-    let checked = 0;
+    const candidates=[];
+    let checked=0;
 
     for (const date of possibleDates(p)) {
 
-        const busy = $("respectCalendar").checked
-            ? eventsOn(date)
-            : [];
+        const busy=$("respectCalendar").checked
+            ?eventsOn(date):[];
 
         for (
-            let start = mins(p.early);
-            start + minimum <= mins(p.late);
-            start += 15
+            let start=mins(p.early);
+            start+minimum<=mins(p.late);
+            start+=15
         ) {
 
             for (
-                let duration = minimum;
-                duration <= maximum &&
-                start + duration <= mins(p.late);
-                duration += 15
+                let duration=minimum;
+                duration<=maximum &&
+                start+duration<=mins(p.late);
+                duration+=15
             ) {
 
                 checked++;
 
-                const end = start + duration;
+                const end=start+duration;
 
-                const conflict = busy.some(e =>
-                    start < mins(e.end) &&
-                    end > mins(e.time)
+                const conflict=busy.some(e=>
+                    start<mins(e.end) &&
+                    end>mins(e.time)
                 );
 
                 if (conflict) continue;
 
-                const attending = guests.filter(g =>
+                const attending=guests.filter(g=>
                     g.responded &&
-                    g.availability.some(a =>
-                        a.date === date &&
-                        mins(a.start) <= start &&
-                        mins(a.end) >= end
+                    g.availability.some(a=>
+                        a.date===date &&
+                        mins(a.start)<=start &&
+                        mins(a.end)>=end
                     )
                 );
 
                 if (!attending.length) continue;
 
-                const allAvailable =
-                    attending.length === guests.length;
-
-                const score =
-                    alpha * attending.length / guests.length +
-                    (1-alpha) * duration / maximum;
+                const score=
+                    alpha*attending.length/guests.length+
+                    (1-alpha)*duration/maximum;
 
                 candidates.push({
-                    date,
-                    start,
-                    end,
-                    duration,
-                    attending: attending.map(g => g.name),
-                    allAvailable,
+                    date,start,end,duration,
+                    attending:attending.map(g=>g.name),
+                    guestIds:attending.map(g=>g.id),
                     score
                 });
             }
         }
     }
 
-    candidates.sort((a,b) =>
-        Number(b.allAvailable) - Number(a.allAvailable) ||
-        b.score - a.score ||
-        b.attending.length - a.attending.length ||
-        b.duration - a.duration ||
+    candidates.sort((a,b)=>
+        b.score-a.score ||
+        b.attending.length-a.attending.length ||
+        b.duration-a.duration ||
         a.date.localeCompare(b.date) ||
-        a.start - b.start
+        a.start-b.start
     );
 
-    partyChoices = candidates.slice(0, 8);
+    const unique=[];
+    const seen=new Set();
 
-    const pending = guests.filter(g => !g.responded).length;
+    for (const c of candidates) {
+        const key=c.date+"|"+c.attending.length+"|"+c.duration;
 
-    $("partyResults").innerHTML = `
+        if (!seen.has(key)) {
+            seen.add(key);
+            unique.push(c);
+        }
+
+        if (unique.length>=6) break;
+    }
+
+    partyChoices=unique;
+    optimizedSignature=schedulingSignature();
+
+    const pending=guests.filter(g=>!g.responded).length;
+
+    $("partyResults").innerHTML=`
         <div class="result">
-            <b>${checked.toLocaleString()} combinations evaluated</b><br>
-            ${pending} guests have not responded.
-            ${pending ? "<br>Unanswered invitations are not counted as available." : ""}
-        </div>
-    ` + partyChoices.map((c,i) => `
-        <div class="result">
-            ${i === 0 ? '<span class="pill">Best match</span><br>' : ""}
 
-            <b>${prettyDate(c.date)}</b><br>
+            <div class="row">
+                <div class="stat">
+                    <small>Combinations evaluated</small>
+                    <b>${checked.toLocaleString()}</b>
+                </div>
 
-            ${clock(c.start)}–${clock(c.end)}<br>
-
-            ${c.attending.length}/${guests.length} guests ·
-            ${c.duration / 60} hours
+                <div class="stat">
+                    <small>Feasible combinations</small>
+                    <b>${candidates.length.toLocaleString()}</b>
+                </div>
+            </div>
 
             <p>
-                <small>Available: ${esc(c.attending.join(", "))}</small>
+                ${pending} guests awaiting response.
+                ${pending?"Unanswered invitations are not counted as available.":""}
+            </p>
+        </div>
+    `+partyChoices.map((c,i)=>`
+        <div class="result">
+
+            ${i===0?'<span class="pill">Best match</span><br>':""}
+
+            <h3>${prettyDate(c.date)}</h3>
+
+            ${prettyTime(clock(c.start))} –
+            ${prettyTime(clock(c.end))}
+
+            <p>
+                <b>${c.attending.length}/${guests.length} guests</b>
+                · ${c.duration/60} hours
             </p>
 
-            <div class="progress">
-                <div style="width:${
-                    c.attending.length / guests.length * 100
-                }%"></div>
-            </div>
+            <small>
+                Available: ${esc(c.attending.join(", "))}
+            </small>
+
+            <p>
+                <div class="progress">
+                    <div style="width:${
+                        c.attending.length/guests.length*100
+                    }%"></div>
+                </div>
+            </p>
+
+            <small>
+                Preference score: ${(c.score*100).toFixed(1)}%
+            </small>
 
             <p>
                 <button class="primary" onclick="confirmParty(${i})">
@@ -1944,58 +2473,60 @@ function optimizeParty() {
     `).join("");
 
     if (!partyChoices.length) {
-        $("partyResults").innerHTML +=
-            '<p>No feasible times found. Try changing your constraints.</p>';
+        $("partyResults").innerHTML+=
+            "<p>No feasible time found. Adjust your requirements.</p>";
     }
 
-    renderPareto(candidates, guests.length);
+    renderPareto(candidates,guests.length);
+
+    return candidates.length;
 }
 
-function renderPareto(candidates, total) {
-    let points = [];
+function renderPareto(candidates,total) {
+    let points=[];
 
-    for (let n = 1; n <= total; n++) {
-        const matching = candidates.filter(
-            c => c.attending.length >= n
+    for (let n=1;n<=total;n++) {
+
+        const matching=candidates.filter(
+            c=>c.attending.length>=n
         );
 
         if (!matching.length) continue;
 
-        const duration = matching.reduce(
-            (best,c) => Math.max(best,c.duration), 0
+        const duration=matching.reduce(
+            (best,c)=>Math.max(best,c.duration),0
         );
 
-        points.push({guests:n, duration});
+        points.push({guests:n,duration});
     }
 
-    points = points.filter((p,i) =>
-        i === points.length - 1 ||
-        points[i+1].duration < p.duration
+    points=points.filter((p,i)=>
+        i===points.length-1 ||
+        points[i+1].duration<p.duration
     );
 
     if (!points.length) {
-        $("pareto").textContent = "No feasible solutions.";
+        $("pareto").textContent="No feasible solutions.";
         return;
     }
 
-    const width = 320;
-    const height = 220;
-    const maxDuration = state.party.max * 60;
+    const maxDuration=state.party.max*60;
 
-    const px = g => 40 + g / total * 260;
-    const py = d => 180 - d / maxDuration * 150;
+    const px=g=>40+g/total*260;
+    const py=d=>180-d/maxDuration*150;
 
-    const line = points.map(
-        p => `${px(p.guests)},${py(p.duration)}`
+    const line=points.map(
+        p=>`${px(p.guests)},${py(p.duration)}`
     ).join(" ");
 
-    $("pareto").innerHTML = `
-        <svg viewBox="0 0 ${width} ${height}" width="100%">
+    $("pareto").innerHTML=`
+        <svg viewBox="0 0 330 225" width="100%">
 
             <path d="M40 15V180H305"
-                fill="none" stroke="#9ba9bf" stroke-width="1.5"/>
+                fill="none" stroke="#9ba9bf"
+                stroke-width="1.5"/>
 
-            ${[0,.25,.5,.75,1].map(v => `
+            ${[0,.25,.5,.75,1].map(v=>`
                 <line x1="40" x2="305"
                     y1="${py(v*maxDuration)}"
                     y2="${py(v*maxDuration)}"
@@ -2008,14 +2539,19 @@ function renderPareto(candidates, total) {
             `).join("")}
 
             <polyline points="${line}"
-                fill="none"
-                stroke="#315de8"
+                fill="none" stroke="#315de8"
                 stroke-width="3"/>
 
-            ${points.map(p => `
+            ${points.map(p=>`
                 <circle cx="${px(p.guests)}"
                     cy="${py(p.duration)}"
                     r="5" fill="#315de8"/>
+
+                <text x="${px(p.guests)}"
+                    y="${py(p.duration)-10}"
+                    text-anchor="middle" font-size="10">
+                    ${p.duration/60}h
+                </text>
 
                 <text x="${px(p.guests)}" y="195"
                     text-anchor="middle" font-size="11">
@@ -2023,7 +2559,7 @@ function renderPareto(candidates, total) {
                 </text>
             `).join("")}
 
-            <text x="170" y="215"
+            <text x="170" y="218"
                 text-anchor="middle" font-size="12">
                 Guests attending
             </text>
@@ -2034,7 +2570,7 @@ function renderPareto(candidates, total) {
                 Hours
             </text>
         </svg>
-    ` + points.map(p => `
+    `+points.map(p=>`
         <div class="item row between">
             <b>${p.guests} guests</b>
             <span>${p.duration/60} hours</span>
@@ -2042,38 +2578,478 @@ function renderPareto(candidates, total) {
     `).join("");
 }
 
-function confirmParty(i) {
-    const c = partyChoices[i];
+// Demo availability
 
-    if (!c) return;
+function generateDemoAvailability(p,index) {
+    const dates=possibleDates(p);
+    const availability=[];
 
-    const p = state.party;
+    const early=mins(p.early);
+    const late=mins(p.late);
+    const minimum=p.min*60;
+    const maximum=p.max*60;
+    const window=late-early;
 
-    const event = {
-        id: uid(),
-        title: p.name,
-        date: c.date,
-        time: clock(c.start),
-        end: clock(c.end),
-        location: p.location,
-        repeat: "none",
-        notes: "Available guests: " + c.attending.join(", ")
+    const sharedDay=Math.floor(dates.length/2);
+
+    for (let j=0;j<dates.length;j++) {
+
+        if (j===sharedDay) {
+
+            const sharedDuration=Math.min(
+                maximum,
+                Math.max(
+                    minimum,
+                    Math.floor(maximum*.65/15)*15
+                ),
+                window
+            );
+
+            const sharedStart=early+
+                Math.floor(
+                    Math.max(0,window-sharedDuration)/30
+                )*15;
+
+            const start=Math.max(
+                early,sharedStart-(index%3)*30
+            );
+
+            const end=Math.min(
+                late,
+                sharedStart+sharedDuration+(index%4)*30
+            );
+
+            availability.push({
+                date:dates[j],
+                start:clock(start),
+                end:clock(end)
+            });
+
+            continue;
+        }
+
+        if (j===0 && index<6) {
+
+            availability.push({
+                date:dates[j],
+                start:clock(early),
+                end:clock(Math.min(late,early+maximum))
+            });
+
+            continue;
+        }
+
+        if ((index*3+j*5)%11<3) continue;
+
+        const offset=((index*7+j*3)%7)*30;
+
+        const start=Math.min(
+            early+offset,late-minimum
+        );
+
+        const length=Math.min(
+            late-start,
+            minimum+((index+j)%5)*30
+        );
+
+        if (length>=minimum) {
+            availability.push({
+                date:dates[j],
+                start:clock(start),
+                end:clock(start+length)
+            });
+        }
+    }
+
+    return availability;
+}
+
+// Demo animations
+
+function buildDemoDashboard() {
+    $("invitationOutput").innerHTML=`
+        <div class="demo-dashboard">
+
+            <span class="pill">Live simulation</span>
+
+            <h3 id="demoHeading">
+                Preparing invitations
+            </h3>
+
+            <div class="demo-sender" id="demoSender">
+                ➤
+            </div>
+
+            <div class="progress">
+                <div id="demoProgress" style="width:0%"></div>
+            </div>
+
+            <p id="demoProgressText">
+                Preparing 8 invitations...
+            </p>
+
+            <div class="demo-guests">
+
+                ${demoPeople.map((person,i)=>`
+                    <div class="demo-guest" id="demoGuest${i}">
+
+                        <div class="demo-avatar"
+                            style="background:${person.color}">
+                            ${person.name[0]}
+                        </div>
+
+                        <b>${person.name}</b>
+
+                        <div class="demo-status" id="demoStatus${i}">
+                            Waiting
+                        </div>
+
+                        <div id="demoCalendar${i}"></div>
+
+                    </div>
+                `).join("")}
+
+            </div>
+
+            <div id="demoActivity"></div>
+        </div>
+    `;
+}
+
+function demoLog(message) {
+    const area=$("demoActivity");
+
+    if (!area) return;
+
+    const entry=document.createElement("div");
+    entry.className="demo-message";
+    entry.textContent=message;
+
+    area.prepend(entry);
+
+    while (area.children.length>4) {
+        area.lastElementChild.remove();
+    }
+}
+
+function demoProgress(percent,text) {
+    if (!$("demoProgress")) return;
+
+    $("demoProgress").style.width=percent+"%";
+    $("demoProgressText").textContent=text;
+}
+
+function setDemoStatus(index,status,text) {
+    const card=$("demoGuest"+index);
+
+    if (!card) return;
+
+    card.className="demo-guest "+status;
+    $("demoStatus"+index).textContent=text;
+}
+
+async function flyInvitation(index) {
+    const sender=$("demoSender");
+    const guest=$("demoGuest"+index);
+
+    if (!sender || !guest) return;
+
+    const source=sender.getBoundingClientRect();
+    const target=guest.getBoundingClientRect();
+
+    const plane=document.createElement("div");
+
+    plane.className="demo-plane";
+    plane.textContent="➤";
+
+    const x=source.left+source.width/2;
+    const y=source.top+source.height/2;
+
+    const dx=target.left+target.width/2-x;
+    const dy=target.top+target.height/2-y;
+
+    const angle=Math.atan2(dy,dx)*180/Math.PI;
+
+    plane.style.left=x+"px";
+    plane.style.top=y+"px";
+
+    document.body.appendChild(plane);
+
+    try {
+        const animation=plane.animate([
+            {
+                transform:`translate(0px,0px) rotate(${angle}deg) scale(.5)`,
+                opacity:0
+            },
+            {
+                transform:`translate(${dx*.35}px,${dy*.35}px) rotate(${angle}deg) scale(1.3)`,
+                opacity:1
+            },
+            {
+                transform:`translate(${dx}px,${dy}px) rotate(${angle}deg) scale(.7)`,
+                opacity:0
+            }
+        ],{
+            duration:600,
+            easing:"ease-in-out"
+        });
+
+        await animation.finished;
+
+    } catch {
+        await sleep(300);
+
+    } finally {
+        plane.remove();
+    }
+}
+
+function setDemoLocked(locked) {
+    const fields=[
+        "partyName","partyLocation","partyStart","partyEnd",
+        "partyEarly","partyLate","partyMin","partyMax",
+        "weekends","priority","respectCalendar","inviteButton"
+    ];
+
+    fields.forEach(id=>$(id).disabled=locked);
+}
+
+// Automated demonstration
+
+async function runDemo() {
+    if (demoRunning) return;
+
+    if (
+        state.guests.some(g=>!g.fictional) &&
+        !confirm(
+            "Demo mode replaces the current guest list "+
+            "with eight fictional guests. Continue?"
+        )
+    ) {
+        return;
+    }
+
+    if (!saveParty(true)) return;
+
+    const party={...state.party};
+
+    if (!possibleDates(party).length) {
+        alert("Choose a date range containing eligible dates.");
+        return;
+    }
+
+    demoRunning=true;
+    demoActive=true;
+
+    invalidateResults();
+
+    state.guests=demoPeople.map((person,index)=>({
+        id:uid(),
+        name:person.name,
+        responded:false,
+        availability:[],
+        fictional:true,
+        demoIndex:index
+    }));
+
+    persist();
+    renderGuests();
+    setDemoLocked(true);
+
+    buildDemoDashboard();
+
+    $("invitationOutput").scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+    });
+
+    try {
+        $("demoHeading").textContent=
+            "Sending invitations to your friends";
+
+        demoLog("Created 8 personalized invitations.");
+
+        await sleep(750);
+
+        // Send invitations
+
+        for (let i=0;i<demoPeople.length;i++) {
+
+            setDemoStatus(i,"sending","Sending invitation...");
+
+            await flyInvitation(i);
+
+            setDemoStatus(i,"delivered","Invite delivered");
+
+            demoLog(
+                "Invitation delivered to "+demoPeople[i].name
+            );
+
+            demoProgress(
+                (i+1)/8*40,
+                `${i+1} of 8 invitations delivered`
+            );
+
+            await sleep(100);
+        }
+
+        $("demoHeading").textContent=
+            "Collecting everyone's availability";
+
+        demoLog("All 8 friends received their invitations.");
+
+        await sleep(650);
+
+        // Collect responses
+
+        const responseOrder=[2,0,5,1,7,3,6,4];
+
+        for (let j=0;j<responseOrder.length;j++) {
+
+            const i=responseOrder[j];
+
+            const guest=state.guests.find(
+                g=>g.demoIndex===i
+            );
+
+            if (!guest) continue;
+
+            guest.availability=generateDemoAvailability(party,i);
+            guest.responded=true;
+
+            state.demoCalendars[guest.name]={
+                availability:guest.availability,
+                events:state.demoCalendars[guest.name]?.events || []
+            };
+
+            setDemoStatus(
+                i,"responded","Calendar synchronized"
+            );
+
+            $("demoCalendar"+i).innerHTML=`
+                <small>
+                    ${guest.availability.length} free days
+                </small>
+            `;
+
+            demoLog(
+                `${guest.name} shared ${
+                    guest.availability.length
+                } available dates.`
+            );
+
+            renderGuests();
+
+            demoProgress(
+                40+(j+1)/8*50,
+                `${j+1} of 8 guests responded`
+            );
+
+            await sleep(350);
+        }
+
+        persist();
+
+        // Optimize schedules
+
+        $("demoHeading").textContent=
+            "Finding the best possible time";
+
+        demoProgress(94,"Analyzing calendar overlaps...");
+
+        demoLog(
+            "Comparing attendance, duration and calendar conflicts."
+        );
+
+        await sleep(900);
+
+        const feasible=optimizeParty(true);
+
+        demoProgress(
+            100,
+            feasible?"Optimization complete":"No feasible times"
+        );
+
+        $("demoHeading").textContent=
+            "All 8 calendars synchronized";
+
+        demoLog(
+            feasible
+                ?"Best times calculated successfully."
+                :"Try adjusting the scheduling requirements."
+        );
+
+        $("partyResults").scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    } catch(e) {
+        demoLog("Demo interrupted: "+e.message);
+
+    } finally {
+        demoRunning=false;
+        setDemoLocked(false);
+        renderGuests();
+    }
+}
+
+// Event confirmation
+
+async function confirmParty(index) {
+    if (demoRunning) return;
+
+    const choice=partyChoices[index];
+
+    if (!choice) return;
+
+    if (optimizedSignature!==schedulingSignature()) {
+        toast("Scheduling information changed. Recalculate first.");
+        optimizeParty();
+        return;
+    }
+
+    const p=state.party;
+
+    const event={
+        id:uid(),
+        title:p.name,
+        date:choice.date,
+        time:clock(choice.start),
+        end:clock(choice.end),
+        location:p.location,
+        repeat:"none",
+        source:"party",
+        notes:"Guests: "+choice.attending.join(", ")
     };
 
     state.events.push(event);
+
+    partyChoices=[];
+    optimizedSignature="";
+
     persist();
 
-    $("partyResults").innerHTML = `
-        <div class="result">
-            <span class="pill">Event confirmed</span>
+    view=dateOf(event.date);
+    view.setDate(1);
 
-            <h3>${esc(event.title)}</h3>
+    if (!(demoActive && isDemo())) {
 
-            ${prettyDate(event.date)}<br>
-            ${event.time}–${event.end}<br>
-            ${c.attending.length} available guests
+        $("partyResults").innerHTML=`
+            <div class="result">
 
-            <p>
+                <span class="pill">Event confirmed</span>
+
+                <h3>${esc(event.title)}</h3>
+
+                ${prettyDate(event.date)}<br>
+                ${prettyTime(event.time)} –
+                ${prettyTime(event.end)}
+
+                <p>
+                    ${choice.attending.length} available guests.
+                </p>
+
                 <button class="primary"
                     onclick="downloadEvent('${event.id}')">
                     Download calendar invitation
@@ -2082,27 +3058,251 @@ function confirmParty(i) {
                 <button onclick="copyConfirmation('${event.id}')">
                     Copy confirmation
                 </button>
-            </p>
 
-            Added to your personal calendar.
+                <p>Added to your calendar.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    demoRunning=true;
+    setDemoLocked(true);
+
+    $("partyResults").innerHTML=`
+        <div class="result">
+            Sending final calendar confirmations...
         </div>
     `;
 
-    partyChoices = [];
+    if (!$("demoHeading")) buildDemoDashboard();
+
+    try {
+
+        $("demoHeading").textContent=
+            "Adding the event to guest calendars";
+
+        demoProgress(0,"Sending final confirmations...");
+
+        $("invitationOutput").scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+        await sleep(600);
+
+        let synchronized=0;
+
+        for (let i=0;i<demoPeople.length;i++) {
+
+            const name=demoPeople[i].name;
+
+            if (!choice.attending.includes(name)) {
+                setDemoStatus(i,"delivered","Unavailable");
+                continue;
+            }
+
+            await flyInvitation(i);
+
+            if (!state.demoCalendars[name]) {
+                state.demoCalendars[name]={
+                    availability:[],
+                    events:[]
+                };
+            }
+
+            state.demoCalendars[name].events.push({...event});
+
+            setDemoStatus(
+                i,"confirmed","Event added to calendar"
+            );
+
+            const weekday=dateOf(choice.date).getDay();
+
+            $("demoCalendar"+i).innerHTML=`
+                <div class="mini-calendar">
+                    ${["S","M","T","W","T","F","S"].map(
+                        (day,j)=>`
+                            <div class="mini-day ${
+                                weekday===j?"booked":""
+                            }">${day}</div>
+                        `
+                    ).join("")}
+                </div>
+
+                <small>${esc(choice.date)}</small>
+            `;
+
+            synchronized++;
+
+            demoProgress(
+                synchronized/choice.attending.length*100,
+                `${synchronized} calendars updated`
+            );
+
+            demoLog(name+"'s calendar updated.");
+
+            await sleep(150);
+        }
+
+        persist();
+
+        $("demoHeading").textContent=
+            "Party successfully scheduled!";
+
+        $("partyResults").innerHTML=`
+            <div class="demo-success">
+
+                <div class="demo-big">✓</div>
+
+                <h2>Your party is planned!</h2>
+
+                <p>
+                    ${prettyDate(choice.date)}<br>
+                    ${prettyTime(clock(choice.start))} –
+                    ${prettyTime(clock(choice.end))}
+                </p>
+
+                <div class="demo-big">
+                    ${choice.attending.length}/8
+                </div>
+
+                <p>Guests available</p>
+
+                <p>
+                    ${choice.duration/60} hours of celebration
+                </p>
+
+                <p>
+                    Added to your calendar and
+                    ${synchronized} simulated guest calendars.
+                </p>
+
+                <div class="row" style="justify-content:center">
+
+                    <button onclick="show('calendar')">
+                        View my calendar
+                    </button>
+
+                    <button onclick="showDemoCalendars()">
+                        View guest calendars
+                    </button>
+
+                    <button onclick="downloadEvent('${event.id}')">
+                        Export event
+                    </button>
+
+                </div>
+            </div>
+
+            <p class="muted">
+                Demo complete. Guests and external messages
+                were simulated.
+            </p>
+        `;
+
+        $("partyResults").scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+        launchConfetti();
+
+    } catch(e) {
+        toast("Calendar synchronization interrupted.");
+
+    } finally {
+        demoRunning=false;
+        setDemoLocked(false);
+        renderGuests();
+    }
 }
 
-// Calendar file export
+function launchConfetti() {
+    const colors=[
+        "#315de8","#8b5cf6","#ec4899",
+        "#f59e0b","#10b981"
+    ];
 
-function downloadBlob(data, name, type) {
-    const blob = new Blob([data], {type});
-    const url = URL.createObjectURL(blob);
+    for (let i=0;i<100;i++) {
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = name;
+        const piece=document.createElement("div");
+
+        piece.className="demo-confetti";
+
+        piece.style.left=Math.random()*100+"vw";
+        piece.style.top="-20px";
+
+        piece.style.background=colors[i%colors.length];
+        piece.style.animationDelay=Math.random()*.8+"s";
+        piece.style.animationDuration=1.5+Math.random()*2+"s";
+
+        document.body.appendChild(piece);
+
+        setTimeout(()=>piece.remove(),4500);
+    }
+}
+
+function showDemoCalendars() {
+    $("guestCalendarContent").innerHTML=
+        Object.entries(state.demoCalendars).map(([name,calendar])=>`
+
+            <div class="item">
+
+                <h3>${esc(name)}</h3>
+
+                ${calendar.events.length
+                    ?calendar.events.map(e=>`
+                        <div class="result">
+                            <b>${esc(e.title)}</b><br>
+                            ${prettyDate(e.date)}<br>
+                            ${prettyTime(e.time)} –
+                            ${prettyTime(e.end)}
+                        </div>
+                    `).join("")
+                    :'<p class="muted">No event scheduled.</p>'
+                }
+
+                <details>
+                    <summary>Availability</summary>
+
+                    ${calendar.availability.map(a=>`
+                        <div class="guest-window">
+                            ${prettyDate(a.date)}<br>
+                            ${prettyTime(a.start)} –
+                            ${prettyTime(a.end)}
+                        </div>
+                    `).join("")}
+                </details>
+            </div>
+
+        `).join("");
+
+    $("guestCalendarDialog").showModal();
+}
+
+$("priority").addEventListener("change",()=>{
+    if (
+        !demoRunning &&
+        state.guests.some(g=>g.responded)
+    ) {
+        optimizeParty();
+    }
+});
+
+// Calendar export
+
+function downloadBlob(data,name,type) {
+    const blob=new Blob([data],{type});
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+    a.download=name;
     a.click();
 
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
 function icsEscape(text) {
@@ -2114,92 +3314,116 @@ function icsEscape(text) {
 }
 
 function downloadEvent(id) {
-    const e = state.events.find(x => x.id === id);
+    const e=state.events.find(x=>x.id===id);
 
     if (!e) return;
 
-    const stamp = new Date().toISOString()
+    const stamp=new Date().toISOString()
         .replace(/[-:]/g,"")
-        .replace(/\.\d+Z$/, "Z");
+        .replace(/\.\d+Z$/,"Z");
 
-    const time = t =>
-        e.date.replace(/-/g,"") + "T" +
-        t.replace(":","") + "00";
+    const time=t=>
+        e.date.replace(/-/g,"")+"T"+
+        t.replace(":","")+"00";
 
-    const content = [
+    const recurrence={
+        daily:"DAILY",
+        weekly:"WEEKLY",
+        monthly:"MONTHLY"
+    }[e.repeat];
+
+    const lines=[
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
         "PRODID:-//Everything Calendar//EN",
         "BEGIN:VEVENT",
-        "UID:" + e.id + "@everything-calendar",
-        "DTSTAMP:" + stamp,
-        "DTSTART:" + time(e.time),
-        "DTEND:" + time(e.end),
-        "SUMMARY:" + icsEscape(e.title),
-        "LOCATION:" + icsEscape(e.location),
-        "DESCRIPTION:" + icsEscape(e.notes),
-        "END:VEVENT",
-        "END:VCALENDAR"
-    ].join("\r\n");
+        "UID:"+e.id+"@everything-calendar",
+        "DTSTAMP:"+stamp,
+        "DTSTART:"+time(e.time),
+        "DTEND:"+time(e.end),
+        "SUMMARY:"+icsEscape(e.title),
+        "LOCATION:"+icsEscape(e.location),
+        "DESCRIPTION:"+icsEscape(e.notes)
+    ];
 
-    downloadBlob(content, "event.ics", "text/calendar");
+    if (recurrence) {
+        lines.push("RRULE:FREQ="+recurrence);
+    }
+
+    lines.push("END:VEVENT","END:VCALENDAR");
+
+    downloadBlob(
+        lines.join("\r\n")+"\r\n",
+        "everything-calendar-event.ics",
+        "text/calendar"
+    );
 }
 
 function copyConfirmation(id) {
-    const e = state.events.find(x => x.id === id);
+    const e=state.events.find(x=>x.id===id);
 
     if (!e) return;
 
     copy(
-        "You're invited!\n\n" +
-        e.title + "\n" +
-        prettyDate(e.date) + "\n" +
-        e.time + "–" + e.end + "\n" +
-        e.location + "\n\n" +
+        "You're invited!\n\n"+
+        e.title+"\n"+
+        prettyDate(e.date)+"\n"+
+        prettyTime(e.time)+" – "+prettyTime(e.end)+"\n"+
+        e.location+"\n\n"+
         "Planned with Everything Calendar."
     );
 }
 
-// Ingredient prices per unit
+// Ingredient prices
 
-const ingredients = {
-    "Oats": [5.00,"kg"],
-    "Milk": [2.25,"L"],
-    "Bananas": [1.80,"kg"],
-    "Eggs": [.45,"each"],
-    "Bread": [.25,"slice"],
-    "Rice": [3.00,"kg"],
-    "Beans": [5.00,"kg"],
-    "Lentils": [4.50,"kg"],
-    "Chicken": [14.00,"kg"],
-    "Beef": [18.00,"kg"],
-    "Salmon": [28.00,"kg"],
-    "Steak": [35.00,"kg"],
-    "Pasta": [3.50,"kg"],
-    "Tomato sauce": [5.00,"L"],
-    "Vegetables": [6.00,"kg"],
-    "Potatoes": [3.00,"kg"],
-    "Cheese": [16.00,"kg"],
-    "Tortillas": [.50,"each"],
-    "Yogurt": [7.00,"kg"],
-    "Berries": [12.00,"kg"],
-    "Tofu": [8.00,"kg"],
-    "Apples": [4.00,"kg"],
-    "Chickpeas": [5.00,"kg"],
-    "Shrimp": [25.00,"kg"],
-    "Curry sauce": [8.00,"L"],
-    "Peanut butter": [9.00,"kg"],
-    "Oil": [8.00,"L"],
-    "Seasoning": [20.00,"kg"]
+const ingredients={
+    "Oats":[5.00,"kg"],
+    "Milk":[2.25,"L"],
+    "Bananas":[1.80,"kg"],
+    "Eggs":[.45,"each"],
+    "Bread":[.25,"slice"],
+    "Rice":[3.00,"kg"],
+    "Beans":[5.00,"kg"],
+    "Lentils":[4.50,"kg"],
+    "Chicken":[14.00,"kg"],
+    "Beef":[18.00,"kg"],
+    "Salmon":[28.00,"kg"],
+    "Steak":[35.00,"kg"],
+    "Pasta":[3.50,"kg"],
+    "Tomato sauce":[5.00,"L"],
+    "Vegetables":[6.00,"kg"],
+    "Potatoes":[3.00,"kg"],
+    "Cheese":[16.00,"kg"],
+    "Tortillas":[.50,"each"],
+    "Yogurt":[7.00,"kg"],
+    "Berries":[12.00,"kg"],
+    "Tofu":[8.00,"kg"],
+    "Apples":[4.00,"kg"],
+    "Chickpeas":[5.00,"kg"],
+    "Shrimp":[25.00,"kg"],
+    "Curry sauce":[8.00,"L"],
+    "Peanut butter":[9.00,"kg"],
+    "Oil":[8.00,"L"],
+    "Seasoning":[20.00,"kg"],
+    "Avocado":[8.00,"kg"],
+    "Spinach":[10.00,"kg"],
+    "Mushrooms":[10.00,"kg"],
+    "Tuna":[18.00,"kg"],
+    "Cream":[6.00,"L"],
+    "Granola":[9.00,"kg"],
+    "Lemon":[5.00,"kg"],
+    "Honey":[12.00,"kg"],
+    "Quinoa":[10.00,"kg"],
+    "Soy milk":[3.00,"L"]
 };
 
-function recipe(name, category, diet, protein, quality, items) {
-    return {name, category, diet, protein, quality, items};
+function recipe(name,category,diet,protein,quality,items) {
+    return {name,category,diet,protein,quality,items};
 }
 
-// Meal database
+// Recipes
 
-const recipes = [
+const recipes=[
     recipe("Banana oatmeal","Breakfast","vegan",12,3,
         {"Oats":.08,"Bananas":.15,"Peanut butter":.02}),
 
@@ -2224,6 +3448,18 @@ const recipes = [
     recipe("Berry pancakes","Breakfast","vegetarian",18,8,
         {"Oats":.12,"Eggs":2,"Milk":.2,"Berries":.15}),
 
+    recipe("Avocado and eggs","Breakfast","vegetarian",24,9,
+        {"Avocado":.15,"Eggs":3,"Bread":2}),
+
+    recipe("Granola yogurt parfait","Breakfast","vegetarian",23,9,
+        {"Granola":.08,"Yogurt":.25,"Berries":.15,"Honey":.02}),
+
+    recipe("Soy berry smoothie","Breakfast","vegan",18,8,
+        {"Soy milk":.3,"Bananas":.15,"Berries":.15,"Oats":.05}),
+
+    recipe("Spinach mushroom omelette","Breakfast","vegetarian",30,9,
+        {"Eggs":4,"Spinach":.08,"Mushrooms":.1,"Cheese":.04}),
+
     recipe("Rice and beans","Lunch","vegan",21,3,
         {"Rice":.1,"Beans":.13,"Oil":.01,"Seasoning":.005}),
 
@@ -2247,6 +3483,18 @@ const recipes = [
 
     recipe("Tofu rice bowl","Lunch","vegan",27,6,
         {"Tofu":.25,"Rice":.1,"Vegetables":.15}),
+
+    recipe("Tuna sandwich","Lunch","mixed",32,7,
+        {"Tuna":.15,"Bread":3,"Vegetables":.1}),
+
+    recipe("Chicken avocado wrap","Lunch","mixed",40,9,
+        {"Chicken":.2,"Avocado":.12,"Tortillas":2}),
+
+    recipe("Quinoa vegetable bowl","Lunch","vegan",20,8,
+        {"Quinoa":.12,"Vegetables":.2,"Chickpeas":.1}),
+
+    recipe("Creamy mushroom pasta","Lunch","vegetarian",20,8,
+        {"Pasta":.15,"Mushrooms":.15,"Cream":.1,"Cheese":.03}),
 
     recipe("Tomato pasta","Dinner","vegan",18,3,
         {"Pasta":.15,"Tomato sauce":.15,"Oil":.01}),
@@ -2282,66 +3530,90 @@ const recipes = [
         {"Steak":.3,"Potatoes":.35,"Vegetables":.25}),
 
     recipe("Tofu curry","Dinner","vegan",32,8,
-        {"Tofu":.3,"Rice":.12,"Vegetables":.2,"Curry sauce":.1})
+        {"Tofu":.3,"Rice":.12,"Vegetables":.2,"Curry sauce":.1}),
+
+    recipe("Chicken Alfredo","Dinner","mixed",45,9,
+        {"Chicken":.23,"Pasta":.15,"Cream":.15,"Cheese":.05}),
+
+    recipe("Lemon shrimp quinoa","Dinner","mixed",43,11,
+        {"Shrimp":.23,"Quinoa":.12,"Lemon":.05,"Vegetables":.2}),
+
+    recipe("Grilled steak and mushrooms","Dinner","mixed",55,13,
+        {"Steak":.3,"Mushrooms":.2,"Potatoes":.25}),
+
+    recipe("Spinach mushroom risotto","Dinner","vegetarian",21,9,
+        {"Rice":.15,"Spinach":.1,"Mushrooms":.2,"Cheese":.06}),
+
+    recipe("Roasted tofu and quinoa","Dinner","vegan",35,10,
+        {"Tofu":.3,"Quinoa":.12,"Vegetables":.25})
 ];
 
-const days = [
+const days=[
     "Monday","Tuesday","Wednesday","Thursday",
     "Friday","Saturday","Sunday"
 ];
 
+const recipePrices=new Map(
+    recipes.map(r=>[
+        r.name,
+        Object.entries(r.items).reduce(
+            (total,[name,amount])=>
+                total+ingredients[name][0]*amount,
+            0
+        )
+    ])
+);
+
 function recipeCost(r) {
-    return Object.entries(r.items).reduce(
-        (total,[name,amount]) =>
-            total + ingredients[name][0] * amount,
-        0
-    );
+    return recipePrices.get(r.name);
 }
 
 function grocerySettings() {
     return {
-        budget: Number($("budget").value),
-        people: Number($("household").value),
-        diet: $("diet").value,
-        exclude: $("exclude").value,
-        coverage: $("coverage").value,
-        delivery: $("delivery").value
+        budget:Number($("budget").value),
+        people:Number($("household").value),
+        diet:$("diet").value,
+        exclude:$("exclude").value,
+        coverage:$("coverage").value,
+        delivery:$("delivery").value,
+        deliveryTime:$("deliveryTime").value
     };
 }
 
 function validGrocery(s) {
     return Number.isFinite(s.budget) &&
-        s.budget > 0 &&
+        s.budget>0 &&
+        s.budget<=100000 &&
         Number.isInteger(s.people) &&
-        s.people >= 1 &&
-        s.people <= 20;
+        s.people>=1 &&
+        s.people<=20;
 }
 
-function allowedRecipes(s, category) {
-    const excluded = s.exclude.toLowerCase()
-        .split(",").map(x => x.trim()).filter(Boolean);
+function allowedRecipes(s,category) {
+    const excluded=s.exclude.toLowerCase()
+        .split(",").map(x=>x.trim()).filter(Boolean);
 
-    return recipes.filter(r => {
+    return recipes.filter(r=>{
 
-        if (r.category !== category) return false;
+        if (r.category!==category) return false;
 
-        if (s.diet === "Vegan" && r.diet !== "vegan") {
+        if (s.diet==="Vegan" && r.diet!=="vegan") {
             return false;
         }
 
-        if (s.diet === "Vegetarian" && r.diet === "mixed") {
+        if (s.diet==="Vegetarian" && r.diet==="mixed") {
             return false;
         }
 
-        if (s.diet === "High protein" && r.protein < 22) {
+        if (s.diet==="High protein" && r.protein<22) {
             return false;
         }
 
-        const text = (
-            r.name + " " + Object.keys(r.items).join(" ")
+        const text=(
+            r.name+" "+Object.keys(r.items).join(" ")
         ).toLowerCase();
 
-        return !excluded.some(x => text.includes(x));
+        return !excluded.some(x=>text.includes(x));
     });
 }
 
@@ -2349,68 +3621,73 @@ function allowedRecipes(s, category) {
 
 function customTotal() {
     return state.custom.reduce(
-        (sum,item) => sum + item.qty * item.price, 0
+        (sum,item)=>sum+item.qty*item.price,0
     );
 }
 
 function addCustom() {
-    const name = $("customName").value.trim();
-    const qty = Number($("customQty").value);
-    const price = Number($("customPrice").value);
+    const name=$("customName").value.trim();
+    const qty=Number($("customQty").value);
+    const price=Number($("customPrice").value);
 
     if (
         !name ||
         !Number.isFinite(qty) ||
-        qty <= 0 ||
+        qty<=0 ||
         !$("customPrice").value ||
         !Number.isFinite(price) ||
-        price < 0
+        price<0
     ) {
         alert("Enter a valid item, quantity and price.");
         return;
     }
 
-    state.custom.push({id:uid(), name, qty, price});
+    state.custom.push({id:uid(),name,qty,price});
 
-    $("customName").value = "";
-    $("customQty").value = 1;
-    $("customPrice").value = "";
+    $("customName").value="";
+    $("customQty").value=1;
+    $("customPrice").value="";
 
     persist();
     renderCustom();
 
     if (state.mealPlan.length) generateMeals();
     else renderBasket();
+
+    toast("Custom item added.");
 }
 
 function editCustom(id) {
-    const item = state.custom.find(x => x.id === id);
+    const item=state.custom.find(x=>x.id===id);
+
     if (!item) return;
 
-    const name = prompt("Item name:", item.name);
-    if (name === null) return;
+    const name=prompt("Item name:",item.name);
+    if (name===null) return;
 
-    const quantity = prompt("Quantity:", item.qty);
-    if (quantity === null) return;
+    const quantity=prompt("Quantity:",item.qty);
+    if (quantity===null) return;
 
-    const cost = prompt("Price per unit:", item.price);
-    if (cost === null) return;
+    const cost=prompt("Price per unit:",item.price);
+    if (cost===null) return;
 
-    const qty = Number(quantity);
-    const price = Number(cost);
+    const qty=Number(quantity);
+    const price=Number(cost);
 
     if (
         !name.trim() ||
         !Number.isFinite(qty) ||
-        qty <= 0 ||
+        qty<=0 ||
         !Number.isFinite(price) ||
-        price < 0
+        price<0
     ) {
         alert("Invalid item.");
         return;
     }
 
-    Object.assign(item, {name:name.trim(), qty, price});
+    Object.assign(item,{
+        name:name.trim(),qty,price
+    });
 
     persist();
     renderCustom();
@@ -2420,7 +3697,7 @@ function editCustom(id) {
 }
 
 function removeCustom(id) {
-    state.custom = state.custom.filter(x => x.id !== id);
+    state.custom=state.custom.filter(x=>x.id!==id);
 
     persist();
     renderCustom();
@@ -2430,16 +3707,15 @@ function removeCustom(id) {
 }
 
 function renderCustom() {
-    $("customList").innerHTML = state.custom.map(item => `
+    $("customList").innerHTML=state.custom.map(item=>`
         <div class="item">
+
             <div class="row between">
                 <b>${esc(item.name)}</b>
-                <b>${money(item.qty * item.price)}</b>
+                <b>${money(item.qty*item.price)}</b>
             </div>
 
-            <small>
-                ${item.qty} × ${money(item.price)}
-            </small>
+            <small>${item.qty} × ${money(item.price)}</small>
 
             <p class="row">
                 <button onclick="editCustom('${item.id}')">
@@ -2453,64 +3729,80 @@ function renderCustom() {
             </p>
         </div>
     `).join("");
+
+    if (state.custom.length) {
+        $("customList").innerHTML+=`
+            <div class="result">
+                Custom groceries: <b>${money(customTotal())}</b>
+            </div>
+        `;
+    }
 }
 
-// Budget-constrained meal optimization
+// Meal optimization
 
 function generateMeals() {
-    const s = grocerySettings();
+    const s=grocerySettings();
 
     if (!validGrocery(s)) {
         alert("Enter a valid budget and household size.");
         return;
     }
 
-    state.grocerySettings = s;
+    state.grocerySettings=s;
 
-    const remaining = s.budget - customTotal();
+    const remaining=s.budget-customTotal();
 
-    const categories = s.coverage === "all"
-        ? ["Breakfast","Lunch","Dinner"]
-        : ["Dinner"];
+    const categories=s.coverage==="all"
+        ?["Breakfast","Lunch","Dinner"]
+        :["Dinner"];
 
-    const slots = days.flatMap((day,index) =>
-        categories.map(category => ({
-            day:index,
-            category
+    const slots=days.flatMap((day,index)=>
+        categories.map(category=>({
+            day:index,category
         }))
     );
 
-    const options = slots.map(slot =>
-        allowedRecipes(s, slot.category)
+    const options=slots.map(slot=>
+        allowedRecipes(s,slot.category)
     );
 
-    if (options.some(o => !o.length)) {
-        state.mealPlan = [];
+    if (options.some(o=>!o.length)) {
+        state.mealPlan=[];
         persist();
 
-        $("mealPlan").textContent =
+        $("mealPlan").textContent=
             "No compatible recipes for one or more meal categories.";
 
         renderBasket();
         return;
     }
 
-    const costs = options.map(o =>
-        Math.min(...o.map(recipeCost)) * s.people
+    const costs=options.map(o=>
+        Math.min(...o.map(recipeCost))*s.people
     );
 
-    const minimum = costs.reduce((a,b) => a+b, 0);
+    const minimum=costs.reduce((a,b)=>a+b,0);
 
-    if (minimum > remaining + 1e-8) {
-        state.mealPlan = [];
+    if (minimum>remaining+1e-8) {
+
+        state.mealPlan=[];
         persist();
 
-        $("mealPlan").innerHTML = `
+        $("mealPlan").innerHTML=`
             <div class="result">
+
                 <b>Budget is too low for this meal plan.</b><br>
+
                 Available after custom groceries:
                 ${money(remaining)}<br>
-                Minimum meal cost: ${money(minimum)}
+
+                Minimum meal cost:
+                ${money(minimum)}<br>
+
+                Recommended minimum total budget:
+                <b>${money(minimum+customTotal())}</b>
+
             </div>
         `;
 
@@ -2518,107 +3810,117 @@ function generateMeals() {
         return;
     }
 
-    const futureMinimum = Array(slots.length+1).fill(0);
+    const futureMinimum=Array(slots.length+1).fill(0);
 
-    for (let i = slots.length-1; i >= 0; i--) {
-        futureMinimum[i] = costs[i] + futureMinimum[i+1];
+    for (let i=slots.length-1;i>=0;i--) {
+        futureMinimum[i]=costs[i]+futureMinimum[i+1];
     }
 
-    let bestScore = -Infinity;
-    let bestPlan = [];
+    let bestScore=-Infinity;
+    let bestPlan=[];
 
-    for (let attempt = 0; attempt < 1800; attempt++) {
+    // Search budget-feasible combinations
 
-        let plan = [];
-        let spent = 0;
-        let score = 0;
-        let counts = {};
+    for (let attempt=0;attempt<1000;attempt++) {
 
-        for (let i = 0; i < slots.length; i++) {
+        let plan=[];
+        let spent=0;
+        let score=0;
 
-            const feasible = options[i].filter(r =>
-                spent +
-                recipeCost(r) * s.people +
-                futureMinimum[i+1] <= remaining + 1e-8
+        const counts={};
+
+        for (let i=0;i<slots.length;i++) {
+
+            const feasible=options[i].filter(r=>
+                spent+
+                recipeCost(r)*s.people+
+                futureMinimum[i+1]<=remaining+1e-8
             );
 
             if (!feasible.length) break;
 
-            const weighted = feasible.map(r => {
-                const repeats = counts[r.name] || 0;
+            let selected=null;
+            let selectedScore=-Infinity;
 
-                return {
-                    r,
-                    score:
-                        r.quality * (0.5 + Math.random()) +
-                        (s.diet === "High protein" ? r.protein/15 : 0) -
-                        repeats * 3 -
-                        recipeCost(r) * Math.random() * .5
-                };
-            });
+            for (const r of feasible) {
 
-            weighted.sort((a,b) => b.score-a.score);
+                const repeats=counts[r.name] || 0;
 
-            const selected = weighted[0].r;
+                const value=
+                    r.quality*(.5+Math.random())+
+                    (s.diet==="High protein"?r.protein/15:0)-
+                    repeats*3-
+                    recipeCost(r)*Math.random()*.5;
 
-            spent += recipeCost(selected) * s.people;
+                if (value>selectedScore) {
+                    selectedScore=value;
+                    selected=r;
+                }
+            }
 
-            counts[selected.name] =
-                (counts[selected.name] || 0) + 1;
+            spent+=recipeCost(selected)*s.people;
 
-            score += selected.quality +
-                selected.protein * .025;
+            counts[selected.name]=
+                (counts[selected.name] || 0)+1;
+
+            score+=selected.quality+selected.protein*.025;
 
             plan.push({
                 ...slots[i],
-                recipe: selected.name
+                recipe:selected.name
             });
         }
 
-        if (plan.length !== slots.length) continue;
+        if (plan.length!==slots.length) continue;
 
-        const variety = Object.keys(counts).length;
-
-        score += variety * 3;
+        score+=Object.keys(counts).length*3;
 
         for (const count of Object.values(counts)) {
-            score -= Math.pow(Math.max(0,count-2),2);
+            score-=Math.pow(Math.max(0,count-2),2);
         }
 
-        score -= spent / Math.max(remaining,1);
+        score-=spent/Math.max(remaining,1);
 
-        if (score > bestScore) {
-            bestScore = score;
-            bestPlan = plan;
+        if (score>bestScore) {
+            bestScore=score;
+            bestPlan=plan;
         }
     }
 
-    state.mealPlan = bestPlan;
-    persist();
+    state.mealPlan=bestPlan;
 
+    persist();
     renderMeals();
     renderBasket();
+
+    toast("Weekly meal plan optimized.");
 }
 
 function renderMeals() {
-    const s = state.grocerySettings || grocerySettings();
+    const s=state.grocerySettings || grocerySettings();
 
     if (!state.mealPlan.length) {
-        $("mealPlan").innerHTML =
+        $("mealPlan").innerHTML=
             '<p class="muted">Generate a meal plan to begin.</p>';
         return;
     }
 
-    $("mealPlan").innerHTML = days.map((day,index) => `
+    $("mealPlan").innerHTML=days.map((day,index)=>`
+
         <h3>${day}</h3>
 
-        ${state.mealPlan.map((entry,i) => {
-            if (entry.day !== index) return "";
+        ${state.mealPlan.map((entry,i)=>{
 
-            const r = recipes.find(x => x.name === entry.recipe);
+            if (entry.day!==index) return "";
+
+            const r=recipes.find(x=>
+                x.name===entry.recipe &&
+                x.category===entry.category
+            );
+
             if (!r) return "";
 
-            const options = allowedRecipes(s,entry.category);
+            const options=allowedRecipes(s,entry.category);
 
             return `
                 <div class="meal">
@@ -2629,77 +3931,105 @@ function renderMeals() {
                     </div>
 
                     <select onchange="changeMeal(${i},this.value)">
-                        ${options.map(option => `
+
+                        ${options.map(option=>`
                             <option value="${esc(option.name)}"
-                                ${option.name === r.name ? "selected" : ""}>
-                                ${esc(option.name)}
+                                ${option.name===r.name?"selected":""}>
+                                ${esc(option.name)} –
+                                ${money(recipeCost(option)*s.people)}
                             </option>
                         `).join("")}
+
                     </select>
 
                     <small>
-                        Approx. ${r.protein}g protein per person
+                        Estimated protein:
+                        ${r.protein}g per person
                     </small>
+
+                    <details>
+                        <summary>Ingredients</summary>
+
+                        ${Object.entries(r.items).map(
+                            ([name,quantity])=>`
+                                <div class="item row between">
+                                    <span>${esc(name)}</span>
+
+                                    <small>
+                                        ${Number(
+                                            (quantity*s.people).toFixed(3)
+                                        )} ${ingredients[name][1]}
+                                    </small>
+                                </div>
+                            `
+                        ).join("")}
+                    </details>
                 </div>
             `;
         }).join("")}
+
     `).join("");
 }
 
 function changeMeal(index,name) {
-    const entry = state.mealPlan[index];
-    const s = state.grocerySettings || grocerySettings();
+    const entry=state.mealPlan[index];
+    const s=state.grocerySettings || grocerySettings();
 
     if (!entry) return;
 
     if (!allowedRecipes(s,entry.category).some(
-        r => r.name === name
+        r=>r.name===name
     )) return;
 
-    entry.recipe = name;
+    entry.recipe=name;
+
     persist();
     renderMeals();
     renderBasket();
 }
 
-// Consolidate ingredients
+// Grocery basket
 
 function buildBasket() {
-    const s = state.grocerySettings || grocerySettings();
+    const s=state.grocerySettings || grocerySettings();
 
-    const basket = {};
+    const basket={};
 
     for (const entry of state.mealPlan) {
-        const recipe = recipes.find(r => r.name === entry.recipe);
 
-        if (!recipe) continue;
+        const r=recipes.find(r=>
+            r.name===entry.recipe &&
+            r.category===entry.category
+        );
 
-        for (const [name,quantity] of Object.entries(recipe.items)) {
-            basket[name] =
-                (basket[name] || 0) + quantity*s.people;
+        if (!r) continue;
+
+        for (const [name,quantity] of Object.entries(r.items)) {
+            basket[name]=(basket[name] || 0)+quantity*s.people;
         }
     }
 
-    return Object.entries(basket).map(([name,quantity]) => ({
+    return Object.entries(basket).map(([name,quantity])=>({
         name,
         quantity,
-        unit: ingredients[name][1],
-        cost: quantity*ingredients[name][0]
-    }));
+        unit:ingredients[name][1],
+        cost:quantity*ingredients[name][0]
+    })).sort((a,b)=>b.cost-a.cost);
 }
 
 function renderBasket() {
-    const s = state.grocerySettings || grocerySettings();
-    const basket = buildBasket();
+    const s=state.grocerySettings || grocerySettings();
+    const basket=buildBasket();
 
-    const mealsCost = basket.reduce(
-        (sum,item) => sum+item.cost,0
+    const mealsCost=basket.reduce(
+        (sum,item)=>sum+item.cost,0
     );
 
-    const total = mealsCost+customTotal();
-    const remaining = s.budget-total;
+    const total=mealsCost+customTotal();
+    const remaining=s.budget-total;
 
-    $("basket").innerHTML = `
+    $("basket").innerHTML=`
+
         <small>ESTIMATED WEEKLY SPENDING</small>
 
         <div class="amount">${money(total)}</div>
@@ -2709,24 +4039,37 @@ function renderBasket() {
         <div class="progress">
             <div style="
                 width:${Math.min(100,total/Math.max(s.budget,1)*100)}%;
-                background:${remaining>=0?"#315de8":"#dc3545"}
+                background:${remaining>=-1e-8?"#315de8":"#dc3545"}
             "></div>
         </div>
 
-        <p style="color:${remaining>=0?"#18835b":"#dc3545"}">
-            ${remaining>=0
-                ? money(remaining)+" remaining"
-                : money(-remaining)+" over budget"}
+        <p style="color:${remaining>=-1e-8?"#18835b":"#dc3545"}">
+            ${remaining>=-1e-8
+                ?money(Math.max(0,remaining))+" remaining"
+                :money(-remaining)+" over budget"}
         </p>
+
+        <div class="row">
+            <div class="stat">
+                <small>Meals</small>
+                <b>${state.mealPlan.length}</b>
+            </div>
+
+            <div class="stat">
+                <small>Cost per person</small>
+                <b>${money(mealsCost/s.people)}</b>
+            </div>
+        </div>
 
         <h3>Meal ingredients</h3>
 
-        ${basket.map(item => `
+        ${basket.map(item=>`
             <div class="item row between">
                 <div>
                     <b>${esc(item.name)}</b><br>
                     <small>
-                        ${Number(item.quantity.toFixed(3))} ${item.unit}
+                        ${Number(item.quantity.toFixed(3))}
+                        ${item.unit}
                     </small>
                 </div>
 
@@ -2736,115 +4079,226 @@ function renderBasket() {
 
         <h3>Custom groceries</h3>
 
-        ${state.custom.map(item => `
+        ${state.custom.map(item=>`
             <div class="item row between">
-                <span>${item.qty} × ${esc(item.name)}</span>
+                <span>
+                    ${item.qty} × ${esc(item.name)}
+                </span>
                 <b>${money(item.qty*item.price)}</b>
             </div>
-        `).join("")}
+        `).join("") || '<small>No custom items added.</small>'}
 
         <div class="result">
             Meals: ${money(mealsCost)}<br>
-            Custom groceries: ${money(customTotal)}<br>
+            Custom groceries: ${money(customTotal())}<br>
 
-            <b>Total: ${money(total)}</b><br>
+            <b>Total: ${money(total)}</b><br><br>
 
-            Delivery: Every ${esc(s.delivery)}
+            Delivery: Every ${esc(s.delivery)}<br>
+            ${prettyTime(s.deliveryTime || "10:00")}
         </div>
 
         <p class="muted">
-            Prices are illustrative estimates based on
-            consumed ingredient quantities, not live
-            retailer prices or package sizes.
+            Prices are estimated from ingredient quantities.
+            They are not live retailer prices.
         </p>
 
-        <button class="primary"
-            onclick="scheduleDelivery()"
-            ${remaining < -1e-8 || total <= 0 ? "disabled" : ""}>
-            Schedule weekly groceries
-        </button>
+        <div class="row">
 
-        <button onclick="copyShoppingList()">
-            Copy shopping list
-        </button>
+            <button class="primary"
+                onclick="scheduleDelivery()"
+                ${remaining< -1e-8 || total<=0?"disabled":""}>
+                Schedule weekly groceries
+            </button>
+
+            <button onclick="copyShoppingList()">
+                Copy shopping list
+            </button>
+
+        </div>
 
         <div id="deliveryStatus"></div>
     `;
 }
 
 function copyShoppingList() {
-    const lines = buildBasket().map(item =>
-        item.name + ": " +
-        Number(item.quantity.toFixed(3)) +
-        " " + item.unit
+    const lines=buildBasket().map(item=>
+        item.name+": "+
+        Number(item.quantity.toFixed(3))+
+        " "+item.unit
     );
 
     for (const item of state.custom) {
-        lines.push(item.name + ": " + item.qty);
+        lines.push(item.name+": "+item.qty);
     }
 
-    copy("Everything Calendar Shopping List\n\n" + lines.join("\n"));
+    copy(
+        "Everything Calendar Shopping List\n\n"+
+        lines.join("\n")
+    );
 }
 
-function scheduleDelivery() {
-    const s = state.grocerySettings || grocerySettings();
+async function scheduleDelivery() {
+    const s=state.grocerySettings || grocerySettings();
 
-    const total = buildBasket().reduce(
-        (sum,item) => sum+item.cost,0
-    ) + customTotal();
+    const total=buildBasket().reduce(
+        (sum,item)=>sum+item.cost,0
+    )+customTotal();
 
-    if (total > s.budget + 1e-8 || total <= 0) return;
+    if (total>s.budget+1e-8 || total<=0) return;
 
-    const weekdays = [
+    const weekdays=[
         "Sunday","Monday","Tuesday","Wednesday",
         "Thursday","Friday","Saturday"
     ];
 
-    const target = weekdays.indexOf(s.delivery);
+    const target=weekdays.indexOf(s.delivery);
 
-    const next = new Date();
+    const next=new Date();
+
     next.setDate(
-        next.getDate() +
-        ((target-next.getDay()+7)%7 || 7)
+        next.getDate()+((target-next.getDay()+7)%7 || 7)
     );
 
-    state.events = state.events.filter(
-        e => e.source !== "groceries"
+    const start=mins(s.deliveryTime || "10:00");
+
+    if (!Number.isFinite(start) || start>=1439) {
+        alert("Choose a valid delivery time.");
+        return;
+    }
+
+    $("deliveryStatus").innerHTML=`
+        <div class="result">
+            Preparing grocery basket...
+            <div class="progress">
+                <div id="orderProgress" style="width:10%"></div>
+            </div>
+            <p id="orderStep">Checking ingredients</p>
+        </div>
+    `;
+
+    await sleep(500);
+
+    if (!$("orderProgress")) return;
+
+    $("orderProgress").style.width="45%";
+    $("orderStep").textContent="Checking budget";
+
+    await sleep(500);
+
+    if (!$("orderProgress")) return;
+
+    $("orderProgress").style.width="80%";
+    $("orderStep").textContent="Scheduling weekly delivery";
+
+    await sleep(500);
+
+    state.events=state.events.filter(
+        e=>e.source!=="groceries"
     );
 
     state.events.push({
         id:uid(),
         title:"Weekly grocery delivery",
         date:iso(next),
-        time:"10:00",
-        end:"11:00",
+        time:clock(start),
+        end:clock(Math.min(1439,start+60)),
         location:"Home",
         repeat:"weekly",
         source:"groceries",
-        notes:"Simulated delivery. Estimated basket: "+money(total)
+        notes:
+            "Simulated grocery delivery. Estimated basket: "+
+            money(total)
     });
 
     persist();
 
-    $("deliveryStatus").innerHTML = `
-        <div class="result">
-            Weekly grocery delivery added to your calendar.
-            No actual order or payment was made.
-        </div>
-    `;
+    view=new Date(next);
+    view.setDate(1);
+
+    if ($("deliveryStatus")) {
+        $("deliveryStatus").innerHTML=`
+            <div class="result">
+                <span class="pill">Delivery scheduled</span>
+
+                <h3>Weekly groceries confirmed</h3>
+
+                Every ${esc(s.delivery)}<br>
+                ${prettyTime(clock(start))}<br>
+
+                Estimated cost: <b>${money(total)}</b>
+
+                <p>
+                    Recurring delivery added to your calendar.
+                </p>
+
+                <small>No actual purchase was made.</small>
+
+                <p>
+                    <button onclick="show('calendar')">
+                        View calendar
+                    </button>
+                </p>
+            </div>
+        `;
+    }
+
+    toast("Weekly delivery scheduled.");
 }
 
 function loadGrocery() {
-    const s = state.grocerySettings;
+    const s=state.grocerySettings;
 
     if (!s) return;
 
-    $("budget").value = s.budget;
-    $("household").value = s.people;
-    $("diet").value = s.diet;
-    $("exclude").value = s.exclude;
-    $("coverage").value = s.coverage;
-    $("delivery").value = s.delivery;
+    $("budget").value=s.budget;
+    $("household").value=s.people;
+    $("diet").value=s.diet;
+    $("exclude").value=s.exclude;
+    $("coverage").value=s.coverage;
+    $("delivery").value=s.delivery;
+    $("deliveryTime").value=s.deliveryTime || "10:00";
+}
+
+// Application permissions
+
+const connections=[
+    "Messages",
+    "Email",
+    "Google Calendar",
+    "Apple Calendar",
+    "Sports schedules",
+    "Grocery retailer"
+];
+
+function renderConnections() {
+    $("connectionList").innerHTML=connections.map((name,i)=>`
+        <div class="item row between">
+
+            <div>
+                <b>${esc(name)}</b><br>
+
+                <small>
+                    ${state.permissions[i]
+                        ?"Permission enabled in demo"
+                        :"Not connected"}
+                </small>
+            </div>
+
+            <input type="checkbox"
+                ${state.permissions[i]?"checked":""}
+                onchange="setPermission(${i},this.checked)">
+
+        </div>
+    `).join("");
+}
+
+function setPermission(index,value) {
+    state.permissions[index]=value;
+    persist();
+    renderConnections();
+
+    toast(value?"Demo permission enabled.":"Permission disabled.");
 }
 
 // Workspace data
@@ -2858,12 +4312,12 @@ function exportData() {
 }
 
 async function importData(event) {
-    const file = event.target.files[0];
+    const file=event.target.files[0];
 
     if (!file) return;
 
     try {
-        const imported = JSON.parse(await file.text());
+        const imported=JSON.parse(await file.text());
 
         if (
             !Array.isArray(imported.events) ||
@@ -2874,43 +4328,141 @@ async function importData(event) {
             throw new Error("Invalid workspace backup.");
         }
 
-        if (!confirm("Replace your existing workspace?")) return;
+        if (!confirm("Replace your current workspace?")) return;
 
-        state = {...emptyState(), ...imported};
+        const clean=emptyState();
 
-        // Rebuild IDs used by interface controls
-        state.events = state.events.map(e => ({...e,id:uid()}));
-        state.custom = state.custom.map(e => ({...e,id:uid()}));
-        state.guests = state.guests.map(e => ({...e,id:uid()}));
+        clean.events=imported.events.filter(e=>
+            typeof e.title==="string" &&
+            /^\d{4}-\d{2}-\d{2}$/.test(e.date) &&
+            /^([01]\d|2[0-3]):[0-5]\d$/.test(e.time) &&
+            /^([01]\d|2[0-3]):[0-5]\d$/.test(e.end) &&
+            mins(e.end)>mins(e.time)
+        ).map(e=>({
+            id:uid(),
+            title:e.title,
+            date:e.date,
+            time:e.time,
+            end:e.end,
+            repeat:["daily","weekly","monthly"].includes(e.repeat)
+                ?e.repeat:"none",
+            source:String(e.source || ""),
+            location:String(e.location || ""),
+            notes:String(e.notes || "")
+        }));
+
+        clean.custom=imported.custom.filter(item=>
+            typeof item.name==="string" &&
+            Number.isFinite(item.qty) &&
+            item.qty>0 &&
+            Number.isFinite(item.price) &&
+            item.price>=0
+        ).map(item=>({
+            ...item,id:uid()
+        }));
+
+        if (validParty(imported.party)) {
+            clean.party={
+                id:uid(),
+                name:String(imported.party.name),
+                location:String(imported.party.location || ""),
+                start:imported.party.start,
+                end:imported.party.end,
+                early:imported.party.early,
+                late:imported.party.late,
+                min:Number(imported.party.min),
+                max:Number(imported.party.max),
+                weekends:!!imported.party.weekends,
+                priority:75
+            };
+
+            const dates=possibleDates(clean.party);
+
+            clean.guests=imported.guests.filter(
+                g=>typeof g.name==="string"
+            ).map(g=>({
+                id:uid(),
+                name:g.name,
+                responded:!!g.responded,
+                availability:Array.isArray(g.availability)
+                    ?g.availability.filter(a=>
+                        dates.includes(a.date) &&
+                        /^([01]\d|2[0-3]):[0-5]\d$/.test(a.start) &&
+                        /^([01]\d|2[0-3]):[0-5]\d$/.test(a.end) &&
+                        mins(a.end)>mins(a.start)
+                    )
+                    :[]
+            }));
+        }
+
+        clean.mealPlan=imported.mealPlan.filter(e=>
+            Number.isInteger(e.day) &&
+            e.day>=0 &&
+            e.day<7 &&
+            recipes.some(r=>
+                r.name===e.recipe &&
+                r.category===e.category
+            )
+        ).map(e=>({
+            day:e.day,
+            category:e.category,
+            recipe:e.recipe
+        }));
+
+        const s=imported.grocerySettings;
+
+        if (s && validGrocery(s)) {
+            clean.grocerySettings={
+                ...grocerySettings(),
+                budget:s.budget,
+                people:s.people,
+                diet:["Mixed","Vegetarian","Vegan","High protein"]
+                    .includes(s.diet)?s.diet:"Mixed",
+                exclude:String(s.exclude || ""),
+                coverage:s.coverage==="dinner"?"dinner":"all",
+                delivery:[
+                    "Sunday","Monday","Tuesday","Wednesday",
+                    "Thursday","Friday","Saturday"
+                ].includes(s.delivery)?s.delivery:"Sunday",
+                deliveryTime:
+                    /^([01]\d|2[0-3]):[0-5]\d$/.test(s.deliveryTime)
+                    ?s.deliveryTime:"10:00"
+            };
+        }
+
+        state=clean;
 
         persist();
         location.reload();
 
     } catch(e) {
-        alert("Import failed: " + e.message);
+        alert("Import failed: "+e.message);
     }
 }
 
 function resetData() {
     if (!confirm("Delete all Everything Calendar data?")) return;
 
-    localStorage.removeItem("ec-advanced");
-    location.href = location.pathname;
+    localStorage.removeItem("everything-calendar-v4");
+
+    location.href=location.pathname;
 }
 
-// Settings changes
+// Live grocery updates
 
 for (const id of [
     "budget","household","diet","exclude","coverage"
 ]) {
-    $(id).addEventListener("change", () => {
+    $(id).addEventListener("change",()=>{
+
         if (state.mealPlan.length) {
             generateMeals();
+
         } else {
-            const settings = grocerySettings();
+            const settings=grocerySettings();
 
             if (validGrocery(settings)) {
-                state.grocerySettings = settings;
+                state.grocerySettings=settings;
                 persist();
                 renderBasket();
             }
@@ -2918,27 +4470,40 @@ for (const id of [
     });
 }
 
-$("delivery").addEventListener("change", () => {
-    state.grocerySettings = grocerySettings();
-    persist();
-    renderBasket();
-});
+for (const id of ["delivery","deliveryTime"]) {
+    $(id).addEventListener("change",()=>{
+
+        const settings=grocerySettings();
+
+        if (validGrocery(settings)) {
+            state.grocerySettings=settings;
+            persist();
+            renderBasket();
+        }
+    });
+}
 
 // Initialize
 
 loadParty();
 loadGrocery();
 renderCustom();
+renderConnections();
+updatePriority();
+updateDemoMode();
 
 if (location.hash.startsWith("#invite=")) {
+
     try {
         openInvitation(
             decode(location.hash.slice(8))
         );
+
     } catch {
         alert("This invitation link is invalid.");
         show("calendar");
     }
+
 } else {
     show("calendar");
 }
